@@ -45,15 +45,7 @@ class User(Base):
             "update_at":self.updated_at
             # do not serialize the password, its a security breach
         }
-    #class Rol(Base):
-    #    __tablename__='rol'
-    #    
-    
-    
-    
-    
-    
-    
+      
     class Taller(Base):
         __tablename__='taller'
         nombretaller= db.Column(db.String(120),unique=False)
@@ -90,4 +82,8 @@ class User(Base):
                 "created_at":self.created_at,
                 "update_at":self.updated_at
             }
+    
+     #class Rol(Base):
+    #    __tablename__='rol'
+    #    
     
