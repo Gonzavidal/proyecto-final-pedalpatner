@@ -51,6 +51,7 @@ class User(Base):
         nombretaller= db.Column(db.String(120),unique=False)
         region_taller=db.Column(db.String(120),unique=False)
         direccion_taller=db.Column(db.String(250), unique=False)
+        user =db.Column(db.Integer,db.ForeingKey('user.id'))
         user = db.relationship('User', backref='taller')
 
 
@@ -70,6 +71,7 @@ class User(Base):
         precio =db.Column(db.float(20),nullable=False)
         promocion =db.Column(db.Boolean(),nullable=False)
         precio_oferta=db.Column(db.float(20),nullable=False)
+        taller =db.Column(db.Integer,db.ForeingKey('taller.id'))
         taller= db.relationship('Taller', backref='articulo')
 
         def serialize_articulo(self):
