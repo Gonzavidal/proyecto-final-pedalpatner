@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
-
+#Modelo pendiente de ajustes en construccion.......
 class Base(db.Model):
     __abstract__ = True
 
@@ -22,14 +22,22 @@ class Base(db.Model):
 
 class Taller_Articulo(db.Model):
     __tablename__='taller_articulo'
-    taller= db.relationship('Taller',backref='articulo')
-    articulo=db.relationship('Articulo',backref='taller')
-
-class Mensajes_Usuarios(db.Model):
-    __tablename__='mensajes_usuarios'
-    mensaje =db.relationship('Mensaje',backref='users')
-    user= db.relationship('User',backref='mensaje')
-    #aqui se deberia agregar usuaridestino_id 
+    taller_id = db.Column(ForeignKey("taller.id"), primary_key=True)
+    articulo_id = db.Column(ForeignKey("articulo.id"), primary_key=True)
+    taller = db.relationship("Taller", back_populates="articulos")
+    articulo =db.relationship("Articulo", back_populates="talleres")
+   
+class Comunicacion(Base):
+        __tablename__='comunicacion'
+        titulo= db.Column(db.String(100),nullable=False)
+        autor= db.Column(db.String(100), nullable=False) 
+        descripcion= db.Column(db.String(400),nullable=False)
+        destino = db.Column(db.Integer,nullable=False)
+        tipo_id = db.Column(db.ForeignKey("tipo.id"), primary_key=True)
+        usuario_id = db.Column(db.ForeignKey("usuario.id"), primary_key=True)
+        tipo = db.relationship("Tipo", back_populates="usuarios")
+        user = db.relationship("User", back_populates="tipos")
+# falta crear el serialize de comunicacion
 
 class User(Base):
     __tablename__= 'users'
@@ -39,10 +47,8 @@ class User(Base):
     direccion= db.Column(db.String(200),nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     rol_id= db.Column(db.Integer,db.ForeingKey('rol.id'),primary_key(True))
-    mensaje = db.relationship('Mensaje', secondary='mensajes_usuarios')
     taller = db.relationship('Taller',backref='users')
-    evento = db.relationship('Evento',backref='users')
-    noticia = db.relationship('Noticia',backref='users')
+    tipos = db.relationship("Comunicacion", back_populates="user")
     
    # def __repr__(self):
    #     return f'<User {self.email}>'
@@ -79,7 +85,9 @@ class User(Base):
         region_taller=db.Column(db.String(120),unique=False)
         direccion_taller=db.Column(db.String(250), unique=False)
         user_id =db.Column(db.Integer,db.ForeingKey('user.id'),primary_key(True))
-        articulo = db.relationship('Articulo', secondary='taller_articulo')
+        articulos = db.relationship("Taller_Articulo", back_populates="taller")
+        
+        #articulo = db.relationship('Articulo', secondary='taller_articulo')
 
 
         def serialize_taller(self):
@@ -97,8 +105,9 @@ class User(Base):
         articulo= db.Column(db.String(100), nullable=False)
         precio =db.Column(db.float(20),nullable=False)
         promocion =db.Column(db.Boolean(),unique=False,nullable=False)
-        precio_oferta=db.Column(db.float(20),nullable=False)
-        taller = db.relationship('Taller', secondary='taller_articulo')
+        precio_oferta= db.Column(db.float(20),nullable=False)
+        talleres = db.relationship("Taller_Articulo",back_populates="articulo")
+        #taller = db.relationship('Taller', secondary='taller_articulo')
         #taller_id =db.relationship(db.Integer,db.ForeingKey('taller.id'),primary_key(True))
 
         def serialize_articulo(self):
@@ -112,60 +121,9 @@ class User(Base):
                 "update_at":self.updated_at
             }
     
-     
-    class Mensaje(Base):
-        __tablename__='mensaje'
-        titulo_mensaje= db.Column(db.String(150),nullable=False)
-        autor_mensaje= db.Column(db.String(150),nullable=False,unique=True)
-        descripcion_mensaje= db.Column(db.String(500),nullable=True)
-        destino_mensaje=db.Column(db.Integer, nullable=False)
-        user = db.relationship('User', secondary='mensajes_usuarios')
-
-        def serialize_mensaje(self):
-            return{
-                "id":self.id,
-                "titulo_mensaje":self.titulo_mensaje,
-                "autor_mensaje":self.autor_mensaje,
-                "descripcion_mensaje":self.descripcion_mensaje,
-                "destino_mensaje":self.descripcion_mensaje,
-                "created_at":self.created_at,
-                "update_at":self.updated_at
-            }
-
-    class Evento(Base):
-        __tablename__='evento'
-        titulo_evento= db.Column(db.String(150),nullable=False)
-        autor_evento= db.Column(db.String(150),nullable=False,unique=True)
-        descripcion_evento= db.Column(db.String(500),nullable=True)
-        destino_evento=db.Column(db.Integer, nullable=False)
-        user_id= db.Column(db.Integer,ForeingKey('user.id'),primary_key=True)
-
-        def serialize_evento(self):
-            return{
-                "id":self.id,
-                "titulo_evento":self.titulo_evento,
-                "autor_evento":self.autor_evento,
-                "descripcion_evento":self.descripcion_evento,
-                "destino_evento":self.descripcion_evento,
-                "created_at":self.created_at,
-                "update_at":self.updated_at
-            }
-    
-    class Noticia(Base):
-        __tablename__='noticia'
-        titulo_noticia= db.Column(db.String(150),nullable=False)
-        autor_noticia= db.Column(db.String(150),nullable=False,unique=True)
-        descripcion_noticia= db.Column(db.String(500),nullable=True)
-        destino_noticia=db.Column(db.Integer, nullable=False)
-        user_id= db.Column(db.Integer,ForeingKey('user.id'),primary_key=True)
-
-        def serialize_noticia(self):
-            return{
-                "id":self.id,
-                "titulo_noticia":self.titulo_noticia,
-                "autor_noticia":self.autor_noticia,
-                "descripcion_noticia":self.descripcion_noticia,
-                "destino_noticia":self.descripcion_noticia,
-                "created_at":self.created_at,
-                "update_at":self.updated_at
-            }
+        
+    class Tipo(Base):
+        __tablename__='tipos'
+        nombre= db.Column(db.String(150),unique=True)
+        usuarios = db.relationship("Comunicacion", back_populates="tipo")
+   #falta crear serialize de tipo
