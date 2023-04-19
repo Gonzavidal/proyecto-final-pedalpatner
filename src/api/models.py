@@ -24,13 +24,17 @@ class Base(db.Model):
         db.session.commit()
 
 
-class Comunicacion(Base):
+class Comunicacion(db.Model):
     __tablename__ = 'comunicacion'
+    id = db.Column(db.Integer, primary_key=True)
     titulo = db.Column(db.String(100), nullable=False)
-    autor = db.Column(db.String(100), nullable=False)
+    autor = db.Column(db.String(100), unique=True, nullable=False)
     descripcion = db.Column(db.String(400), nullable=False)
     destino = db.Column(db.Integer, nullable=False)
-    tipo_id = db.Column(db.ForeignKey("tipo.id"), primary_key=True)
+    created_at = db.Column(db.DateTime(), default=db.func.now())
+    updated_at = db.Column(
+        db.DateTime(), default=db.func.now(), onupdate=db.func.now())
+    tipos_id = db.Column(db.ForeignKey("tipos.id"), primary_key=True)
     users_id = db.Column(db.ForeignKey("users.id"), primary_key=True)
     tipo = db.relationship("Tipo", back_populates="users")
     user = db.relationship("User", back_populates="tipos")
@@ -46,13 +50,24 @@ class Comunicacion(Base):
             "update_at": self.updated_at
         }
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
 
 class Taller_Articulo(db.Model):
     __tablename__ = 'taller_articulo'
-    taller_id = db.Column(db.ForeignKey("talleres.id"), primary_key=True)
-    articulo_id = db.Column(db.ForeignKey("articulo.id"), primary_key=True)
-    taller = db.relationship("Taller", back_populates="articulo")
-    articulo = db.relationship("Articulo", back_populates="taller")
+    talleres_id = db.Column(db.ForeignKey("talleres.id"), primary_key=True)
+    articulos_id = db.Column(db.ForeignKey("articulos.id"), primary_key=True)
+    talleres = db.relationship("Taller", back_populates="articulo")
+    articulos = db.relationship("Articulo", back_populates="taller")
 
     def save(self):
         db.session.add(self)
@@ -76,7 +91,7 @@ class User(Base):
     roles_id = db.Column(db.Integer, db.ForeignKey(
         "roles.id"), primary_key=True)
     roles = db.relationship("Rol", back_populates="user")
-    talleres_ = db.relationship("Taller")
+    talleres = db.relationship("Taller")
     tipos = db.relationship("Comunicacion", back_populates="user")
 
     def serialize_user(self):
@@ -97,14 +112,14 @@ class Rol(Base):
     __tablename__ = 'roles'
 
 
-tipo = db.Column(db.String(100), nullable=False)
+tiporol = db.Column(db.String(100), nullable=False)
 users = db.relationship("User", back_populates="rol")
 
 
 def serialize_rol(self):
     return {
         "id": self.id,
-        "tipo": self.tipo,
+        "tiporol": self.tiporol,
         "created_at": self.created_at,
         "update_at": self.updated_at
     }
@@ -115,17 +130,17 @@ class Taller(Base):
     __tablename__ = 'talleres'
 
 
-taller = db.Column(db.String(120), unique=False)
+tallernom = db.Column(db.String(120), unique=False)
 region = db.Column(db.String(120), unique=False)
 direccion = db.Column(db.String(250), unique=False)
 users_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
-# articulos = db.relationship("Taller_Articulo", back_populates="taller")
+articulos = db.relationship("Taller_Articulo", back_populates="taller")
 
 
 def serialize_taller(self):
     return {
         "id": self.id,
-        "taller": self.taller,
+        "tallernom": self.tallernom,
         "region": self.region,
         "direccion": self.direccion,
         "created_at": self.created_at,
@@ -136,16 +151,16 @@ def serialize_taller(self):
 class Articulo(Base):
 
     __tablename__ = 'articulos'
-    articulo = db.Column(db.String(100), nullable=False)
+    articulonom = db.Column(db.String(100), nullable=False)
     precio = db.Column(db.Integer, nullable=False)
     promocion = db.Column(db.Boolean(), unique=False, nullable=False)
     precio_oferta = db.Column(db.Integer, nullable=False)
-    taller = db.relationship("Taller_Articulo", back_populates="articulo")
+    talleres = db.relationship("Taller_Articulo", back_populates="articulo")
 
     def serialize_articulo(self):
         return {
             "id": self.id,
-            "articulo": self.articulo,
+            "articulonom": self.articulonom,
             "precio": self.precio,
             "promocion": self.promocion,
             "precio_oferta": self.precio_oferta,
@@ -155,7 +170,7 @@ class Articulo(Base):
 
 
 class Tipo(Base):
-    __tablename__ = 'tipo'
+    __tablename__ = 'tipos'
     nombre = db.Column(db.String(150), unique=True)
     users = db.relationship("Comunicacion", back_populates="tipo")
 
