@@ -1,8 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
-
 db = SQLAlchemy()
 # creamos la clase base que heredara de las demas
-
 
 class Base(db.Model):
     __abstract__ = True
@@ -125,8 +123,9 @@ def serialize_rol(self):
 class Taller(Base):
     __tablename__ = 'talleres'
     tallernom = db.Column(db.String(120), unique=False  )
-    region = db.Column(db.String(120), unique=False   )
-    direccion = db.Column(db.String(250), unique=False)
+    regiontall = db.Column(db.String(120), unique=False   )
+    direcciontall = db.Column(db.String(250), unique=False)
+    pagos_id = db.Column(db.Integer,db.ForeignKey('pagos.id'))
     users_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     articulos = db.relationship("Taller_Articulo", back_populates="taller")
 
@@ -171,6 +170,18 @@ class Tipo(Base):
         return {
             "id": self.id,
             "nombre": self.nombre,
+            "created_at": self.created_at,
+            "update_at": self.updated_at
+        }
+class Pago(Base):
+    __tablename__='pagos'
+    tipospago = db.Column(db.String(100),unique=True)
+    talleres = db.relationship("Taller", back_populates="pago")
+
+    def serialize_pago(self):
+        return {
+            "id": self.id,
+            "tipopago": self.tipopago,
             "created_at": self.created_at,
             "update_at": self.updated_at
         }
