@@ -28,7 +28,7 @@ class Comunicacion(db.Model):
     __tablename__ = 'comunicacion'
     id = db.Column(db.Integer, primary_key=True)
     titulo = db.Column(db.String(100), nullable=False)
-    autor = db.Column(db.String(100), unique=True, nullable=False)
+    #autor = db.Column(db.String(100), nullable=False)
     descripcion = db.Column(db.String(400), nullable=False)
     destino = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime(), default=db.func.now())
@@ -89,7 +89,7 @@ class User(Base):
     direccion = db.Column(db.String(200), nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     roles_id = db.Column(db.Integer, db.ForeignKey(
-        "roles.id"), primary_key=True)
+        "roles.id"))
     roles = db.relationship("Rol", back_populates="user")
     talleres = db.relationship("Taller")
     tipos = db.relationship("Comunicacion", back_populates="user")
@@ -108,12 +108,9 @@ class User(Base):
 
 
 class Rol(Base):
-
     __tablename__ = 'roles'
-
-
-tiporol = db.Column(db.String(100), nullable=False)
-users = db.relationship("User", back_populates="rol")
+    tiporol = db.Column(db.String(100), nullable=False)
+    users = db.relationship("User", back_populates="rol")
 
 
 def serialize_rol(self):
@@ -126,15 +123,12 @@ def serialize_rol(self):
 
 
 class Taller(Base):
-
     __tablename__ = 'talleres'
-
-
-tallernom = db.Column(db.String(120), unique=False)
-region = db.Column(db.String(120), unique=False)
-direccion = db.Column(db.String(250), unique=False)
-users_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
-articulos = db.relationship("Taller_Articulo", back_populates="taller")
+    tallernom = db.Column(db.String(120), unique=False  )
+    region = db.Column(db.String(120), unique=False   )
+    direccion = db.Column(db.String(250), unique=False)
+    users_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    articulos = db.relationship("Taller_Articulo", back_populates="taller")
 
 
 def serialize_taller(self):
@@ -149,7 +143,6 @@ def serialize_taller(self):
 
 
 class Articulo(Base):
-
     __tablename__ = 'articulos'
     articulonom = db.Column(db.String(100), nullable=False)
     precio = db.Column(db.Integer, nullable=False)
