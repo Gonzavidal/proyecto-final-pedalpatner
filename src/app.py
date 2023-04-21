@@ -13,6 +13,7 @@ from api.admin import setup_admin
 from api.commands import setup_commands
 from api.routes.auth import bpAuth
 from api.routes.main import bpMain
+from api.routes.taller import bpTaller
 
 # from models import Person
 
@@ -33,7 +34,7 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
-
+jwt = JWTManager(app)
 # Allow CORS requests to this API
 CORS(app)
 
@@ -47,6 +48,7 @@ CORS(app)
 #app.register_blueprint(api, url_prefix='/api')
 app.register_blueprint(bpMain)
 app.register_blueprint(bpAuth, url_prefix='/api')
+app.register_blueprint(bpTaller,url_prefix='/api')
 
 # Handle/serialize errors like a JSON object
 
