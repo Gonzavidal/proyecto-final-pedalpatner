@@ -122,7 +122,8 @@ class User(Base):
     direccion = db.Column(db.String(200), nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False,default=True)
     roles_id = db.Column(db.Integer, db.ForeignKey("roles.id"), nullable=False)
-    talleres = db.relationship("Taller",cascade="all,delete",back_populates="user")
+    rol = db.relationship("Rol", back_populates="user")
+    taller = db.relationship("Taller",cascade="all,delete",back_populates="user")
     comunicacion = db.relationship("Comunicacion",cascade="all,delete",back_populates="user")
 
     def serialize_user(self):
@@ -142,7 +143,7 @@ class User(Base):
 class Rol(Base):
     __tablename__ = 'roles'
     tiporol = db.Column(db.String(100), nullable=False)
-    users = db.relationship("User",cascade="all,delete", back_populates="rol")
+    user = db.relationship("User",cascade="all,delete", back_populates="rol")
 
 
     def serialize_rol(self):
@@ -160,7 +161,7 @@ class Taller(Base):
     regiontall = db.Column(db.String(120), unique=False   )
     direcciontall = db.Column(db.String(250), unique=False)
     users_id = db.Column(db.Integer, db.ForeignKey("users.id"),nullable=False)
-    user = relationship("User")
+    user = db.relationship("User", back_populates="taller")
     articulos = db.relationship("Taller_Articulo", back_populates="taller")
     pagos = db.relationship("Pago_Taller",cascade="all,delete", back_populates="taller")
 

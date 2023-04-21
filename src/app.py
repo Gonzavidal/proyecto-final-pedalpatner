@@ -35,7 +35,10 @@ else:
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
+app.config["JWT_SECRET_KEY"] = "JWT_SECRET_KEY"
+app.config["JWT_ALGORITHM"] = "HS256"
 db.init_app(app)
+
 jwt = JWTManager(app)
 # Allow CORS requests to this API
 CORS(app)
@@ -53,7 +56,6 @@ app.register_blueprint(bpRegis, url_prefix='/api')
 app.register_blueprint(bpTaller,url_prefix='/api')
 
 # Handle/serialize errors like a JSON object
-
 
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
