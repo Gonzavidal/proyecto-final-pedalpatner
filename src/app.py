@@ -9,9 +9,12 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
 from api.models import db, User, Rol, Taller, Articulo, Taller_Articulo, Comunicacion, Tipo
-from api.routes import api
+#from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
+from api.routes.auth import bpAuth
+from api.routes.main import bpMain
+from api.routes.taller import bpTaller
 
 # from models import Person
 
@@ -32,7 +35,7 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
-
+jwt = JWTManager(app)
 # Allow CORS requests to this API
 CORS(app)
 
@@ -43,7 +46,10 @@ CORS(app)
 # setup_commands(app)
 
 # Add all endpoints form the API with a "api" prefix
-app.register_blueprint(api, url_prefix='/api')
+#app.register_blueprint(api, url_prefix='/api')
+app.register_blueprint(bpMain)
+app.register_blueprint(bpAuth, url_prefix='/api')
+app.register_blueprint(bpTaller,url_prefix='/api')
 
 # Handle/serialize errors like a JSON object
 
