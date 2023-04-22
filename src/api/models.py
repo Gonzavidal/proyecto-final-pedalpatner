@@ -180,9 +180,9 @@ class Taller(Base):
 
 class Articulo(Base):
     __tablename__ = 'articulos'
-    articulonom = db.Column(db.String(100), nullable=False)
+    articulonom = db.Column(db.String(190), nullable=False)
     precio = db.Column(db.Integer, nullable=False)
-    promocion = db.Column(db.Boolean(), unique=False, nullable=False)
+    promocion = db.Column(db.Boolean(), unique=False, nullable=False,default=False)
     precio_oferta = db.Column(db.Integer, nullable=False)
     talleres = db.relationship("Taller_Articulo",cascade="all,delete",back_populates="articulo")
 
