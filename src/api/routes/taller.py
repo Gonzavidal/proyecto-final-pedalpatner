@@ -7,8 +7,10 @@ from werkzeug.security import check_password_hash, generate_password_hash
 bpTaller = Blueprint('bpTaller', __name__)
 
 @bpTaller.route('/register_pago',methods=['POST'])
+#@jwt_required
 def post_registropago():
     try:
+        #id = get_jwt_identity()
         tipopago = request.json.get('tipopago')
         
         pago = Pago()
@@ -25,9 +27,10 @@ def post_registropago():
 
 
 @bpTaller.route('/register_taller', methods=['POST'])
+#@jwt_required
 def post_registrotaller():
     try:
-    
+        #id = get_jwt_identity()
         tallernom = request.json.get('tallernom')
         regiontall = request.json.get('regiontall')
         direcciontall = request.json.get('direcciontall')
@@ -63,8 +66,10 @@ def post_registrotaller():
     return jsonify({"msg":"Falla en el registro de Taller"}), 400
 
 @bpTaller.route('/register_pagotaller',methods=['POST'])
+#@jwt_required
 def post_registropagotaller():
     try:
+        #id = get_jwt_identity()
         pagos_id = request.json.get('pagos_id')
         talleres_id =request.json.get('talleres_id')
         

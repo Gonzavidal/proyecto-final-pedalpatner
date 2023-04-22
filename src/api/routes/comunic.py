@@ -6,9 +6,10 @@ from werkzeug.security import generate_password_hash,check_password_hash
 bpComunicacion = Blueprint('bpComunicacion', __name__)
 
 @bpComunicacion.route('/register_comunicacion', methods=['POST'])
+@jwt_required
 def post_comunicacion():
     try:
-     
+            id = get_jwt_identity()
             titulo= request.json.get('titulo')
             descripcion= request.json.get('descripcion')
             destino = request.json.get('destino')

@@ -6,8 +6,10 @@ from werkzeug.security import generate_password_hash,check_password_hash
 bpArticulo = Blueprint('bpArticulo', __name__)
 
 @bpArticulo.route('/register_articulo', methods=['POST'])
+@jwt_required
 def post_registarticulo():
     try:
+        id = get_jwt_identity()
         articulonom = request.json.get('articulonom')
         precio= request.json.get('precio')
         precio_oferta = request.json.get('precio_oferta')

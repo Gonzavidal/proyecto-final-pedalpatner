@@ -57,7 +57,7 @@ CORS(app)
 #app.register_blueprint(api, url_prefix='/api')
 app.register_blueprint(bpMain)
 app.register_blueprint(bpRegis, url_prefix='/api')
-app.register_blueprint(bpTaller,url_prefix='/api')
+app.register_blueprint(bpTaller, url_prefix='/api')
 app.register_blueprint(bpArticulo, url_prefix='/api')
 app.register_blueprint(bpComunicacion, url_prefix='/api')
 

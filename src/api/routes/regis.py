@@ -53,6 +53,7 @@ def post_registrouser():
 @bpRegis.route('/register_roles',methods=['POST'])
 def post_registroroles():
     try:
+        
         tiporol = request.json.get('tiporol')
 
         rol = Rol()
@@ -71,8 +72,10 @@ def post_registroroles():
 
 
 @bpRegis.route('/register_tiposmens',methods=['POST'])
+@jwt_required
 def post_registromensaj():
     try:
+        id = get_jwt_identity()
         nombre = request.json.get('nombre')
 
         tipo = Tipo()
