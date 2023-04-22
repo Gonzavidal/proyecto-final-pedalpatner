@@ -33,10 +33,10 @@ def post_registrotaller():
         direcciontall = request.json.get('direcciontall')
         users_id = request.json.get('users_id')
 
-        if not tallernom: return jsonify({"status": "failed", "code": 400, "msg": "email is required"}), 400
-        if not regiontall: return jsonify({"status": "failed", "code": 400, "msg": "Password is required"}), 400
-        if not direcciontall: return jsonify({"status": "failed", "code": 400, "msg": "email is required"}), 400
-        if not users_id: return jsonify({"status": "failed", "code": 400, "msg": "Password is required"}), 400
+        if not tallernom: return jsonify({"status": "failed", "code": 400, "msg": "Taller is required"}), 400
+        if not regiontall: return jsonify({"status": "failed", "code": 400, "msg": "Region is required"}), 400
+        if not direcciontall: return jsonify({"status": "failed", "code": 400, "msg": "Direccion is required"}), 400
+        if not users_id: return jsonify({"status": "failed", "code": 400, "msg": "usuario is required"}), 400
 
         #taller = Taller.query.filter(Taller.tallernom==tallernom).all()
         taller = Taller.query.filter_by(tallernom=tallernom).first()
@@ -61,3 +61,22 @@ def post_registrotaller():
         print("falla reg Taller",e)
 
     return jsonify({"msg":"Falla en el registro de Taller"}), 400
+
+@bpTaller.route('/register_pagotaller',methods=['POST'])
+def post_registropagotaller():
+    try:
+        pago_id = request.json.get('pago_id')
+        taller_id =request.json.get('taller_id')
+        
+        pagotall = Pago_Taller()
+        pagotall.pago_id = pago_id
+        pagotall.taller_id = taller_id
+        pagotall.save()
+
+        data ={
+            "pago": pagotall.serialize_pago()
+        }
+        return jsonify({"msg":"Exito con registro de pago taller","dato":data}),200
+    except Exception as e:
+        print("fallo en pago taller",e)
+    return jsonify({"msg":"Fallo al registrar tipo de pago taller"}),400

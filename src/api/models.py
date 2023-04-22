@@ -24,9 +24,9 @@ class Base(db.Model):
 class Comunicacion(db.Model):
     __tablename__ = 'comunicacion'
     id = db.Column(db.Integer, primary_key=True)
-    titulo = db.Column(db.String(120), nullable=False)
+    titulo = db.Column(db.String(130), nullable=False)
     #autor = db.Column(db.String(100), nullable=False)
-    descripcion = db.Column(db.String(400), nullable=False)
+    descripcion = db.Column(db.Text, nullable=False)
     destino = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime(), default=db.func.now())
     updated_at = db.Column(
@@ -62,8 +62,8 @@ class Comunicacion(db.Model):
 
 class Pago_Taller(db.Model):
     __tablename__="pago_taller"
-    pagos_id = db.Column(db.ForeignKey("pagos.id"),primary_key=True)
-    talleres_id = db.Column(db.ForeignKey("talleres.id"),primary_key=True)
+    pagos_id = db.Column(db.ForeignKey("pagos.id"),nullable=False,primary_key=True)
+    talleres_id = db.Column(db.ForeignKey("talleres.id"),nullable=False,primary_key=True)
     pago = db.relationship("Pago",cascade="all,delete",back_populates="talleres")
     taller = db.relationship("Taller",cascade="all,delete",back_populates="pagos")
 
@@ -89,8 +89,8 @@ class Pago_Taller(db.Model):
 
 class Taller_Articulo(db.Model):
     __tablename__ = 'taller_articulo'
-    talleres_id = db.Column(db.ForeignKey("talleres.id"), primary_key=True)
-    articulos_id = db.Column(db.ForeignKey("articulos.id"), primary_key=True)
+    talleres_id = db.Column(db.ForeignKey("talleres.id"),nullable=False, primary_key=True)
+    articulos_id = db.Column(db.ForeignKey("articulos.id"),nullable=False, primary_key=True)
     taller = db.relationship("Taller",cascade="all,delete",back_populates="articulos")
     articulo = db.relationship("Articulo",cascade="all,delete",back_populates="talleres")
 
@@ -118,7 +118,7 @@ class User(Base):
     __tablename__ = 'users'
     username = db.Column(db.String(120), nullable=False, unique=True)
     email = db.Column(db.String(120), nullable=False, unique=True)
-    password = db.Column(db.String(300), nullable=False)
+    password = db.Column(db.String(390), nullable=False)
     direccion = db.Column(db.String(200), nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False,default=True)
     roles_id = db.Column(db.Integer, db.ForeignKey("roles.id"), nullable=False)
@@ -180,9 +180,9 @@ class Taller(Base):
 
 class Articulo(Base):
     __tablename__ = 'articulos'
-    articulonom = db.Column(db.String(190), nullable=False)
+    articulonom = db.Column(db.String(200), nullable=False)
     precio = db.Column(db.Integer, nullable=False)
-    promocion = db.Column(db.Boolean(), unique=False, nullable=False,default=False)
+    promocion = db.Column(db.Boolean(), unique=False, nullable=False,default=True)
     precio_oferta = db.Column(db.Integer, nullable=False)
     talleres = db.relationship("Taller_Articulo",cascade="all,delete",back_populates="articulo")
 

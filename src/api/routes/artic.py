@@ -10,13 +10,11 @@ def post_registarticulo():
     try:
         articulonom = request.json.get('articulonom')
         precio= request.json.get('precio')
-        #promocion = request.json.get('promocion')
         precio_oferta = request.json.get('precio_oferta')
 
-        if not articulonom: return jsonify({"status": "failed", "code": 400, "msg": "email is required"}), 400
-        if not precio: return jsonify({"status": "failed", "code": 400, "msg": "Password is required"}), 400
-        #if not promocion: return jsonify({"status": "failed", "code": 400, "msg": "email is required"}), 400
-        if not precio_oferta: return jsonify({"status": "failed", "code": 400, "msg": "Password is required"}), 400
+        if not articulonom: return jsonify({"status": "failed", "code": 400, "msg": "articulo is required"}), 400
+        if not precio: return jsonify({"status": "failed", "code": 400, "msg": "precio is required"}), 400
+        if not precio_oferta: return jsonify({"status": "failed", "code": 400, "msg": "precio-oferta is required"}), 400
 
             #taller = Taller.query.filter(Taller.tallernom==tallernom).all()
         articulo = Articulo.query.filter_by(articulonom=articulonom).first()
@@ -26,7 +24,6 @@ def post_registarticulo():
         articulo = Articulo()
         articulo.articulonom = articulonom
         articulo.precio = precio
-        #articulo.promocion = promocion
         articulo.precio_oferta = precio_oferta
         articulo.save()
 
