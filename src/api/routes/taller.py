@@ -33,6 +33,16 @@ def post_registrotaller():
         direcciontall = request.json.get('direcciontall')
         users_id = request.json.get('users_id')
 
+        if not tallernom: return jsonify({"status": "failed", "code": 400, "msg": "email is required"}), 400
+        if not regiontall: return jsonify({"status": "failed", "code": 400, "msg": "Password is required"}), 400
+        if not direcciontall: return jsonify({"status": "failed", "code": 400, "msg": "email is required"}), 400
+        if not users_id: return jsonify({"status": "failed", "code": 400, "msg": "Password is required"}), 400
+
+        #taller = Taller.query.filter(Taller.tallernom==tallernom).all()
+        taller = Taller.query.filter_by(tallernom=tallernom).first()
+        if taller:
+                return jsonify({"msg": "Taller ya se encuentra registrado"}),400
+        
         taller = Taller()
         taller.tallernom = tallernom
         taller.regiontall = regiontall
@@ -51,4 +61,3 @@ def post_registrotaller():
         print("falla reg Taller",e)
 
     return jsonify({"msg":"Falla en el registro de Taller"}), 400
-

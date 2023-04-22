@@ -16,6 +16,8 @@ from api.commands import setup_commands
 from api.routes.regis import bpRegis
 from api.routes.main import bpMain
 from api.routes.taller import bpTaller
+from api.routes.artic import bpArticulo
+
 
 # from models import Person
 
@@ -55,6 +57,7 @@ CORS(app)
 app.register_blueprint(bpMain)
 app.register_blueprint(bpRegis, url_prefix='/api')
 app.register_blueprint(bpTaller,url_prefix='/api')
+app.register_blueprint(bpArticulo, url_prefix='/api')
 
 # Handle/serialize errors like a JSON object
 
