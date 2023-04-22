@@ -31,36 +31,22 @@ def post_registrotaller():
         tallernom = request.json.get('tallernom')
         regiontall = request.json.get('regiontall')
         direcciontall = request.json.get('direcciontall')
-        #pagos_id = request.json.get('pagos_id')
         users_id = request.json.get('users_id')
-
-       # articulonom = request.json.get('articulonom')
-       # precio = request.json.get('precio')
-       # promocion = request.json.get('promocion')
-       # precio_oferta = request.json.get('precio_oferta')
 
         taller = Taller()
         taller.tallernom = tallernom
         taller.regiontall = regiontall
         taller.direcciontall = direcciontall
-        #taller.pagos_id = pagos_id
         taller.users_id = users_id
-        #user.taller = taller
+        
         taller.save() 
-
-        #articulo = Articulo()
-        #articulo.articulonom = articulonom
-        #articulo.precio = precio
-        #articulo.promocion = promocion
-        #articulo.precio_oferta = precio_oferta
-        #user.articulo = articulo
-        #user.save()
-#
+      #  print("esto trae taller",talleres.serialize_taller())
+    
         data ={
             "taller": taller.serialize_taller()
         }
       
-        return jsonify({"msg":"Taller registrado con exito!","datos":data}), 200
+        return jsonify({"msg":"Taller registrado con exito!"}), 200
     except Exception as e:
         print("falla reg Taller",e)
 

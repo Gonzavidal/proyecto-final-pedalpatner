@@ -27,6 +27,7 @@ app.url_map.strict_slashes = False
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
+#app.config['SQLALCHEMY_DATABASE_URI']= db_url
 if db_url is not None:
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace(
         "postgres://", "postgresql://")
