@@ -65,16 +65,16 @@ def post_registrotaller():
 @bpTaller.route('/register_pagotaller',methods=['POST'])
 def post_registropagotaller():
     try:
-        pago_id = request.json.get('pago_id')
-        taller_id =request.json.get('taller_id')
+        pagos_id = request.json.get('pagos_id')
+        talleres_id =request.json.get('talleres_id')
         
         pagotall = Pago_Taller()
-        pagotall.pago_id = pago_id
-        pagotall.taller_id = taller_id
+        pagotall.pagos_id = pagos_id
+        pagotall.talleres_id = talleres_id
         pagotall.save()
 
         data ={
-            "pago": pagotall.serialize_pago()
+            "pago": pagotall.serialize_pagotaller()
         }
         return jsonify({"msg":"Exito con registro de pago taller","dato":data}),200
     except Exception as e:

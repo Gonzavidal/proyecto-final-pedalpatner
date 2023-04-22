@@ -64,6 +64,8 @@ class Pago_Taller(db.Model):
     __tablename__="pago_taller"
     pagos_id = db.Column(db.ForeignKey("pagos.id"),nullable=False,primary_key=True)
     talleres_id = db.Column(db.ForeignKey("talleres.id"),nullable=False,primary_key=True)
+    created_at = db.Column(db.DateTime(), default=db.func.now())
+    updated_at = db.Column(db.DateTime(), default=db.func.now(), onupdate=db.func.now())
     pago = db.relationship("Pago",cascade="all,delete",back_populates="talleres")
     taller = db.relationship("Taller",cascade="all,delete",back_populates="pagos")
 
