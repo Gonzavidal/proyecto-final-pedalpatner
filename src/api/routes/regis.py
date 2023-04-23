@@ -49,6 +49,62 @@ def post_registrouser():
     return jsonify({"msg":"Fallo ingreso!!"}),400
 
 
+@bpRegis.route('/puttuser/<int:id>', methods=['PUT'])
+def puttuser(id):
+    try:
+        username = request.json.get('username')
+        email = request.json.get('email')
+        password = request.json.get('password')
+        direccion = request.json.get('direccion')
+        roles_id = request.json.get('roles_id')
+    
+        user = User.query.get(id)
+        user.username = username
+        user.email = email
+        user.password = password
+        user.direccion = direccion
+        user.roles_id = roles_id
+        user.update()
+
+        data ={
+            "usuario": user.serialize_user()
+        }
+
+        return jsonify({"msg":"se logro actualizacion","user":data}),200
+    except Exception as e:
+        print("falla en actualizacion de usuario",e)
+    return jsonify({"msg":"Fallo en actualizacion"}),400
+
+
+
+@bpRegis.route('/getuser',methods=['GET'])
+#@jwt_required
+def getuser():
+    try:
+        users = User.query.all()
+     
+        users = list(map(lambda user:user.serialize_user(), users))
+    
+        return jsonify({"Datos de user":users}), 200
+    except Exception as e:
+        print("falla leer users",e)
+        return jsonify({"msg": "No existe aun ningun user"})
+
+
+@bpRegis.route('/deleteuser/<int:id>', methods=['DELETE'])
+def deleteuser(id):
+    try:
+        users = User.query.get(id)
+
+        users.delete()
+            
+        return jsonify({"message": "User Deleted"}), 202
+    except Exception as e:
+        print("falla al borrar user",e)
+        return jsonify({"message": "No se logro eliminar a usuario"}), 400
+
+
+
 
 @bpRegis.route('/register_roles',methods=['POST'])
 #@jwt_required
@@ -71,23 +127,53 @@ def post_registroroles():
         return jsonify({"msg":"Falla en registro de roles"}), 400
 
 
-
-@bpRegis.route('/register_tiposmens',methods=['POST'])
+@bpRegis.route('/getroles',methods=['GET'])
 #@jwt_required
-def post_registromensaj():
+def getroles():
     try:
-        #id = get_jwt_identity()
-        nombre = request.json.get('nombre')
-
-        tipo = Tipo()
-
-        tipo.nombre = nombre
-        tipo.save()
-
-        data ={
-            "rol": tipo.serialize_tipo()
-        }
-        return jsonify({"msg":"Tipo agregado exitosamente","tipo":data}), 200
+        roles = Rol.query.all()
+     
+        roles = list(map(lambda rol:rol.serialize_rol(), roles))
+    
+        return jsonify({"Datos de rol":roles}), 200
     except Exception as e:
-        print(e)
-        return jsonify({"msg":"Falla en registro de tipos"}), 400
+        print("print falla leer roles",e)
+        return jsonify({"msg": "No existe aun ningun rol"})
+
+
+@bpRegis.route('/updateroles/<int:id>',methods=['PUT'])
+#@jwt_required
+def updateroles(id):
+    try:
+
+        tiporol = request.json.get('tiporol')  # None
+        
+        roles = Rol.query.get(id)
+        roles.tiporol = tiporol
+        
+        roles.update()
+
+        data={
+            "resultado":roles.serialize_rol()
+        }
+      
+        return jsonify({"datos modificados":data}), 202
+    except Exception as e:
+        print("falla en update",e)
+        return jsonify({"No se logro actualizar el cambio"}), 400
+
+@bpRegis.route('/deleteroles/<int:id>', methods=['DELETE'])
+def deleteroles(id):
+    try:
+        roles = Rol.query.get(id)
+
+        roles.delete()
+            
+        return jsonify({"message": "Rol Deleted"}), 202
+    except Exception as e:
+        print("falla al borrar rol",e)
+        return jsonify({"message": "No se logro eliminar a rol"}), 400
+
+
+
+

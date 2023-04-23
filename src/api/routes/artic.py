@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, render_template
-from api.models import db,Articulo
+from api.models import db,Articulo,TallerArticulo
 from flask_jwt_extended import JWTManager,get_jwt_identity,create_access_token,jwt_required
 from werkzeug.security import generate_password_hash,check_password_hash
 
@@ -37,3 +37,25 @@ def post_registarticulo():
         print("fala en articulo", e)
 
         return jsonify({"msg":"Ingreso de Articulo Fallido"})
+
+@bpArticulo.route('/register_tallerarticulo', methods=['POST'])
+#@jwt_required
+def post_registrotallerarticulo():
+    try:
+        #id = get_jwt_identity()
+        articulos_id = request.json.get('articulos_id')
+        talleres_id = request.json.get('talleres_id')
+        
+        artictaller = TallerArticulo()
+        artictaller.articulos_id = articulos_id
+        artictaller.talleres_id = talleres_id
+
+        artictaller.save()
+
+        data ={
+            "articulo-taller": artictaller.serialize_tallerarticulo()
+        }
+        return jsonify({"msg":"Exito con registro de taller-articulo","dato":data}),200
+    except Exception as e:
+        print("falla registro articulo taller",e)
+    return jsonify({"msg":"Fallo al registrar tipo de articulo-taller"}),400
