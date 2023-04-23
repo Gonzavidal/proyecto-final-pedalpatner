@@ -1,6 +1,6 @@
 import datetime
 from flask import Blueprint, request, jsonify, render_template
-from api.models import db,Taller,Articulo,Taller_Articulo,Pago, Pago_Taller
+from api.models import db,Taller,TallerArticulo,Pago, PagoTaller,UserTaller
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -59,7 +59,7 @@ def post_registrotaller():
             "taller": taller.serialize_taller()
         }
       
-        return jsonify({"msg":"Taller registrado con exito!"}), 200
+        return jsonify({"msg":"Taller registrado con exito!","taller":data}), 200
     except Exception as e:
         print("falla reg Taller",e)
 

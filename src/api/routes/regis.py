@@ -1,6 +1,6 @@
 import datetime
 from flask import Blueprint, request, jsonify, render_template
-from api.models import db, User,Rol,Taller,Pago_Taller,Tipo
+from api.models import db, User,Rol,Tipo
 from flask_jwt_extended import JWTManager,get_jwt_identity,create_access_token,jwt_required
 from werkzeug.security import generate_password_hash,check_password_hash
 
@@ -51,9 +51,10 @@ def post_registrouser():
 
 
 @bpRegis.route('/register_roles',methods=['POST'])
+#@jwt_required
 def post_registroroles():
     try:
-        
+        #id = get_jwt_identity()
         tiporol = request.json.get('tiporol')
 
         rol = Rol()
@@ -72,10 +73,10 @@ def post_registroroles():
 
 
 @bpRegis.route('/register_tiposmens',methods=['POST'])
-@jwt_required
+#@jwt_required
 def post_registromensaj():
     try:
-        id = get_jwt_identity()
+        #id = get_jwt_identity()
         nombre = request.json.get('nombre')
 
         tipo = Tipo()
