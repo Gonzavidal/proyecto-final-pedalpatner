@@ -29,7 +29,6 @@ def post_registrouser():
         user.email = email
         user.password =  generate_password_hash(password)
         user.direccion = direccion
-       # user.is_active = is_active
         user.roles_id = roles_id
         user.save()
 
@@ -62,12 +61,16 @@ def puttuser(id):
         user = User.query.get(id)
         user.username = username
         user.email = email
-        user.password = password
+        user.password = generate_password_hash(password)
         user.direccion = direccion
         user.roles_id = roles_id
         user.update()
 
+        access_token = create_access_token(
+                identity=user.email)
+
         data ={
+            "access_token": access_token,
             "usuario": user.serialize_user()
         }
 
@@ -160,47 +163,70 @@ def post_registromecanico():
         print("falla en reg mecanico",e)
         return jsonify({"msg":"Fallo registro mecanico!!"}),400
 
-#gestion de modificacion user
-#@bpRegis.route('/puttuser/<int:id>', methods=['PUT'])
-#def puttuser(id):
-#    try:
-#        username = request.json.get('username')
-#        email = request.json.get('email')
-#        password = request.json.get('password')
-#        direccion = request.json.get('direccion')
-#        roles_id = request.json.get('roles_id')
-#    
-#        user = User.query.get(id)
-#        user.username = username
-#        user.email = email
-#        user.password = password
-#        user.direccion = direccion
-#        user.roles_id = roles_id
-#        user.update()
-#
-#        data ={
-#            "usuario": user.serialize_user()
-#        }
-#
-#        return jsonify({"msg":"se logro actualizacion","user":data}),200
-#    except Exception as e:
-#        print("falla en actualizacion de usuario",e)
-#    return jsonify({"msg":"Fallo en actualizacion"}),400
-#
-##gestion de leer user
-#@bpRegis.route('/getuser',methods=['GET'])
-##@jwt_required
-#def getuser():
-#    try:
-#        users = User.query.all()
-#     
-#        users = list(map(lambda user:user.serialize_user(), users))
-#    
-#        return jsonify({"Datos de user":users}), 200
-#    except Exception as e:
-#        print("falla leer users",e)
-#        return jsonify({"msg": "No existe aun ningun user"})
-#
+#gestion de modificacion mecanico
+@bpRegis.route('/putmecanico/<int:users_id>/<int:talleres_id>', methods=['PUT'])
+def putmecanico(users_id,talleres_id):
+    try:
+        username = request.json.get('username')
+        email = request.json.get('email')
+        password = request.json.get('password')
+        direccion = request.json.get('direccion')
+        roles_id = request.json.get('roles_id')
+        tallernom = request.json.get('tallernom')
+        regiontall = request.json.get('regiontall')
+        direcciontall = request.json.get('direcciontall')
+        users_id = request.json.get('users_id')
+    
+        user = User.query.get(users_id)
+        user.username = username
+        user.email = email
+        user.password =  generate_password_hash(password)
+        user.direccion = direccion
+        user.roles_id = roles_id
+
+        taller= Taller.query.get(talleres_id)
+        taller.tallernom = tallernom
+        taller.regiontall = regiontall
+        taller.direcciontall = direcciontall
+        taller.users_id = users_id
+        user.taller = taller
+
+        user.update()
+
+        access_token = create_access_token(
+                identity=user.email)
+
+        data ={
+            "access_token": access_token,
+            "usuario": user.serialize_user(),
+            "taller": taller.serialize_taller()
+        }
+
+        return jsonify({"msg":"se logro actualizacion de mecanico","mecanico":data}),200
+    except Exception as e:
+        print("falla en mecanico",e)
+    return jsonify({"msg":"Fallo de actualizacion en Mecanico"}),400
+
+##gestion de leer mecanico
+@bpRegis.route('/getmecanico',methods=['GET'])
+#@jwt_required
+def getmecanico():
+    try:
+        users = User.query.all()
+        talleres = Taller.query.all()
+        foundUser = User.query.filter_by(db.users.roles_id==2).all()#[:1].get()
+        print(foundUser)
+        if (foundUser):
+            users = list(map(lambda user:user.serialize_user(), users))
+            talleres = list(map(lambda taller:taller.serialize_taller(),talleres))
+    
+            return jsonify({"Datos de user":users,"Datos Taller":talleres}), 200
+        else:
+            return jsonify({"msg":"Mecanico sin taller asociado"})
+    except Exception as e:
+        print("falla leer mecanico",e)
+        return jsonify({"msg": "No existe aun ningun Mecanico registrado"})
+
 ##gestion de borrar user
 #@bpRegis.route('/deleteuser/<int:id>', methods=['DELETE'])
 #def deleteuser(id):
