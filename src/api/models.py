@@ -36,7 +36,7 @@ class Comunicacion(db.Model):
     users_id = db.Column(db.ForeignKey("users.id"),nullable=True)
     user = db.relationship("User",cascade="all,delete",back_populates="comunicacion")
 
-    def serialize_comunication(self):
+    def serialize_comunicacion(self):
         return {
             "id": self.id,
             "titulo": self.titulo,
@@ -96,7 +96,7 @@ class TallerArticulo(db.Model):
     created_at = db.Column(db.DateTime(), default=db.func.now())
     updated_at = db.Column(db.DateTime(), default=db.func.now(), onupdate=db.func.now())
     taller = db.relationship("Taller",cascade="all,delete",back_populates="articulos")
-    articulo = db.relationship("Articulo",cascade="all,delete",back_populates="talleres")
+    articulo = db.relationship("Articulo",back_populates="talleres")
 
     def serialize_tallerarticulo(self):
         return {
@@ -218,7 +218,7 @@ class Articulo(Base):
     precio = db.Column(db.Integer, nullable=False)
     promocion = db.Column(db.Boolean(), unique=False, nullable=False,default=True)
     precio_oferta = db.Column(db.Integer, nullable=False)
-    talleres = db.relationship("TallerArticulo",cascade="all,delete",back_populates="articulo")
+    talleres = db.relationship("TallerArticulo",back_populates="articulo")
 
     def serialize_articulo(self):
         return {

@@ -5,8 +5,9 @@ from flask_jwt_extended import JWTManager,get_jwt_identity,create_access_token,j
 from werkzeug.security import generate_password_hash,check_password_hash
 
 bpRegis = Blueprint('bpRegis', __name__)
-
-@bpRegis.route('/register', methods=['POST'])
+#CRUD DE USER
+# gestion de registro de usuario
+@bpRegis.route('/registeruser', methods=['POST'])
 def post_registrouser():
     try:
         username = request.json.get('username')
@@ -48,7 +49,7 @@ def post_registrouser():
         print("falla en reg usuario",e)
     return jsonify({"msg":"Fallo ingreso!!"}),400
 
-
+#gestion de modificacion user
 @bpRegis.route('/puttuser/<int:id>', methods=['PUT'])
 def puttuser(id):
     try:
@@ -75,8 +76,7 @@ def puttuser(id):
         print("falla en actualizacion de usuario",e)
     return jsonify({"msg":"Fallo en actualizacion"}),400
 
-
-
+#gestion de leer user
 @bpRegis.route('/getuser',methods=['GET'])
 #@jwt_required
 def getuser():
@@ -90,7 +90,7 @@ def getuser():
         print("falla leer users",e)
         return jsonify({"msg": "No existe aun ningun user"})
 
-
+#gestion de borrar user
 @bpRegis.route('/deleteuser/<int:id>', methods=['DELETE'])
 def deleteuser(id):
     try:
@@ -103,9 +103,9 @@ def deleteuser(id):
         print("falla al borrar user",e)
         return jsonify({"message": "No se logro eliminar a usuario"}), 400
 
-
-
-
+#-------------------------------------------------------------------------------------------------------
+# CRUD  de ROL
+#gestion de registrsr roles (mecanico-usuario-admin)
 @bpRegis.route('/register_roles',methods=['POST'])
 #@jwt_required
 def post_registroroles():
@@ -126,7 +126,7 @@ def post_registroroles():
         print(e)
         return jsonify({"msg":"Falla en registro de roles"}), 400
 
-
+#gestion de leer roles
 @bpRegis.route('/getroles',methods=['GET'])
 #@jwt_required
 def getroles():
@@ -140,7 +140,7 @@ def getroles():
         print("print falla leer roles",e)
         return jsonify({"msg": "No existe aun ningun rol"})
 
-
+#gestion de modificar roles
 @bpRegis.route('/updateroles/<int:id>',methods=['PUT'])
 #@jwt_required
 def updateroles(id):
@@ -162,6 +162,7 @@ def updateroles(id):
         print("falla en update",e)
         return jsonify({"No se logro actualizar el cambio"}), 400
 
+#gestion de borrar roles
 @bpRegis.route('/deleteroles/<int:id>', methods=['DELETE'])
 def deleteroles(id):
     try:

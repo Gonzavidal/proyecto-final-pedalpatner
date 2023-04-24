@@ -7,6 +7,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 bpTaller = Blueprint('bpTaller', __name__)
 
 # Gestion PAGO CRUD
+# registrar pago
 @bpTaller.route('/register_pago',methods=['POST'])
 #@jwt_required
 def post_registropago():
@@ -26,6 +27,7 @@ def post_registropago():
         print(e)
     return jsonify({"msg":"Fallo al registrar tipo de pago"}),400
 
+# leer pago
 @bpTaller.route('/getpago',methods=['GET'])
 #@jwt_required
 def getpago():
@@ -39,7 +41,7 @@ def getpago():
         print(e)
         return jsonify({"msg": "No existe aun ningun usuario"})
 
-
+# modificar pago
 @bpTaller.route('/updatepago/<int:id>', methods=['PUT'])
 def updatepago(id):
     try:
@@ -59,6 +61,7 @@ def updatepago(id):
         print("falla en update",e)
         return jsonify({"No se logro actualizar el cambio"}), 400
 
+# borrar pago
 @bpTaller.route('/deletepago/<int:id>', methods=['DELETE'])
 def deletepago(id):
     try:
@@ -70,8 +73,8 @@ def deletepago(id):
     except Exception as e:
         return jsonify({"message": "No se logro eliminar a usuario"}), 400
 
-
-# gestion CRUD Taller
+#----------------------------------------------------------------------------------------------------------
+# gestion CRUD Taller registrsr taller
 @bpTaller.route('/register_taller', methods=['POST'])
 #@jwt_required
 def post_registrotaller():
@@ -111,6 +114,7 @@ def post_registrotaller():
 
     return jsonify({"msg":"Falla en el registro de Taller"}), 400
 
+# gestion leer taller 
 @bpTaller.route('/gettaller',methods=['GET'])
 #@jwt_required
 def gettaller():
@@ -124,6 +128,7 @@ def gettaller():
         print("falla en leer talleres",e)
         return jsonify({"msg": "No existe aun ningun Taller registrado"})
 
+# gestion modificar taller
 @bpTaller.route('/updatetaller/<int:id>', methods=['PUT'])
 def updatetaller(id):
     try:
@@ -149,6 +154,7 @@ def updatetaller(id):
         print("falla en update",e)
         return jsonify({"No se logro actualizar el cambio"}), 400
 
+# gestion borrar taller
 @bpTaller.route('/delettaller/<int:id>', methods=['DELETE'])
 def deletetaller(id):
     try:
@@ -161,9 +167,9 @@ def deletetaller(id):
         print("falla eliminacion",e)
         return jsonify({"message": "No se logro eliminar Taller"}), 400
 
-
-
-
+#--------------------------------------------------------------------------------------------------------------------------
+# CRUD de PAGO-TALLER
+# registrar pago-taller
 @bpTaller.route('/register_pagotaller',methods=['POST'])
 #@jwt_required
 def post_registropagotaller():
@@ -185,6 +191,10 @@ def post_registropagotaller():
         print("fallo en pago taller",e)
     return jsonify({"msg":"Fallo al registrar tipo de pago taller"}),400
 
+
+#-----------------------------------------------------------------------------------------------------
+#CRUD de usuario-taller
+# registrar usuario-taller
 @bpTaller.route('/register_usertaller',methods=['POST'])
 #@jwt_required
 def post_registrousertaller():
