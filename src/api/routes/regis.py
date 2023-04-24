@@ -118,9 +118,7 @@ def post_registromecanico():
         regiontall = request.json.get('regiontall')
         direcciontall = request.json.get('direcciontall')
         users_id = request.json.get('users_id')
-        pagos_id = request.json.get('pagos_id')
-        talleres_id = request.json.get('talleres_id')
-        
+               
     
         if not email: return jsonify({"status": "failed", "code": 400, "msg": "email is required"}), 400
         if not password: return jsonify({"status": "failed", "code": 400, "msg": "Password is required"}), 400
@@ -141,32 +139,20 @@ def post_registromecanico():
         taller.tallernom = tallernom
         taller.regiontall = regiontall
         taller.direcciontall = direcciontall
-        taller.users_id= users_id
+        taller.users_id = users_id
         user.taller = taller
-
-        pagotaller = PagoTaller()
-        pagotaller.pagos_id = pagos_id
-        pagotaller.users_id = users_id
-        user.pagotaller = pagotaller
-
-        usertaller = UserTaller()
-        usertaller.users_id = users_id
-        usertaller.talleres_id = talleres_id
-        user.usertaller = usertaller
 
         user.save()
 
 
         access_token = create_access_token(
-                identity=user.id)
+                identity=user.email)
 
         data = {
                 "access_token": access_token,
                 "user": user.serialize_user(),
-                "taller":taller.serialize_taller(),
-                "pagotaller":pagotaller.serialize_pagotaller(),
-                "usertaller":usertaller.serialize_usertaller()
-                
+                "taller":taller.serialize_taller()
+                              
             }
 
         return jsonify({"msg":"Exito con ingreso datos de Mecanico!!","info": data}),200

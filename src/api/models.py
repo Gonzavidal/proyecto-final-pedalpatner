@@ -190,15 +190,15 @@ class Rol(Base):
 
 class Taller(Base):
     __tablename__ = "talleres"
-    tallernom = db.Column(db.String(130), unique=False  )
-    regiontall = db.Column(db.String(120), unique=False   )
+    tallernom = db.Column(db.String(110), unique=False  )
+    regiontall = db.Column(db.String(110), unique=False   )
     direcciontall = db.Column(db.String(250), unique=False)
     users_id = db.Column(db.Integer, db.ForeignKey("users.id"),nullable=True)
     user = db.relationship("User", back_populates="taller")
     articulos = db.relationship("TallerArticulo", back_populates="taller",uselist=False)
     pagos = db.relationship("PagoTaller",cascade="all,delete", back_populates="taller",uselist=False)
     usertalleres = db.relationship("UserTaller",cascade="all,delete", back_populates="taller",uselist=False)
-
+    
 
     def serialize_taller(self):
         return {
@@ -210,6 +210,16 @@ class Taller(Base):
         "created_at": self.created_at,
         "update_at": self.updated_at
     }
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
 
 
 class Articulo(Base):
