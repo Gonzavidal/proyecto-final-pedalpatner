@@ -9,7 +9,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager,get_jwt_identity,create_access_token,jwt_required
 from werkzeug.security import generate_password_hash,check_password_hash
 from api.utils import APIException, generate_sitemap
-from api.models import db, User, Rol, Taller, Articulo, Taller_Articulo, Comunicacion, Tipo
+from api.models import db
 #from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -57,7 +57,7 @@ CORS(app)
 #app.register_blueprint(api, url_prefix='/api')
 app.register_blueprint(bpMain)
 app.register_blueprint(bpRegis, url_prefix='/api')
-app.register_blueprint(bpTaller,url_prefix='/api')
+app.register_blueprint(bpTaller, url_prefix='/api')
 app.register_blueprint(bpArticulo, url_prefix='/api')
 app.register_blueprint(bpComunicacion, url_prefix='/api')
 
