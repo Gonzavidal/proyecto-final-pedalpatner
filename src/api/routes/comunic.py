@@ -92,19 +92,19 @@ def update_comunicacion(id):
 @bpComunicacion.route('/deletcomunicacion/<int:id>', methods=['DELETE'])
 def delete_comunicacion(id):
     try:
-        taller = Taller.query.get(id)
+        comunicacion = Comunicacion.query.get(id)
 
-        taller.delete()
+        comunicacion.delete()
             
-        return jsonify({"message": "Taller Deleted"}), 202
+        return jsonify({"message": "Comunicacion Deleted"}), 202
     except Exception as e:
         print("falla eliminacion",e)
-        return jsonify({"message": "No se logro eliminar Taller"}), 400
+        return jsonify({"message": "No se logro eliminar Comunicacion"}), 400
 
 #------------------------------------------------------------------------------------------------------------------------
 #Gestion CRUD Tipos
 # registrar tipos
-@bpComunicacion.route('/register_tiposmens',methods=['POST'])
+@bpComunicacion.route('/register_tipomensaje',methods=['POST'])
 #@jwt_required
 def post_registromensaj():
     try:
@@ -125,9 +125,9 @@ def post_registromensaj():
         return jsonify({"msg":"Falla en registro de tipos"}), 400
 
 # leer tipos
-@bpComunicacion.route('/gettiposmens',methods=['GET'])
+@bpComunicacion.route('/gettipomensaje',methods=['GET'])
 #@jwt_required
-def gettromensaje():
+def gettipomensaje():
     try:
         tipos = Tipo.query.all()
      
@@ -139,9 +139,9 @@ def gettromensaje():
         return jsonify({"msg": "No existe aun ningun tipo registrado"})
 
 # modificar tipos
-@bpComunicacion.route('/updatetiposmens/<int:id>',methods=['PUT'])
+@bpComunicacion.route('/updatetipomensaje/<int:id>',methods=['PUT'])
 #@jwt_required
-def updatetromensaje(id):
+def updatetipomensaje(id):
     try:
         nombre = request.json.get('nombre')  # None
         
@@ -160,8 +160,8 @@ def updatetromensaje(id):
         return jsonify({"msg": "No existe aun ningun tipo "})
 
 # borrar tipos
-@bpComunicacion.route('/deletetipo/<int:id>', methods=['DELETE'])
-def deletetipo(id):
+@bpComunicacion.route('/deletetipomensaje/<int:id>', methods=['DELETE'])
+def deletetipomensaje(id):
     try:
         tipo = Tipo.query.get(id)
 

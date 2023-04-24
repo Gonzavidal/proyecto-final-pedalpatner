@@ -49,7 +49,7 @@ def post_registrouser():
         print("falla en reg usuario",e)
     return jsonify({"msg":"Fallo ingreso!!"}),400
 
-#gestion de modificacion user
+#gestion de modificacion usuario-admin
 @bpRegis.route('/puttuser/<int:id>', methods=['PUT'])
 def puttuser(id):
     try:
@@ -76,7 +76,7 @@ def puttuser(id):
         print("falla en actualizacion de usuario",e)
     return jsonify({"msg":"Fallo en actualizacion"}),400
 
-#gestion de leer user
+#gestion de leer usuario-admin
 @bpRegis.route('/getuser',methods=['GET'])
 #@jwt_required
 def getuser():
@@ -90,7 +90,7 @@ def getuser():
         print("falla leer users",e)
         return jsonify({"msg": "No existe aun ningun user"})
 
-#gestion de borrar user
+#gestion de borrar usuario-admin
 @bpRegis.route('/deleteuser/<int:id>', methods=['DELETE'])
 def deleteuser(id):
     try:
