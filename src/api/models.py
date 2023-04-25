@@ -32,9 +32,9 @@ class Comunicacion(db.Model):
     updated_at = db.Column(
         db.DateTime(), default=db.func.now(), onupdate=db.func.now())
     tipos_id = db.Column(db.ForeignKey("tipos.id"),nullable=True)
-    tipo = db.relationship("Tipo",cascade="all,delete",back_populates="comunicacion")
+    tipo = db.relationship("Tipo",back_populates="comunicacion")
     users_id = db.Column(db.ForeignKey("users.id"),nullable=True)
-    user = db.relationship("User",cascade="all,delete",back_populates="comunicacion")
+    user = db.relationship("User",back_populates="comunicacion")
 
     def serialize_comunicacion(self):
         return {
@@ -66,8 +66,8 @@ class PagoTaller(db.Model):
     talleres_id = db.Column(db.ForeignKey("talleres.id"),nullable=False,primary_key=True)
     created_at = db.Column(db.DateTime(), default=db.func.now())
     updated_at = db.Column(db.DateTime(), default=db.func.now(), onupdate=db.func.now())
-    pago = db.relationship("Pago",cascade="all,delete",back_populates="talleres")
-    taller = db.relationship("Taller",cascade="all,delete",back_populates="pagos")
+    pago = db.relationship("Pago",back_populates="talleres")
+    taller = db.relationship("Taller",back_populates="pagos")
 
     def serialize_pagotaller(self):
         return {
@@ -95,7 +95,7 @@ class TallerArticulo(db.Model):
     articulos_id = db.Column(db.ForeignKey("articulos.id"),nullable=False, primary_key=True)
     created_at = db.Column(db.DateTime(), default=db.func.now())
     updated_at = db.Column(db.DateTime(), default=db.func.now(), onupdate=db.func.now())
-    taller = db.relationship("Taller",cascade="all,delete",back_populates="articulos")
+    taller = db.relationship("Taller",back_populates="articulos")
     articulo = db.relationship("Articulo",back_populates="talleres")
 
     def serialize_tallerarticulo(self):
@@ -123,8 +123,8 @@ class UserTaller(db.Model):
     users_id = db.Column(db.ForeignKey("users.id"),nullable=False, primary_key=True)
     created_at = db.Column(db.DateTime(), default=db.func.now())
     updated_at = db.Column(db.DateTime(), default=db.func.now(), onupdate=db.func.now())
-    taller = db.relationship("Taller",cascade="all,delete",back_populates="usertalleres")
-    user = db.relationship("User",cascade="all,delete",back_populates="usertalleres")
+    taller = db.relationship("Taller",back_populates="usertalleres")
+    user = db.relationship("User",back_populates="usertalleres")
 
     def serialize_usertaller(self):
         return {
@@ -194,11 +194,9 @@ class Taller(Base):
     regiontall = db.Column(db.String(110), unique=False)
     direcciontall = db.Column(db.String(250), unique=False)
     users_id = db.Column(db.Integer, db.ForeignKey("users.id"),nullable=True)
-    latitud = db.Column(db.Float(20),unique=False,nullable=True)
-    longitud = db.Column(db.Float(20),unique=False,nullable=True)
     user = db.relationship("User", back_populates="taller")
     articulos = db.relationship("TallerArticulo", back_populates="taller",uselist=False)
-    pagos = db.relationship("PagoTaller",cascade="all,delete", back_populates="taller",uselist=False)
+    pagos = db.relationship("PagoTaller", back_populates="taller",uselist=False)
     usertalleres = db.relationship("UserTaller",cascade="all,delete", back_populates="taller",uselist=False)
     
 
@@ -209,8 +207,6 @@ class Taller(Base):
         "regiontall": self.regiontall,
         "direcciontall": self.direcciontall,
         "users_id":self.users_id,
-        "latitud": self.latitud,
-        "longitud": self.longitud,
         "created_at": self.created_at,
         "update_at": self.updated_at
     }
@@ -250,7 +246,7 @@ class Tipo(Base):
 class Pago(Base):
     __tablename__='pagos'
     tipopago = db.Column(db.String(100),unique=True,nullable=False)
-    talleres = db.relationship("PagoTaller",cascade="all,delete", back_populates="pago",uselist=False)
+    talleres = db.relationship("PagoTaller", back_populates="pago",uselist=False)
     #talleres = db.relationship("Taller")
 
     def serialize_pago(self):

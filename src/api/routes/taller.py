@@ -168,8 +168,9 @@ def deletetaller(id):
         return jsonify({"message": "No se logro eliminar Taller"}), 400
 
 #--------------------------------------------------------------------------------------------------------------------------
-# CRUD de PAGO-TALLER
-# registrar pago-taller
+# CRUD de PAGO-TALLER (En esta vista de pago-taller put no tiene sentido es por esto)
+#que solo se utilizara C-R-D 
+# registrar pago-taller SE PUEDE INICIAR INTEGRACION CON FROND  (8)
 @bpTaller.route('/register_pagotaller',methods=['POST'])
 #@jwt_required
 def post_registropagotaller():
@@ -191,6 +192,7 @@ def post_registropagotaller():
         print("fallo en pago taller",e)
     return jsonify({"msg":"Fallo al registrar tipo de pago taller"}),400
 
+# leer pagos-taller SE PUEDE INICIAR INTEGRACION CON FROND  (8)
 @bpTaller.route('/get_pagotaller',methods=['GET'])
 #@jwt_required
 def getpagotaller():
@@ -204,29 +206,20 @@ def getpagotaller():
         print("fallo en pago taller",e)
     return jsonify({"msg":"Fallo al registrar tipo de pago taller"}),400
 
-#@bpTaller.route('/updatepagotaller/<int:pagos_id>/<int:talleres_id>', methods=['PUT'])
-#def updatetaller(pagos_id,talleres_id)#
-   # try:
-   #     pagos_id = request.json.get('pagos_id')
-   #     talleres_id = request.json.get('talleres_id')
-#
-   #     pagostaller = PagosTaller.query.get(pagos_id)
-   #     pagostaller.pagos_id = pagos_id
-   #     pagostaller.talleres_id = talleres_id
-   #     pagostaller.update()
-   # 
-   #     return jsonify({"msg":"Exito en actualizacion de pago"}),202
-   # except Exception as e:
-   #     print("falla en pagotaller",e)
-   #     return jsonify({"msg":"Falla en la actualizacion de pagotaller intentarlo mas tarde"}),400
-
-@bpTaller.route('/deletpagotaller/<int:id>', methods=['DELETE'])
-def deletepagotaller():
-    bass
+# borrar pagos-taller SE PUEDE INICIAR INTEGRACION CON FROND  (8)
+@bpTaller.route('/deletpagotaller/<int:talleres_id>/<int:pagos_id>', methods=['DELETE'])
+def deletepagotaller(talleres_id,pagos_id):
+    try:
+        foundTaller = PagoTaller.query.filter_by(talleres_id=talleres_id,pagos_id=pagos_id).first()
+        foundTaller.delete()
+        return jsonify({"msg":"Exito al eliminar pago"}),200
+    except Exception as e:
+        print("falla al eliminar",e)
+    return jsonify({"Falla en la eliminacion intentar mas tarde"}),400
 
 #-----------------------------------------------------------------------------------------------------
-#CRUD de usuario-taller
-# registrar usuario-taller
+#CRUD de usuario-taller Para esta vista solo se aplicara C-R-D el update no tiene sentido
+# registrar usuario-taller SE PUEDE INICIAR INTEGRACION CON FROND  (7)
 @bpTaller.route('/register_usertaller',methods=['POST'])
 #@jwt_required
 def post_registrousertaller():
@@ -248,3 +241,28 @@ def post_registrousertaller():
     except Exception as e:
         print("falla registro usertaller",e)
     return jsonify({"msg":"Fallo al registrar tipo de usuario-taller"}),400
+
+# leer usuario-taller SE PUEDE INICIAR INTEGRACION CON FROND  (7)
+@bpTaller.route('/get_usertaller',methods=['GET'])
+#@jwt_required
+def getusertaller():
+    try:
+        usertalleres = UserTaller.query.all()
+     
+        usertalleres = list(map(lambda usertaller:usertaller.serialize_usertaller(), usertalleres))
+
+        return jsonify({"msg":"Exito con registro de pago taller","dato":usertalleres}),200
+    except Exception as e:
+        print("fallo en pago taller",e)
+    return jsonify({"msg":"Fallo al registrar tipo de pago taller"}),400
+
+# borrar usuario-taller SE PUEDE INICIAR INTEGRACION CON FROND  (7)
+@bpTaller.route('/deletusertaller/<int:users_id>/<int:talleres_id>', methods=['DELETE'])
+def deleteusertaller(users_id,talleres_id):
+    try:
+        foundusertaller = UserTaller.query.filter_by(users_id=users_id,talleres_id=talleres_id).first()
+        foundusertaller.delete()
+        return jsonify({"msg":"Exito al eliminar usuario-taller"}),200
+    except Exception as e:
+        print("falla al eliminar",e)
+    return jsonify({"Falla en la eliminacion intentar mas tarde"}),400
