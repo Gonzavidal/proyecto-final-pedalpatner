@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash,check_password_hash
 bpArticulo = Blueprint('bpArticulo', __name__)
 
 # CRUD de articulo
-# registrar articulo
+# registrar articulo SE PUEDE INICIAR INTEGRACION CON FROND (5)
 @bpArticulo.route('/register_articulo', methods=['POST'])
 #@jwt_required
 def post_registarticulo():
@@ -40,7 +40,7 @@ def post_registarticulo():
 
         return jsonify({"msg":"Ingreso de Articulo Fallido"})
 
-# gestion leer articulo
+# gestion leer articulo SE PUEDE INICIAR INTEGRACION CON FROND (5)
 @bpArticulo.route('/getarticulo',methods=['GET'])
 #@jwt_required
 def getarticulo():
@@ -54,7 +54,7 @@ def getarticulo():
         print("falla en leer Articulos",e)
         return jsonify({"msg": "No existe aun ningun Articulo registrado"})
 
-# gestion modificar articulo
+# gestion modificar articulo SE PUEDE INICIAR INTEGRACION CON FROND (5)
 @bpArticulo.route('/updatearticulo/<int:id>', methods=['PUT'])
 def updatearticulo(id):
     try:
@@ -78,7 +78,7 @@ def updatearticulo(id):
 
         return jsonify({"msg":"Actualizacion de Articulo Fallido"})
 
-# gestion borrar articulo
+# gestion borrar articulo SE PUEDE INICIAR INTEGRACION CON FROND (5)
 @bpArticulo.route('/deletearticulo/<int:id>', methods=['DELETE'])
 def deletearticulo(id):
     try:

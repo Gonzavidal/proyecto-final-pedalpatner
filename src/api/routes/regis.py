@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash,check_password_hash
 
 bpRegis = Blueprint('bpRegis', __name__)
 #CRUD DE USER
-# gestion de registro de usuario-admin
+# gestion de registro de usuario-admin SE PUEDE INICIAR INTEGRACION CON FROND (1)
 @bpRegis.route('/registeruser', methods=['POST'])
 def post_registrouser():
     try:
@@ -48,7 +48,7 @@ def post_registrouser():
         print("falla en reg usuario",e)
     return jsonify({"msg":"Fallo ingreso!!"}),400
 
-#gestion de modificacion usuario-admin
+#gestion de modificacion usuario-admin SE PUEDE INICIAR INTEGRACION CON FROND (1)
 @bpRegis.route('/puttuser/<int:id>', methods=['PUT'])
 def puttuser(id):
     try:
@@ -79,7 +79,7 @@ def puttuser(id):
         print("falla en actualizacion de usuario",e)
     return jsonify({"msg":"Fallo en actualizacion"}),400
 
-#gestion de leer usuario-admin
+#gestion de leer usuario-admin SE PUEDE INICIAR INTEGRACION CON FROND (1)
 @bpRegis.route('/getuser',methods=['GET'])
 #@jwt_required
 def getuser():
@@ -93,7 +93,7 @@ def getuser():
         print("falla leer users",e)
         return jsonify({"msg": "No existe aun ningun user"})
 
-#gestion de borrar usuario-admin
+#gestion de borrar usuario-admin SE PUEDE INICIAR INTEGRACION CON FROND (1)
 @bpRegis.route('/deleteuser/<int:id>', methods=['DELETE'])
 def deleteuser(id):
     try:
@@ -247,7 +247,7 @@ def getmecanico():
 
 #-------------------------------------------------------------------------------------------------------
 # CRUD  de ROL
-#gestion de registrsr roles (usuario-admin)
+#gestion de registrsr roles  SE PUEDE INICIAR INTEGRACION CON FROND  (2)
 @bpRegis.route('/register_roles',methods=['POST'])
 #@jwt_required
 def post_registroroles():
@@ -268,7 +268,7 @@ def post_registroroles():
         print(e)
         return jsonify({"msg":"Falla en registro de roles"}), 400
 
-#gestion de leer roles
+#gestion de leer roles  SE PUEDE INICIAR INTEGRACION CON FROND (2)
 @bpRegis.route('/getroles',methods=['GET'])
 #@jwt_required
 def getroles():
@@ -282,7 +282,7 @@ def getroles():
         print("print falla leer roles",e)
         return jsonify({"msg": "No existe aun ningun rol"})
 
-#gestion de modificar roles
+#gestion de modificar roles SE PUEDE INICIAR INTEGRACION CON FROND (2)
 @bpRegis.route('/updateroles/<int:id>',methods=['PUT'])
 #@jwt_required
 def updateroles(id):
@@ -304,7 +304,7 @@ def updateroles(id):
         print("falla en update",e)
         return jsonify({"No se logro actualizar el cambio"}), 400
 
-#gestion de borrar roles
+#gestion de borrar roles  SE PUEDE INICIAR INTEGRACION CON FROND (2)
 @bpRegis.route('/deleteroles/<int:id>', methods=['DELETE'])
 def deleteroles(id):
     try:

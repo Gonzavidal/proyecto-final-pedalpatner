@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash,check_password_hash
 bpComunicacion = Blueprint('bpComunicacion', __name__)
 
 # CRUD de Comunicacion 
-# registrar Comunicacion
+# registrar Comunicacion 
 @bpComunicacion.route('/register_comunicacion', methods=['POST'])
 #@jwt_required
 def post_comunicacion():
@@ -103,7 +103,7 @@ def delete_comunicacion(id):
 
 #------------------------------------------------------------------------------------------------------------------------
 #Gestion CRUD Tipos
-# registrar tipos
+# registrar tipos  SE PUEDE INICIAR INTEGRACION CON FROND (4)
 @bpComunicacion.route('/register_tipomensaje',methods=['POST'])
 #@jwt_required
 def post_registromensaj():
@@ -124,10 +124,10 @@ def post_registromensaj():
         print(e)
         return jsonify({"msg":"Falla en registro de tipos"}), 400
 
-# leer tipos
-@bpComunicacion.route('/gettipomensaje',methods=['GET'])
+# leer tipos  SE PUEDE INICIAR INTEGRACION CON FROND  (4)
+@bpComunicacion.route('/getipomensaje',methods=['GET'])
 #@jwt_required
-def gettipomensaje():
+def getipomensaje():
     try:
         tipos = Tipo.query.all()
      
@@ -138,7 +138,7 @@ def gettipomensaje():
         print("falla en leer tipos",e)
         return jsonify({"msg": "No existe aun ningun tipo registrado"})
 
-# modificar tipos
+# modificar tipos  SE PUEDE INICIAR INTEGRACION CON FROND (4)
 @bpComunicacion.route('/updatetipomensaje/<int:id>',methods=['PUT'])
 #@jwt_required
 def updatetipomensaje(id):
@@ -159,7 +159,7 @@ def updatetipomensaje(id):
         print("falla en actualizar tipos",e)
         return jsonify({"msg": "No existe aun ningun tipo "})
 
-# borrar tipos
+# borrar tipos  SE PUEDE INICIAR INTEGRACION CON FROND (4)
 @bpComunicacion.route('/deletetipomensaje/<int:id>', methods=['DELETE'])
 def deletetipomensaje(id):
     try:

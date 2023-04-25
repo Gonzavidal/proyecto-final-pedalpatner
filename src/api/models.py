@@ -190,10 +190,12 @@ class Rol(Base):
 
 class Taller(Base):
     __tablename__ = "talleres"
-    tallernom = db.Column(db.String(110), unique=False  )
-    regiontall = db.Column(db.String(110), unique=False   )
+    tallernom = db.Column(db.String(110), unique=False)
+    regiontall = db.Column(db.String(110), unique=False)
     direcciontall = db.Column(db.String(250), unique=False)
     users_id = db.Column(db.Integer, db.ForeignKey("users.id"),nullable=True)
+    latitud = db.Column(db.Float(20),unique=False,nullable=True)
+    longitud = db.Column(db.Float(20),unique=False,nullable=True)
     user = db.relationship("User", back_populates="taller")
     articulos = db.relationship("TallerArticulo", back_populates="taller",uselist=False)
     pagos = db.relationship("PagoTaller",cascade="all,delete", back_populates="taller",uselist=False)
@@ -207,6 +209,8 @@ class Taller(Base):
         "regiontall": self.regiontall,
         "direcciontall": self.direcciontall,
         "users_id":self.users_id,
+        "latitud": self.latitud,
+        "longitud": self.longitud,
         "created_at": self.created_at,
         "update_at": self.updated_at
     }

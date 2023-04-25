@@ -7,7 +7,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 bpTaller = Blueprint('bpTaller', __name__)
 
 # Gestion PAGO CRUD
-# registrar pago
+# registrar pago  SE PUEDE INICIAR INTEGRACION CON FROND (3)
 @bpTaller.route('/register_pago',methods=['POST'])
 #@jwt_required
 def post_registropago():
@@ -27,7 +27,7 @@ def post_registropago():
         print(e)
     return jsonify({"msg":"Fallo al registrar tipo de pago"}),400
 
-# leer pago
+# leer pago  SE PUEDE INICIAR INTEGRACION CON FROND  (3)
 @bpTaller.route('/getpago',methods=['GET'])
 #@jwt_required
 def getpago():
@@ -41,7 +41,7 @@ def getpago():
         print(e)
         return jsonify({"msg": "No existe aun ningun usuario"})
 
-# modificar pago
+# modificar pago  SE PUEDE INICIAR INTEGRACION CON FROND (3)
 @bpTaller.route('/updatepago/<int:id>', methods=['PUT'])
 def updatepago(id):
     try:
@@ -61,7 +61,7 @@ def updatepago(id):
         print("falla en update",e)
         return jsonify({"No se logro actualizar el cambio"}), 400
 
-# borrar pago
+# borrar pago SE PUEDE INICIAR INTEGRACION CON FROND  (3)
 @bpTaller.route('/deletepago/<int:id>', methods=['DELETE'])
 def deletepago(id):
     try:
@@ -74,7 +74,7 @@ def deletepago(id):
         return jsonify({"message": "No se logro eliminar a usuario"}), 400
 
 #----------------------------------------------------------------------------------------------------------
-# gestion CRUD Taller registrsr taller
+# gestion CRUD Taller registrsr taller SE PUEDE INICIAR INTEGRACION CON FROND  (6)
 @bpTaller.route('/register_taller', methods=['POST'])
 #@jwt_required
 def post_registrotaller():
@@ -114,7 +114,7 @@ def post_registrotaller():
 
     return jsonify({"msg":"Falla en el registro de Taller"}), 400
 
-# gestion leer taller 
+# gestion leer taller SE PUEDE INICIAR INTEGRACION CON FROND  (6)
 @bpTaller.route('/gettaller',methods=['GET'])
 #@jwt_required
 def gettaller():
@@ -128,7 +128,7 @@ def gettaller():
         print("falla en leer talleres",e)
         return jsonify({"msg": "No existe aun ningun Taller registrado"})
 
-# gestion modificar taller
+# gestion modificar taller SE PUEDE INICIAR INTEGRACION CON FROND  (6)
 @bpTaller.route('/updatetaller/<int:id>', methods=['PUT'])
 def updatetaller(id):
     try:
@@ -154,7 +154,7 @@ def updatetaller(id):
         print("falla en update",e)
         return jsonify({"No se logro actualizar el cambio"}), 400
 
-# gestion borrar taller
+# gestion borrar taller SE PUEDE INICIAR INTEGRACION CON FROND  (6)
 @bpTaller.route('/delettaller/<int:id>', methods=['DELETE'])
 def deletetaller(id):
     try:
@@ -191,6 +191,38 @@ def post_registropagotaller():
         print("fallo en pago taller",e)
     return jsonify({"msg":"Fallo al registrar tipo de pago taller"}),400
 
+@bpTaller.route('/get_pagotaller',methods=['GET'])
+#@jwt_required
+def getpagotaller():
+    try:
+        pagotalleres = PagoTaller.query.all()
+     
+        pagotalleres = list(map(lambda pagotaller:pagotaller.serialize_pagotaller(), pagotalleres))
+
+        return jsonify({"msg":"Exito con registro de pago taller","dato":pagotalleres}),200
+    except Exception as e:
+        print("fallo en pago taller",e)
+    return jsonify({"msg":"Fallo al registrar tipo de pago taller"}),400
+
+#@bpTaller.route('/updatepagotaller/<int:pagos_id>/<int:talleres_id>', methods=['PUT'])
+#def updatetaller(pagos_id,talleres_id)#
+   # try:
+   #     pagos_id = request.json.get('pagos_id')
+   #     talleres_id = request.json.get('talleres_id')
+#
+   #     pagostaller = PagosTaller.query.get(pagos_id)
+   #     pagostaller.pagos_id = pagos_id
+   #     pagostaller.talleres_id = talleres_id
+   #     pagostaller.update()
+   # 
+   #     return jsonify({"msg":"Exito en actualizacion de pago"}),202
+   # except Exception as e:
+   #     print("falla en pagotaller",e)
+   #     return jsonify({"msg":"Falla en la actualizacion de pagotaller intentarlo mas tarde"}),400
+
+@bpTaller.route('/deletpagotaller/<int:id>', methods=['DELETE'])
+def deletepagotaller():
+    bass
 
 #-----------------------------------------------------------------------------------------------------
 #CRUD de usuario-taller
