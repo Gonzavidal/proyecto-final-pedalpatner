@@ -23,9 +23,10 @@ def login_user():
    # expire = datetime.timedelta(hours=2)
     access_token = create_access_token(identity=user.id)#,expires_delta= token_expires)
 
+
     data = {
     "access_token": access_token,
-    "user": user.serialize_user(),
+    "user": user.serialize_user()
     #"token_expires": token_expires.total_seconds()
     }
 
