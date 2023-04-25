@@ -108,7 +108,7 @@ def deleteuser(id):
 
 #------------------------------------------------------------------------------------------------------
 #CRUD registro mecanico
-# gestion de registro de mecanico
+# gestion de registro de mecanico 
 @bpRegis.route('/registermecanico', methods=['POST'])
 def post_registromecanico():
     try:
@@ -163,9 +163,26 @@ def post_registromecanico():
         print("falla en reg mecanico",e)
         return jsonify({"msg":"Fallo registro mecanico!!"}),400
 
-#gestion de modificacion mecanico
-@bpRegis.route('/putmecanico/<int:users_id>/<int:talleres_id>', methods=['PUT'])
-def putmecanico(users_id,talleres_id):
+#gestion de leer mecanico 
+@bpRegis.route('/getmecanico',methods=['GET'])
+#@jwt_required
+def getmecanico():
+    try:
+        users = User.query.all()
+        talleres = Taller.query.all()
+      
+        users = list(map(lambda user:user.serialize_user(), users))
+        talleres = list(map(lambda taller:taller.serialize_taller(),talleres))
+    
+        return jsonify({"Datos de user":users,"Datos Taller":talleres}), 200
+       
+    except Exception as e:
+        print("falla leer mecanico",e)
+        return jsonify({"msg": "No existe aun ningun Mecanico registrado"})
+
+#gestion de modificacion mecanico 
+@bpRegis.route('/putmecanico/<int:users_id>', methods=['PUT'])
+def putmecanico(users_id):
     try:
         username = request.json.get('username')
         email = request.json.get('email')
@@ -183,16 +200,17 @@ def putmecanico(users_id,talleres_id):
         user.password =  generate_password_hash(password)
         user.direccion = direccion
         user.roles_id = roles_id
-
-        taller= Taller.query.get(talleres_id)
+        taller = Taller.query.get(users_id)
         taller.tallernom = tallernom
         taller.regiontall = regiontall
         taller.direcciontall = direcciontall
         taller.users_id = users_id
         user.taller = taller
+        print("esto es user1",user.serialize_user())
+        print("esto es user2",user)
 
         user.update()
-
+        
         access_token = create_access_token(
                 identity=user.email)
 
@@ -207,43 +225,17 @@ def putmecanico(users_id,talleres_id):
         print("falla en mecanico",e)
     return jsonify({"msg":"Fallo de actualizacion en Mecanico"}),400
 
-##gestion de leer mecanico
-@bpRegis.route('/getmecanico',methods=['GET'])
-#@jwt_required
-def getmecanico():
+#gestion de borrar mecanico 
+@bpRegis.route('/deletemecanico/<int:id>', methods=['DELETE'])
+def deletemecanico(id):
     try:
-        users = User.query.all()
-        talleres = Taller.query.all()
-        foundUser = User.query.filter_by(db.users.roles_id==2).all()#[:1].get()
-        print(foundUser)
-        if (foundUser):
-            users = list(map(lambda user:user.serialize_user(), users))
-            talleres = list(map(lambda taller:taller.serialize_taller(),talleres))
-    
-            return jsonify({"Datos de user":users,"Datos Taller":talleres}), 200
-        else:
-            return jsonify({"msg":"Mecanico sin taller asociado"})
+        users = User.query.get(id)
+        users.delete()
+            
+        return jsonify({"message": "Mecanico Deleted"}), 202
     except Exception as e:
-        print("falla leer mecanico",e)
-        return jsonify({"msg": "No existe aun ningun Mecanico registrado"})
-
-##gestion de borrar user
-#@bpRegis.route('/deleteuser/<int:id>', methods=['DELETE'])
-#def deleteuser(id):
-#    try:
-#        users = User.query.get(id)
-#
-#        users.delete()
-#            
-#        return jsonify({"message": "User Deleted"}), 202
-#    except Exception as e:
-#        print("falla al borrar user",e)
-#        return jsonify({"message": "No se logro eliminar a usuario"}), 400
-#
-#
-
-
-
+        print("falla al borrar mecanico",e)
+        return jsonify({"message": "No se logro eliminar a mecanico"}), 400
 
 #-------------------------------------------------------------------------------------------------------
 # CRUD  de ROL
