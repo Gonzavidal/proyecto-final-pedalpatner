@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash,check_password_hash
 
 bpRegis = Blueprint('bpRegis', __name__)
 #CRUD DE USER
-# gestion de registro de usuario-admin
+# gestion de registro de usuario-admin SE PUEDE INICIAR INTEGRACION CON FROND (1)
 @bpRegis.route('/registeruser', methods=['POST'])
 def post_registrouser():
     try:
@@ -29,7 +29,6 @@ def post_registrouser():
         user.email = email
         user.password =  generate_password_hash(password)
         user.direccion = direccion
-       # user.is_active = is_active
         user.roles_id = roles_id
         user.save()
 
@@ -49,7 +48,7 @@ def post_registrouser():
         print("falla en reg usuario",e)
     return jsonify({"msg":"Fallo ingreso!!"}),400
 
-#gestion de modificacion usuario-admin
+#gestion de modificacion usuario-admin SE PUEDE INICIAR INTEGRACION CON FROND (1)
 @bpRegis.route('/puttuser/<int:id>', methods=['PUT'])
 def puttuser(id):
     try:
@@ -62,12 +61,16 @@ def puttuser(id):
         user = User.query.get(id)
         user.username = username
         user.email = email
-        user.password = password
+        user.password = generate_password_hash(password)
         user.direccion = direccion
         user.roles_id = roles_id
         user.update()
 
+        access_token = create_access_token(
+                identity=user.email)
+
         data ={
+            "access_token": access_token,
             "usuario": user.serialize_user()
         }
 
@@ -76,7 +79,7 @@ def puttuser(id):
         print("falla en actualizacion de usuario",e)
     return jsonify({"msg":"Fallo en actualizacion"}),400
 
-#gestion de leer usuario-admin
+#gestion de leer usuario-admin SE PUEDE INICIAR INTEGRACION CON FROND (1)
 @bpRegis.route('/getuser',methods=['GET'])
 #@jwt_required
 def getuser():
@@ -90,7 +93,7 @@ def getuser():
         print("falla leer users",e)
         return jsonify({"msg": "No existe aun ningun user"})
 
-#gestion de borrar usuario-admin
+#gestion de borrar usuario-admin SE PUEDE INICIAR INTEGRACION CON FROND (1)
 @bpRegis.route('/deleteuser/<int:id>', methods=['DELETE'])
 def deleteuser(id):
     try:
@@ -105,7 +108,7 @@ def deleteuser(id):
 
 #------------------------------------------------------------------------------------------------------
 #CRUD registro mecanico
-# gestion de registro de mecanico
+# gestion de registro de mecanico 
 @bpRegis.route('/registermecanico', methods=['POST'])
 def post_registromecanico():
     try:
@@ -160,68 +163,86 @@ def post_registromecanico():
         print("falla en reg mecanico",e)
         return jsonify({"msg":"Fallo registro mecanico!!"}),400
 
-#gestion de modificacion user
-#@bpRegis.route('/puttuser/<int:id>', methods=['PUT'])
-#def puttuser(id):
-#    try:
-#        username = request.json.get('username')
-#        email = request.json.get('email')
-#        password = request.json.get('password')
-#        direccion = request.json.get('direccion')
-#        roles_id = request.json.get('roles_id')
-#    
-#        user = User.query.get(id)
-#        user.username = username
-#        user.email = email
-#        user.password = password
-#        user.direccion = direccion
-#        user.roles_id = roles_id
-#        user.update()
-#
-#        data ={
-#            "usuario": user.serialize_user()
-#        }
-#
-#        return jsonify({"msg":"se logro actualizacion","user":data}),200
-#    except Exception as e:
-#        print("falla en actualizacion de usuario",e)
-#    return jsonify({"msg":"Fallo en actualizacion"}),400
-#
-##gestion de leer user
-#@bpRegis.route('/getuser',methods=['GET'])
-##@jwt_required
-#def getuser():
-#    try:
-#        users = User.query.all()
-#     
-#        users = list(map(lambda user:user.serialize_user(), users))
-#    
-#        return jsonify({"Datos de user":users}), 200
-#    except Exception as e:
-#        print("falla leer users",e)
-#        return jsonify({"msg": "No existe aun ningun user"})
-#
-##gestion de borrar user
-#@bpRegis.route('/deleteuser/<int:id>', methods=['DELETE'])
-#def deleteuser(id):
-#    try:
-#        users = User.query.get(id)
-#
-#        users.delete()
-#            
-#        return jsonify({"message": "User Deleted"}), 202
-#    except Exception as e:
-#        print("falla al borrar user",e)
-#        return jsonify({"message": "No se logro eliminar a usuario"}), 400
-#
-#
+#gestion de leer mecanico 
+@bpRegis.route('/getmecanico',methods=['GET'])
+#@jwt_required
+def getmecanico():
+    try:
+       
+        resultu = User.query.filter_by(roles_id=2).all()
 
+        resultu = list(map(lambda result:result.serialize_usertaller(),resultu))
+      
+        return jsonify({"usuario": resultu}),200
+    
+    
+    except Exception as e:
+        print("falla leer mecanico",e)
+        return jsonify({"msg": "No existe aun ningun Mecanico registrado"})
 
+#gestion de modificacion mecanico 
+@bpRegis.route('/putmecanico/<int:id>', methods=['PUT'])
+def putmecanico(id):
+    try:
+        username = request.json.get('username')
+        email = request.json.get('email')
+        password = request.json.get('password')
+        direccion = request.json.get('direccion')
+        roles_id = request.json.get('roles_id')
 
+        tallernom = request.json.get('tallernom')
+        regiontall = request.json.get('regiontall')
+        direcciontall = request.json.get('direcciontall')
+        users_id = request.json.get('users_id')
+    
+        user =User.query.get(id)
+        user.username = username
+        user.email = email
+        user.password =  generate_password_hash(password)
+        user.direccion = direccion
+        user.roles_id = roles_id
+
+        taller = Taller.query.get(users_id)
+        taller.tallernom = tallernom
+        taller.regiontall = regiontall
+        taller.direcciontall = direcciontall
+        taller.users_id = users_id
+
+        user.taller = taller
+      
+        user.update()
+        
+        access_token = create_access_token(
+                identity=user.email)
+
+        data ={
+            "access_token": access_token,
+            "usuario": list(map(lambda user:user.serialize_usertaller(),usuario))
+            
+        }
+
+        return jsonify({"msg":"se logro actualizacion de mecanico","mecanico":data}),200
+    except Exception as e:
+        print("falla en mecanico",e)
+    return jsonify({"msg":"Fallo de actualizacion en Mecanico"}),400
+
+#gestion de borrar mecanico 
+@bpRegis.route('/deletemecanico/<int:users_id>', methods=['DELETE'])
+def deletemecanico(users_id):
+    try:
+        mecanico0 = User.query.filter_by(users_id=users_id).filter()
+        mecanico1 = Taller.query.filter_by(users_id=users_id).filter()
+        mecanico0.delete()
+        mecanico1.delete()
+            
+        return jsonify({"message": "Mecanico Deleted"}), 202
+    except Exception as e:
+        print("falla al borrar mecanico",e)
+        return jsonify({"message": "No se logro eliminar a mecanico"}), 400
 
 #-------------------------------------------------------------------------------------------------------
 # CRUD  de ROL
-#gestion de registrsr roles (usuario-admin)
+#gestion de registrsr roles  SE PUEDE INICIAR INTEGRACION CON FROND  (2)
 @bpRegis.route('/register_roles',methods=['POST'])
 #@jwt_required
 def post_registroroles():
@@ -242,7 +263,7 @@ def post_registroroles():
         print(e)
         return jsonify({"msg":"Falla en registro de roles"}), 400
 
-#gestion de leer roles
+#gestion de leer roles  SE PUEDE INICIAR INTEGRACION CON FROND (2)
 @bpRegis.route('/getroles',methods=['GET'])
 #@jwt_required
 def getroles():
@@ -256,7 +277,7 @@ def getroles():
         print("print falla leer roles",e)
         return jsonify({"msg": "No existe aun ningun rol"})
 
-#gestion de modificar roles
+#gestion de modificar roles SE PUEDE INICIAR INTEGRACION CON FROND (2)
 @bpRegis.route('/updateroles/<int:id>',methods=['PUT'])
 #@jwt_required
 def updateroles(id):
@@ -278,7 +299,7 @@ def updateroles(id):
         print("falla en update",e)
         return jsonify({"No se logro actualizar el cambio"}), 400
 
-#gestion de borrar roles
+#gestion de borrar roles  SE PUEDE INICIAR INTEGRACION CON FROND (2)
 @bpRegis.route('/deleteroles/<int:id>', methods=['DELETE'])
 def deleteroles(id):
     try:

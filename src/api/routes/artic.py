@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash,check_password_hash
 bpArticulo = Blueprint('bpArticulo', __name__)
 
 # CRUD de articulo
-# registrar articulo
+# registrar articulo SE PUEDE INICIAR INTEGRACION CON FROND (5)
 @bpArticulo.route('/register_articulo', methods=['POST'])
 #@jwt_required
 def post_registarticulo():
@@ -40,7 +40,7 @@ def post_registarticulo():
 
         return jsonify({"msg":"Ingreso de Articulo Fallido"})
 
-# gestion leer articulo
+# gestion leer articulo SE PUEDE INICIAR INTEGRACION CON FROND (5)
 @bpArticulo.route('/getarticulo',methods=['GET'])
 #@jwt_required
 def getarticulo():
@@ -54,7 +54,7 @@ def getarticulo():
         print("falla en leer Articulos",e)
         return jsonify({"msg": "No existe aun ningun Articulo registrado"})
 
-# gestion modificar articulo
+# gestion modificar articulo SE PUEDE INICIAR INTEGRACION CON FROND (5)
 @bpArticulo.route('/updatearticulo/<int:id>', methods=['PUT'])
 def updatearticulo(id):
     try:
@@ -78,7 +78,7 @@ def updatearticulo(id):
 
         return jsonify({"msg":"Actualizacion de Articulo Fallido"})
 
-# gestion borrar articulo
+# gestion borrar articulo SE PUEDE INICIAR INTEGRACION CON FROND (5)
 @bpArticulo.route('/deletearticulo/<int:id>', methods=['DELETE'])
 def deletearticulo(id):
     try:
@@ -93,7 +93,7 @@ def deletearticulo(id):
 
 #---------------------------------------------------------------------------------------------------------------------------------
 # CRUD de Taller-Articulo
-# registrar taller-articulo
+# registrar taller-articulo SE PUEDE INICIAR INTEGRACION CON FROND (10)
 @bpArticulo.route('/register_tallerarticulo', methods=['POST'])
 #@jwt_required
 def post_registrotallerarticulo():
@@ -116,7 +116,7 @@ def post_registrotallerarticulo():
         print("falla registro articulo taller",e)
     return jsonify({"msg":"Fallo al registrar tipo de articulo-taller"}),400
 
-# gestion leer taller-articulo
+# gestion leer taller-articulo SE PUEDE INICIAR INTEGRACION CON FROND (10)
 @bpArticulo.route('/gettallerarticulo',methods=['GET'])
 #@jwt_required
 def gettallerarticulo():
@@ -130,14 +130,13 @@ def gettallerarticulo():
         print("falla en leer Taller-Articulos",e)
         return jsonify({"msg": "No existe aun ningun Taller-Articulo registrado"}),400
 
-# gestion borrarr taller-articulo
+# gestion borrarr taller-articulo SE PUEDE INICIAR INTEGRACION CON FROND (10)
 @bpArticulo.route('/deletetallerarticulo/<int:talleres_id>/<int:articulos_id>', methods=['DELETE'])
 def deletetallerarticulo(talleres_id,articulos_id):
     try:
         # SELECT * FROM users WHERE id = ?
-        #tallerarticulos = TallerArticulo.query.get(talleres_id,articulos_id)
         tallerarticulos = TallerArticulo.query.filter_by(talleres_id=talleres_id,articulos_id=articulos_id).first()
-        print("esto trae",tallerarticulos)
+        #print("esto trae",tallerarticulos)
         tallerarticulos.delete()
         
         
