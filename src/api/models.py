@@ -155,7 +155,7 @@ class User(Base):
     is_active = db.Column(db.Boolean(), unique=False, nullable=False,default=True)
     roles_id = db.Column(db.Integer, db.ForeignKey("roles.id"), nullable=False)
     rol = db.relationship("Rol", back_populates="user")
-    taller = db.relationship("Taller",cascade="all,delete",back_populates="user",uselist=False)
+    taller = db.relationship("Taller",cascade="all,delete",back_populates="user",uselist=True)
     comunicacion = db.relationship("Comunicacion",cascade="all,delete",back_populates="user",uselist=False)
     usertalleres = db.relationship("UserTaller",cascade ="all,delete",back_populates="user",uselist=False)
 
@@ -170,6 +170,24 @@ class User(Base):
             "roles_id": self.roles_id,
             "created_at": self.created_at,
             "update_at": self.updated_at
+            
+        }
+    
+    
+    
+    def serialize_usertaller(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "email": self.email,
+            "password": self.password,
+            "direccion": self.direccion,
+            "is_active": self.is_active,
+            "roles_id": self.roles_id,
+            "created_at": self.created_at,
+            "update_at": self.updated_at,
+            "taller": list(map(lambda tall: tall.serialize_taller(),self.taller))
+
         }
 
 
@@ -214,18 +232,18 @@ class Taller(Base):
 class Articulo(Base):
     __tablename__ = 'articulos'
     articulonom = db.Column(db.String(200), nullable=False)
-    precio = db.Column(db.Integer, nullable=False)
-    promocion = db.Column(db.Boolean(), unique=False, nullable=False,default=True)
-    precio_oferta = db.Column(db.Integer, nullable=False)
+    mantencion = db.Column(db.Integer, nullable=True)
+    indumentaria = db.Column(db.Integer,nullable=True)
+    bicicletas = db.Column(db.Integer, nullable=True)
     talleres = db.relationship("TallerArticulo",back_populates="articulo",uselist=False)
 
     def serialize_articulo(self):
         return {
             "id": self.id,
             "articulonom": self.articulonom,
-            "precio": self.precio,
-            "promocion": self.promocion,
-            "precio_oferta": self.precio_oferta,
+            "mantencion": self.precio,
+            "indumentaria": self.promocion,
+            "bicicletas": self.precio_oferta,
             "created_at": self.created_at,
             "update_at": self.updated_at
         }
