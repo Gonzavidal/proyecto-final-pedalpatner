@@ -1,6 +1,6 @@
 import Formulario from '../../img/formContacto.jpeg'
 import Vista from '../../img/vistaTienda.jpeg'
-import Comunidad from '../../img/comunidad.jpeg'
+import Comunidad from '../../img/comunidad.jpg'
 
 export default function Ayuda() {
     return (
