@@ -32,6 +32,7 @@ class Comunicacion(db.Model):
     updated_at = db.Column(
         db.DateTime(), default=db.func.now(), onupdate=db.func.now())
     tipos_id = db.Column(db.ForeignKey("tipos.id"),nullable=True)
+    data = db.Column(db.LargeBinary, nullable=True)
     tipo = db.relationship("Tipo",back_populates="comunicacion")
     users_id = db.Column(db.ForeignKey("users.id"),nullable=True)
     user = db.relationship("User",back_populates="comunicacion")
@@ -44,7 +45,7 @@ class Comunicacion(db.Model):
             "descripcion": self.descripcion,
             "destino": self.destino,
             "tipos_id":self.tipos_id,
-            "users_id":self.users_id,
+            "data": self.data,
             "created_at": self.created_at,
             "update_at": self.updated_at
         }
@@ -154,6 +155,7 @@ class User(Base):
     direccion = db.Column(db.String(220), nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False,default=True)
     roles_id = db.Column(db.Integer, db.ForeignKey("roles.id"), nullable=False)
+    user = db.relationship("User",cascade="all,delete",back_populates="comunicacion")
     rol = db.relationship("Rol", back_populates="user")
     taller = db.relationship("Taller",cascade="all,delete",back_populates="user",uselist=True)
     comunicacion = db.relationship("Comunicacion",cascade="all,delete",back_populates="user",uselist=False)
@@ -235,7 +237,7 @@ class Articulo(Base):
     mantencion = db.Column(db.Integer, nullable=True)
     indumentaria = db.Column(db.Integer,nullable=True)
     bicicletas = db.Column(db.Integer, nullable=True)
-    talleres = db.relationship("TallerArticulo",back_populates="articulo",uselist=False)
+    talleres = db.relationship("TallerArticulo",back_populates="articulo",uselist=True)
 
     def serialize_articulo(self):
         return {

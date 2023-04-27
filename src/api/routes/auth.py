@@ -20,14 +20,14 @@ def login_user():
 
     user = User.query.filter_by(email=email).first()
 
-   # expire = datetime.timedelta(hours=2)
-    access_token = create_access_token(identity=user.id)#,expires_delta= token_expires)
+    token_expires = datetime.timedelta(hours=2)
+    access_token = create_access_token(identity=user.id, expires_delta= token_expires)
 
 
     data = {
     "access_token": access_token,
-    "user": user.serialize_user()
-    #"token_expires": token_expires.total_seconds()
+    "user": user.serialize_user(),
+    "token_expires": token_expires.total_seconds()
     }
 
     return jsonify({ "status": 200, "message": "You have been logged", "data": data}), 200

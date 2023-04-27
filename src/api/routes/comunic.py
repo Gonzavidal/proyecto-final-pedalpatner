@@ -12,12 +12,12 @@ bpComunicacion = Blueprint('bpComunicacion', __name__)
 def post_comunicacion():
     try:
             #id = get_jwt_identity()
-            titulo = request.json.get('titulo')
+            tipos_id = request.json.get('tipos_id')
+            destino =request.json.get('destino')
             email = request.json.get('email')
+            titulo = request.json.get('titulo')
             descripcion= request.json.get('descripcion')
-            destino = request.json.get('destino')
-            tipos_id=request.json.get('tipos_id')
-            users_id= request.json.get('users_id')
+            data = request.files.get("data")
 
             if not titulo: return jsonify({"status": "failed", "code": 400, "msg": "Titulo is required"}), 400
             if not email: return jsonify({"status": "failed", "code": 400, "msg": "email is required"}), 400
@@ -32,7 +32,7 @@ def post_comunicacion():
             comunic.descripcion= descripcion
             comunic.destino = destino
             comunic.tipos_id= tipos_id
-            comunic.users_id= users_id
+            comunic.data= data
             comunic.save()
 
             data={

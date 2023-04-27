@@ -13,12 +13,13 @@ def post_registarticulo():
     try:
         #id = get_jwt_identity()
         articulonom = request.json.get('articulonom')
-        precio= request.json.get('precio')
-        precio_oferta = request.json.get('precio_oferta')
+        mantencion= request.json.get('mantencion')
+        indumentaria = request.json.get('indumentaria')
+        bicicletas = request.json.get('bicicletas')
 
         if not articulonom: return jsonify({"status": "failed", "code": 400, "msg": "articulo is required"}), 400
-        if not precio: return jsonify({"status": "failed", "code": 400, "msg": "precio is required"}), 400
-        if not precio_oferta: return jsonify({"status": "failed", "code": 400, "msg": "precio-oferta is required"}), 400
+        #if not precio: return jsonify({"status": "failed", "code": 400, "msg": "precio is required"}), 400
+        #if not precio_oferta: return jsonify({"status": "failed", "code": 400, "msg": "precio-oferta is required"}), 400
 
             #taller = Taller.query.filter(Taller.tallernom==tallernom).all()
         articulo = Articulo.query.filter_by(articulonom=articulonom).first()
@@ -27,8 +28,9 @@ def post_registarticulo():
     
         articulo = Articulo()
         articulo.articulonom = articulonom
-        articulo.precio = precio
-        articulo.precio_oferta = precio_oferta
+        articulo.mantencion = mantencion
+        articulo.indumentaria = indumentaria
+        articulo.bicicletas = bicicletas
         articulo.save()
 
         data ={
@@ -59,14 +61,16 @@ def getarticulo():
 def updatearticulo(id):
     try:
         articulonom = request.json.get('articulonom')
-        precio= request.json.get('precio')
-        precio_oferta = request.json.get('precio_oferta')
+        mantencion= request.json.get('mantencion')
+        indumentaria = request.json.get('indumentaria')
+        bicicletas = request.json.get('bicicletas')
 
         # SELECT * FROM users WHERE id = ?
         articulo =  Articulo.query.get(id)
         articulo.articulonom = articulonom
-        articulo.precio = precio
-        articulo.precio_oferta = precio_oferta
+        articulo.mantencion = mantencion
+        articulo.indumentaria = indumentaria
+        articulo.bicicletas = bicicletas
         articulo.save()
 
         data ={
