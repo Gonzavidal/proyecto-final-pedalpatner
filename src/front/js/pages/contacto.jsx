@@ -24,9 +24,9 @@ export default function Contacto() {
                 <input
                   className="form-check-input"
                   type="radio"
-                  name="flexRadioDefault"
+                  name="tipos_id"
                   id="flexRadioDefault1"
-                  value={store.flexRadioDefault1}
+                  value={store.tipos_id}
                   onChange={actions.handleChange}
                 />
                 <label className="form-check-label" htmlFor="flexRadioDefault1">
@@ -37,10 +37,10 @@ export default function Contacto() {
                 <input
                   className="form-check-input"
                   type="radio"
-                  name="flexRadioDefault"
+                  name="tipos_id"
                   id="flexRadioDefault2"
                   checked
-                  value={store.flexRadioDefault2}
+                  value={store.tipos_id}
                   onChange={actions.handleChange}
                 />
                 <label
@@ -54,9 +54,9 @@ export default function Contacto() {
                 <input
                   className="form-check-input"
                   type="radio"
-                  name="flexRadioDefault"
+                  name="tipos_id"
                   id="flexRadioDefault3"
-                  value={store.flexRadioDefault3}
+                  value={store.tipos_id}
                   onChange={actions.handleChange}
                 />
                 <label
@@ -76,9 +76,9 @@ export default function Contacto() {
                 <input
                   className="form-check-input"
                   type="checkbox"
-                  name="checkRecipient"
+                  name="destino"
                   id="recipientCiclista"
-                  value={store.recipientCiclista}
+                  value={store.destino}
                   onChange={actions.handleChange}
                 />
                 <label
@@ -92,9 +92,9 @@ export default function Contacto() {
                 <input
                   className="form-check-input"
                   type="checkbox"
-                  name="checkRecipient"
+                  name="destino"
                   id="recipientMecanico"
-                  value={store.recipientMecanico}
+                  value={store.destino}
                   onChange={actions.handleChange}
                 />
                 <label
@@ -115,10 +115,11 @@ export default function Contacto() {
               <input
                 type="text"
                 className="form-control"
+                name="titulo"
                 id="inputTitle"
                 aria-label="searchInput"
                 aria-describedby="inputGroup"
-                value={store.inputTitle}
+                value={store.titulo}
                 onChange={actions.handleChange}
               />
               <label className="pt-2 mx-2" htmlFor="#inputTitle">
@@ -129,10 +130,11 @@ export default function Contacto() {
               <input
                 type="text"
                 className="form-control"
+                name="email"
                 id="inputEmail"
                 aria-label="searchInput"
                 aria-describedby="inputGroup"
-                value={store.inputEmail}
+                value={store.email}
                 onChange={actions.handleChange}
               />
               <label className="pt-2 mx-2" htmlFor="#inputEmail">
@@ -145,9 +147,10 @@ export default function Contacto() {
               <div className="form-floating my-0">
                 <textarea
                   className="form-control"
+                  name="descripcion"
                   id="inputTextArea"
                   aria-label="With textarea"
-                  value={store.inputTextArea}
+                  value={store.descripcion}
                   onChange={actions.handleChange}
                   style={{ height: 200 }}
                 />
@@ -166,8 +169,9 @@ export default function Contacto() {
               <input
                 type="file"
                 className="col-sm-1 form-control mt-1"
+                name="data"
                 id="customFile"
-                value={store.customFile}
+                value={store.data}
                 onChange={actions.handleChange} //aqui se debe cambiar la forma de capturar el file
                 //habria que probar si 1° esto resulta
               />

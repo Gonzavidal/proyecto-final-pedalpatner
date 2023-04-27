@@ -15,9 +15,9 @@ const getState = ({ getStore, getActions, setStore }) => {
     },
     actions: {
       handleChange: (e) => {
-        const { id, value } = e.target;
+        const { name, value } = e.target;
         setStore({
-          [id]: value,
+          [name]: value,
         });
         console.log("all", getStore());
       },
@@ -26,22 +26,16 @@ const getState = ({ getStore, getActions, setStore }) => {
         e.preventDefault();
         //tengo dudas para capturar los radios pero deben ser si o si "tipos" -> radio1 (evento,noticia,menss)
         // radio2 es rol o "destino" (mecanico,ciclista) tipos_id + destino, son las variables referenciadas en flask
-        const {
-          flexRadioDefault,
-          checkRecipient,
-          titulo,
-          descripcion,
-          email,
-          file,
-        } = getStore();
+        const { tipos_id, destino, titulo, descripcion, email, data } =
+          getStore();
         if (email !== "") {
           getActions().register_comunicacion({
-            flexRadioDefault,
-            checkRecipient,
+            tipos_id,
+            destino,
             titulo,
             email,
             descripcion,
-            file,
+            data,
           });
         }
       },
