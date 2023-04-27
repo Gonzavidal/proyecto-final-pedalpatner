@@ -80,7 +80,7 @@ def update_comunicacion(id):
         comunicacion.update() 
 
         data ={
-            "taller actualizado": comunicacion.serialize_comunicacion()
+            "comunicaciones": list(map(lambda comunicacion:comunicacion.serialize_comunicacion(),comunicaciones))
         }
       
         return jsonify({"msg":"Comunicacion actualizada con exito!","comunicacion":data}), 200
