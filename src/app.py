@@ -7,14 +7,20 @@ from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager,get_jwt_identity,create_access_token,jwt_required
+from werkzeug.security import generate_password_hash,check_password_hash
 from api.utils import APIException, generate_sitemap
-from api.models import db, User, Rol, Taller, Articulo, Taller_Articulo, Comunicacion, Tipo
+from api.models import db
 #from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
-from api.routes.auth import bpAuth
+from api.routes.regis import bpRegis
 from api.routes.main import bpMain
 from api.routes.taller import bpTaller
+from api.routes.artic import bpArticulo
+from api.routes.comunic import bpComunicacion
+from api.routes.auth import bpAuth 
+
 
 # from models import Person
 
@@ -26,6 +32,7 @@ app.url_map.strict_slashes = False
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
+#app.config['SQLALCHEMY_DATABASE_URI']= db_url
 if db_url is not None:
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace(
         "postgres://", "postgresql://")
@@ -34,7 +41,10 @@ else:
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
+app.config["JWT_SECRET_KEY"] = "JWT_SECRET_KEY"
+app.config["JWT_ALGORITHM"] = "HS256"
 db.init_app(app)
+
 jwt = JWTManager(app)
 # Allow CORS requests to this API
 CORS(app)
@@ -48,11 +58,13 @@ CORS(app)
 # Add all endpoints form the API with a "api" prefix
 #app.register_blueprint(api, url_prefix='/api')
 app.register_blueprint(bpMain)
+app.register_blueprint(bpRegis, url_prefix='/api')
+app.register_blueprint(bpTaller, url_prefix='/api')
+app.register_blueprint(bpArticulo, url_prefix='/api')
+app.register_blueprint(bpComunicacion, url_prefix='/api')
 app.register_blueprint(bpAuth, url_prefix='/api')
-app.register_blueprint(bpTaller,url_prefix='/api')
 
 # Handle/serialize errors like a JSON object
-
 
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
@@ -61,22 +73,22 @@ def handle_invalid_usage(error):
 # generate sitemap with all your endpoints
 
 
-@app.route('/')
-def sitemap():
-    if ENV == "development":
-        return generate_sitemap(app)
-    return send_from_directory(static_file_dir, 'index.html')
+#@app.route('/')
+#def sitemap():
+#    if ENV == "development":
+#        return generate_sitemap(app)
+#    return send_from_directory(static_file_dir, 'index.html')
 
 # any other endpoint will try to serve it like a static file
 
 
-@app.route('/<path:path>', methods=['GET'])
-def serve_any_other_file(path):
-    if not os.path.isfile(os.path.join(static_file_dir, path)):
-        path = 'index.html'
-    response = send_from_directory(static_file_dir, path)
-    response.cache_control.max_age = 0  # avoid cache memory
-    return response
+#@app.route('/<path:path>', methods=['GET'])
+#def serve_any_other_file(path):
+#    if not os.path.isfile(os.path.join(static_file_dir, path)):
+#        path = 'index.html'
+#    response = send_from_directory(static_file_dir, path)
+#    response.cache_control.max_age = 0  # avoid cache memory
+#    return response
 
 
 # this only runs if `$ python src/main.py` is executed

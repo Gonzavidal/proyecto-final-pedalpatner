@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 36243120a74f
+Revision ID: 6ccaf63ec007
 Revises: 
-Create Date: 2023-04-20 02:56:44.098400
+Create Date: 2023-04-24 13:36:51.969214
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '36243120a74f'
+revision = '6ccaf63ec007'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -22,11 +22,19 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
-    sa.Column('articulonom', sa.String(length=100), nullable=False),
+    sa.Column('articulonom', sa.String(length=200), nullable=False),
     sa.Column('precio', sa.Integer(), nullable=False),
     sa.Column('promocion', sa.Boolean(), nullable=False),
     sa.Column('precio_oferta', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('pagos',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
+    sa.Column('tipopago', sa.String(length=100), nullable=False),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('tipopago')
     )
     op.create_table('roles',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -39,7 +47,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
-    sa.Column('nombre', sa.String(length=150), nullable=True),
+    sa.Column('nombre', sa.String(length=100), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('nombre')
     )
@@ -47,10 +55,10 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
-    sa.Column('username', sa.String(length=150), nullable=False),
-    sa.Column('email', sa.String(length=150), nullable=False),
-    sa.Column('password', sa.String(length=100), nullable=False),
-    sa.Column('direccion', sa.String(length=200), nullable=False),
+    sa.Column('username', sa.String(length=120), nullable=False),
+    sa.Column('email', sa.String(length=120), nullable=False),
+    sa.Column('password', sa.String(length=390), nullable=False),
+    sa.Column('direccion', sa.String(length=220), nullable=False),
     sa.Column('is_active', sa.Boolean(), nullable=False),
     sa.Column('roles_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['roles_id'], ['roles.id'], ),
@@ -60,45 +68,69 @@ def upgrade():
     )
     op.create_table('comunicacion',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('titulo', sa.String(length=100), nullable=False),
-    sa.Column('descripcion', sa.String(length=400), nullable=False),
+    sa.Column('titulo', sa.String(length=130), nullable=False),
+    sa.Column('email', sa.String(length=100), nullable=False),
+    sa.Column('descripcion', sa.Text(), nullable=False),
     sa.Column('destino', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
-    sa.Column('tipos_id', sa.Integer(), nullable=False),
-    sa.Column('users_id', sa.Integer(), nullable=False),
+    sa.Column('tipos_id', sa.Integer(), nullable=True),
+    sa.Column('users_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['tipos_id'], ['tipos.id'], ),
-    sa.ForeignKeyConstraint(['users_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id', 'tipos_id', 'users_id')
-    )
-    op.create_table('talleres',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('created_at', sa.DateTime(), nullable=True),
-    sa.Column('updated_at', sa.DateTime(), nullable=True),
-    sa.Column('tallernom', sa.String(length=120), nullable=True),
-    sa.Column('region', sa.String(length=120), nullable=True),
-    sa.Column('direccion', sa.String(length=250), nullable=True),
-    sa.Column('users_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['users_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('taller_articulo',
+    op.create_table('talleres',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('tallernom', sa.String(length=100), nullable=True),
+    sa.Column('regiontall', sa.String(length=100), nullable=True),
+    sa.Column('direcciontall', sa.String(length=250), nullable=True),
+    sa.Column('users_id', sa.Integer(), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
+    sa.ForeignKeyConstraint(['users_id'], ['users.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('pagotalleres',
+    sa.Column('pagos_id', sa.Integer(), nullable=False),
+    sa.Column('talleres_id', sa.Integer(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
+    sa.ForeignKeyConstraint(['pagos_id'], ['pagos.id'], ),
+    sa.ForeignKeyConstraint(['talleres_id'], ['talleres.id'], ),
+    sa.PrimaryKeyConstraint('pagos_id', 'talleres_id')
+    )
+    op.create_table('tallerarticulos',
     sa.Column('talleres_id', sa.Integer(), nullable=False),
     sa.Column('articulos_id', sa.Integer(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['articulos_id'], ['articulos.id'], ),
     sa.ForeignKeyConstraint(['talleres_id'], ['talleres.id'], ),
     sa.PrimaryKeyConstraint('talleres_id', 'articulos_id')
+    )
+    op.create_table('usertalleres',
+    sa.Column('talleres_id', sa.Integer(), nullable=False),
+    sa.Column('users_id', sa.Integer(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
+    sa.ForeignKeyConstraint(['talleres_id'], ['talleres.id'], ),
+    sa.ForeignKeyConstraint(['users_id'], ['users.id'], ),
+    sa.PrimaryKeyConstraint('talleres_id', 'users_id')
     )
     # ### end Alembic commands ###
 
 
 def downgrade():
     # ### commands auto generated by Alembic - please adjust! ###
-    op.drop_table('taller_articulo')
+    op.drop_table('usertalleres')
+    op.drop_table('tallerarticulos')
+    op.drop_table('pagotalleres')
     op.drop_table('talleres')
     op.drop_table('comunicacion')
     op.drop_table('users')
     op.drop_table('tipos')
     op.drop_table('roles')
+    op.drop_table('pagos')
     op.drop_table('articulos')
     # ### end Alembic commands ###
