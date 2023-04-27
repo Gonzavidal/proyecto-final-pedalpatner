@@ -28,8 +28,8 @@ const Layout = () => {
         <ScrollToTop>
           <Navbar />
           <Routes>
-            {/*<Route element={<Home />} path="/" />*/}
-            {/*<Route element={<Home />} path="/home" />*/}
+            {<Route element={<Home />} path="/" />}
+            {<Route element={<Home />} path="/home" />}
             {<Route element={<Contacto />} path="/contacto" />}
             {/*<Route element={<Contacto />} path="/Pagescontacto" />*/}
             {/* <Route element={<Single />} path="/single/:theid" />*/}
