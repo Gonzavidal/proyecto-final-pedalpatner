@@ -1,4 +1,5 @@
 import React from "react"
+import Maps from './Maps.jsx';
 
 export const Tienda = () => {
   return (
@@ -6,8 +7,9 @@ export const Tienda = () => {
       <h1>Encuentra tu tienda</h1>
       <hr className="hr" />
       <div className="row">
-        <div className="col-6">
-          </div>
+        <div className="col-6 px-5">
+          <Maps/>
+        </div>
         
         <div className="col-6 px-4">
           {/*exclusive div 4 text inputs*/}

@@ -1,5 +1,5 @@
 import React from "react";
-import Mapa from '../../img/Mapa.jpeg';
+import Mapa from '/workspaces/finalPedalPartner.com/src/front/img/mapa.jpg';
 
 export const Eventos = () => {
     return (
