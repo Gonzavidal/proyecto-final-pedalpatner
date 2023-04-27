@@ -6,7 +6,7 @@ export const Navbar = () => {
   return (
     <nav className="row navbar navbar-expand-lg position-relative bg-danger fs-5 mx-0 py-0">
       <div className="col-12 container-fluid py-1">
-        <Link className="navbar-brand text-white mx-3 mt-1" href="/home">
+        <Link className="navbar-brand text-white mx-3 mt-1" to="/home">
           Pedal Partner
         </Link>
         <button
@@ -37,7 +37,7 @@ export const Navbar = () => {
             <li className="nav-item dropdown mx-3">
               <Link
                 className="nav-link dropdown-toggle text-white py-3"
-                href="#"
+                to="#"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
@@ -46,26 +46,26 @@ export const Navbar = () => {
               </Link>
               <ul className="dropdown-menu text-white">
                 <li>
-                  <Link className="dropdown-item" href="/noticias">
+                  <Link className="dropdown-item" to="/noticias">
                     Noticias
                   </Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item" href="/eventos">
+                  <Link className="dropdown-item" to="/eventos">
                     Eventos
                   </Link>
                 </li>
               </ul>
             </li>
             <li className="nav-item mx-3">
-              <Link className="nav-link text-white py-3" href="/contacto">
+              <Link className="nav-link text-white py-3" to="/contacto">
                 Contacto
               </Link>
             </li>
             <li className="nav-item dropdown mx-3">
               <Link
                 className="nav-link dropdown-toggle py-2"
-                href="#"
+                to="#"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
@@ -80,7 +80,7 @@ export const Navbar = () => {
                   <Link className="dropdown-item">Mi Perfil</Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item" href="/ayuda">
+                  <Link className="dropdown-item" to="/ayuda">
                     Ayuda
                   </Link>
                 </li>
