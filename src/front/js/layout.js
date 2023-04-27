@@ -3,17 +3,17 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 
-import { Home } from "./pages/home";
+import { Home } from "./pages/home.jsx";
 import { Demo } from "./pages/demo";
 //import { Contacto } from "./component/Pagescontacto";
-import { Contacto } from "./pages/contacto";
-import { Tienda } from "./pages/Tienda";
-import { Noticias } from "./pages/Noticias";
-import { Eventos } from "./pages/Eventos";
-import { Ayuda } from "./pages/Ayuda";
 import { Single } from "./pages/single";
+import { Contacto } from "./pages/contacto.jsx";
+import { Tienda } from "./pages/tienda.jsx";
+import { Noticias } from "./pages/noticias.jsx";
+import { Eventos } from "./pages/eventos.jsx";
+import { NotFound } from "./pages/notfound.jsx";
+import { Ayuda } from "./pages/ayuda.jsx";
 import injectContext from "./store/AppContext";
-
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 
@@ -26,30 +26,27 @@ const Layout = () => {
   if (!process.env.BACKEND_URL || process.env.BACKEND_URL == "")
     return <BackendURL />;
 
-  return (
-    <div>
-      <BrowserRouter basename={basename}>
-        <ScrollToTop>
-          <Navbar />
-          <Routes>
-            <Route element={<Home />} path="/" />
-            <Route element={<Home />} path="/home" />
-            <Route element={<Tienda />} path="/tienda" />
-            <Route element={<Noticias />} path="/noticias" />
-            <Route element={<Eventos />} path="/eventos" />
-            <Route element={<Contacto />} path="/contacto" />
-            <Route element={<Ayuda />} path="/ayuda" />
-            {<Route element={<Contacto />} path="/contacto" />}
-
-            {/*<Route element={<Contacto />} path="/Pagescontacto" />*/}
-            <Route element={<Single />} path="/single/:theid" />
-            <Route element={<h1>Not found!</h1>} />
-          </Routes>
-          <Footer />
-        </ScrollToTop>
-      </BrowserRouter>
-    </div>
-  );
+    return (
+        <div>
+            <BrowserRouter basename={basename}>
+                <ScrollToTop>
+                    <Navbar />
+                    <Routes>
+                        <Route element={<Home />} path="/" />
+                        <Route element={<Home />} path="/home" />
+                        <Route element={<Tienda />} path="/tienda" />
+                        <Route element={<Noticias />} path="/noticias" />
+                        <Route element={<Eventos />} path="/eventos" />
+                        <Route element={<Contacto />} path="/contacto" />
+                        <Route element={<Ayuda />} path="/ayuda" />
+                        <Route element={<NotFound />} />
+                        <Route element={<h1>Not found!</h1>} />
+                    </Routes>
+                    <Footer />
+                </ScrollToTop>
+            </BrowserRouter>
+        </div>
+    );
 };
 
 export default injectContext(Layout);

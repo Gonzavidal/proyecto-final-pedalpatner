@@ -1,5 +1,5 @@
-import Maps from '../assets/maps.jpg';
-
+import React from "react"
+import Maps from './Maps.jsx';
 
 export const Tienda = () => {
   return (
@@ -7,10 +7,9 @@ export const Tienda = () => {
       <h1>Encuentra tu tienda</h1>
       <hr className="hr" />
       <div className="row">
-        <div className="col-6">
-
-          <img src={Maps} alt="mapa" id="regPhoto"/>
-          </div>
+        <div className="col-6 px-5">
+          <Maps/>
+        </div>
         
         <div className="col-6 px-4">
           {/*exclusive div 4 text inputs*/}
@@ -35,19 +34,19 @@ export const Tienda = () => {
             <div className="col-4 mx-auto fs-5">
               <div className="form-check mx-auto">
                 <input className="form-check-input" type="checkbox" value="" id="pagoCheck" />
-                <label className="form-check-label" for="pagoCheck">
+                <label className="form-check-label" htmlFor="pagoCheck">
                   Tarjetas
                 </label>
               </div>
               <div className="form-check mx-auto">
                 <input className="form-check-input me-3" type="checkbox" value="" id="pagoCheck" />
-                <label className="form-check-label" for="pagoCheck">
+                <label className="form-check-label" htmlFor="pagoCheck">
                   Efectivo
                 </label>
               </div>
               <div className="form-check mx-auto">
                 <input className="form-check-input" type="checkbox" value="" id="pagoCheck" />
-                <label className="form-check-label" for="pagoCheck">
+                <label className="form-check-label" htmlFor="pagoCheck">
                   Transferencias
                 </label>
               </div>
@@ -72,8 +71,5 @@ export const Tienda = () => {
         </div>
       </div>
     </div>
-
-
-
   );
 }

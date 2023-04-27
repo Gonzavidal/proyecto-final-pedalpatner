@@ -1,13 +1,14 @@
+import React from "react"
+
 import Formulario from '../../img/formContacto.jpeg'
 import Vista from '../../img/vistaTienda.jpeg'
 import Comunidad from '../../img/comunidad.jpg'
 
-export default function Ayuda() {
+export const Ayuda = () => {
     return (
-        <div classNameName="text-center mb-4 text-black">
-            <h1 classNameName="display-3">Ayuda</h1>
-            <br></br>
-            <hr classNameName="hr" />
+        <div className="text-center mb-4 text-black">
+            <h1 className="">Ayuda</h1>
+            <hr className="hr" />
 
             <div className="container text-center">
                 <div className="row">
