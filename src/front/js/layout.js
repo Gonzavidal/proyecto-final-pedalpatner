@@ -5,14 +5,14 @@ import { BackendURL } from "./component/backendURL";
 
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
-//import { Contacto } from "./component/contacto";
+//import { Contacto } from "./component/Pagescontacto";
 import { Contacto } from "./pages/contacto";
 import {Tienda} from "./pages/Tienda";
 import {Noticias} from "./pages/Noticias";
 import {Eventos} from "./pages/Eventos";
 import {Ayuda} from "./pages/Ayuda"
 import { Single } from "./pages/single";
-import injectContext from "./store/appContext";
+import injectContext from "./store/AppContext";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
@@ -32,6 +32,7 @@ const Layout = () => {
         <ScrollToTop>
           <Navbar />
           <Routes>
+
             <Route element={<Home />} path="/" />
             <Route element={<Home />} path="/home" />
             <Route element={<Tienda />} path="/tienda"  />
@@ -39,8 +40,10 @@ const Layout = () => {
             <Route element={<Eventos />} path="/eventos"/>
             <Route element={<Contacto />} path="/contacto"/>
             <Route element={<Ayuda />} path="/ayuda" />
+            {<Route element={<Contacto />} path="/contacto" />}
+
             {/*<Route element={<Contacto />} path="/Pagescontacto" />*/}
-            <Route element={<Single />} path="/single/:theid" />
+            <Route element={<Single />} path="/single/:theid"
             <Route element={<h1>Not found!</h1>} />
           </Routes>
           <Footer />
