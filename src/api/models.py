@@ -154,6 +154,7 @@ class User(Base):
     direccion = db.Column(db.String(220), nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False,default=True)
     roles_id = db.Column(db.Integer, db.ForeignKey("roles.id"), nullable=False)
+    users_id = db.Column(db.ForeignKey("users.id"),nullable=True)
     rol = db.relationship("Rol", back_populates="user")
     taller = db.relationship("Taller",cascade="all,delete",back_populates="user",uselist=True)
     comunicacion = db.relationship("Comunicacion",cascade="all,delete",back_populates="user",uselist=False)
@@ -235,7 +236,7 @@ class Articulo(Base):
     mantencion = db.Column(db.Integer, nullable=True)
     indumentaria = db.Column(db.Integer,nullable=True)
     bicicletas = db.Column(db.Integer, nullable=True)
-    talleres = db.relationship("TallerArticulo",back_populates="articulo",uselist=False)
+    talleres = db.relationship("TallerArticulo",back_populates="articulo",uselist=True)
 
     def serialize_articulo(self):
         return {

@@ -3,7 +3,7 @@ const getState = ({ getStore, getActions, setStore }) => {
     // almacen de todas la variables a utilizar en la app
     store: {
       RUTA_FLASK_API:
-        "https://3001-evivanco-proyectofinalp-0j2ufapbd8a.ws-eu95.gitpod.io",
+        "https://3001-evivanco-proyectofinalp-0j2ufapbd8a.ws-eu96.gitpod.io",
       currentContacto: null,
       currenUser: null,
       username: null,
