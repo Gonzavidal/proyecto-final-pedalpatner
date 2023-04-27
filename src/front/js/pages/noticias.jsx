@@ -1,4 +1,4 @@
-import MVDP from '../assets/MVDP.jpg';
+import MVDP from '../../img/MVDP.jpg';
 
 
 export default function Noticias() {
