@@ -168,7 +168,8 @@ export default function Contacto() {
                 className="col-sm-1 form-control mt-1"
                 id="customFile"
                 value={store.customFile}
-                onChange={actions.handleChange}
+                onChange={actions.handleChange} //aqui se debe cambiar la forma de capturar el file
+                //habria que probar si 1° esto resulta
               />
             </div>
           </div>
