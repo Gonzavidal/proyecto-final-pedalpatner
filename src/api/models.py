@@ -152,10 +152,9 @@ class User(Base):
     username = db.Column(db.String(120), nullable=False, unique=True)
     email = db.Column(db.String(120), nullable=False, unique=True)
     password = db.Column(db.String(390), nullable=False)
-    direccion = db.Column(db.String(220), nullable=False)
+    direccion = db.Column(db.String(230), nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False,default=True)
     roles_id = db.Column(db.Integer, db.ForeignKey("roles.id"), nullable=False)
-    user = db.relationship("User",cascade="all,delete",back_populates="comunicacion")
     rol = db.relationship("Rol", back_populates="user")
     taller = db.relationship("Taller",cascade="all,delete",back_populates="user",uselist=True)
     comunicacion = db.relationship("Comunicacion",cascade="all,delete",back_populates="user",uselist=False)
@@ -243,9 +242,9 @@ class Articulo(Base):
         return {
             "id": self.id,
             "articulonom": self.articulonom,
-            "mantencion": self.precio,
-            "indumentaria": self.promocion,
-            "bicicletas": self.precio_oferta,
+            "mantencion": self.mantencion,
+            "indumentaria": self.indumentaria,
+            "bicicletas": self.bicicletas,
             "created_at": self.created_at,
             "update_at": self.updated_at
         }
