@@ -8,11 +8,12 @@ const getState = ({ getStore, getActions, setStore }) => {
       username: null,
       email: null,
       password: null,
-      radio1: null,
-      radio2: null,
+      tipos_id: null,
+      destino: null,
       titulo: null,
       descripcion: null,
-      file: null,
+      data: null,
+      error: null,
     },
     actions: {
       handleChange: (e) => {
@@ -56,7 +57,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           .then((data1) => {
             console.log(data1);
 
-            if (data1.access_token) {
+            if (data1) {
               setStore({
                 currentContacto: data1,
                 tipos_id: "",
