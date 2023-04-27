@@ -34,6 +34,7 @@ class Comunicacion(db.Model):
     tipos_id = db.Column(db.ForeignKey("tipos.id"),nullable=True)
     data = db.Column(db.LargeBinary, nullable=True)
     tipo = db.relationship("Tipo",back_populates="comunicacion")
+    users_id = db.Column(db.ForeignKey("users.id"),nullable=True)
     user = db.relationship("User",back_populates="comunicacion")
 
     def serialize_comunicacion(self):
@@ -154,7 +155,6 @@ class User(Base):
     direccion = db.Column(db.String(220), nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False,default=True)
     roles_id = db.Column(db.Integer, db.ForeignKey("roles.id"), nullable=False)
-    #users_id = db.Column(db.ForeignKey("users.id"),nullable=True)
     user = db.relationship("User",cascade="all,delete",back_populates="comunicacion")
     rol = db.relationship("Rol", back_populates="user")
     taller = db.relationship("Taller",cascade="all,delete",back_populates="user",uselist=True)
