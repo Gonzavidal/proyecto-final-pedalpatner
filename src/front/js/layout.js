@@ -3,9 +3,15 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 
-import { Home } from "./pages/home";
+import { Home } from "./pages/home.jsx";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
+import { Contacto } from "./pages/contacto.jsx";
+import { Tienda } from "./pages/tienda.jsx";
+import { Noticias } from "./pages/noticias.jsx";
+import { Eventos } from "./pages/eventos.jsx";
+import { NotFound } from "./pages/notfound.jsx";
+import { Ayuda } from "./pages/ayuda.jsx";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -25,10 +31,14 @@ const Layout = () => {
                 <ScrollToTop>
                     <Navbar />
                     <Routes>
-                        <Route element={<Home />} path="/" />
+                        <Route element={<Home />} path="/home" />
                         <Route element={<Demo />} path="/demo" />
-                        <Route element={<Single />} path="/single/:theid" />
-                        <Route element={<h1>Not found!</h1>} />
+                        <Route element={<Tienda />} path="/tienda" />
+                        <Route element={<Noticias />} path="/noticias" />
+                        <Route element={<Eventos />} path="/eventos" />
+                        <Route element={<Contacto />} path="/contacto" />
+                        <Route element={<Ayuda />} path="/ayuda" />
+                        <Route element={<NotFound />} />
                     </Routes>
                     <Footer />
                 </ScrollToTop>

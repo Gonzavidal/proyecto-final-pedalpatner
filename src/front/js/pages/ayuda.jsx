@@ -1,4 +1,6 @@
-export default function Ayuda() {
+import React from "react"
+
+export const Ayuda = () => {
     return (
         <div classNameName="text-center mb-4 text-black">
             <h1 classNameName="display-3">Ayuda</h1>

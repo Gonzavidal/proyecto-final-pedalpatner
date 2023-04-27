@@ -1,11 +1,10 @@
+import React from "react"
 
-
-export default function Contacto() {
+export const Contacto = () => {
     return (
       <div className="row container-fluid position-relative text-center mx-0">
         <h1 className="col-12">Contacto</h1>
         <hr className="col-12 hr my-2" />
-  
         {/* form container 4 whole body */}
         <form className="col-12 mt-1 px-5 position-relative">
           {/* row 4 first filter: service type + event public (optional) */}
@@ -44,7 +43,7 @@ export default function Contacto() {
             </div>
           </div>
   
-          {/*row 4 rest of form : title, mail, textarea, files*/}
+          {/*row 4 rest of form : title + mail, textarea, files*/}
           <div className="row mt-3 px-5">
             <div className="row d-flex mb-3 fs-5">
               <div className="col-7 form-floating d-flex">
@@ -67,14 +66,13 @@ export default function Contacto() {
                   <label className="col-sm-5 my-auto form-label px-0" for="customFile">Adjuntar archivo</label>
                   <input type="file" className="col-sm-1 form-control mt-1" id="customFile" />
                 </div>
-  
             </div>
             <div className="row mt-3">
               <button type="submit" className="col-sm-1 mx-auto btn btn-danger fs-5 px-2">Enviar</button>
               </div>
           </div>
-          </form>
-          </div>
+        </form>
+      </div>
     );
   }
   

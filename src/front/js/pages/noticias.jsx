@@ -1,15 +1,11 @@
-import MVDP from '../assets/MVDP.jpg';
+import React from "react";
 
-
-export default function Noticias() {
+export const Noticias = () => {
   return (
     <div className="container-fluid position-relative d-inline-block">
       <h1 className="text-center">Noticias</h1>
       <hr className="hr" />
       <div className="row">
-        <div className="col-5 px-5">
-          <img src={MVDP} alt="MVDP" id='regPhoto' />
-        </div>
 
         <div className="col-7 px-4">
           <p className="text-secondary text-end fs-6 my-0">Miercoles 12 de abril del 2023</p>

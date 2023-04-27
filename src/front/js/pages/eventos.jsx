@@ -1,16 +1,11 @@
-import Mapa from '../assets/mapa.jpg';
+import React from "react";
 
-
-export default function Eventos() {
+export const Eventos = () => {
     return (
         <div className="container-fluid position-relative d-inline-block">
             <h1 className="text-center">Eventos</h1>
             <hr className="hr" />
             <div className="row">
-                <div className="col-5 px-5">
-                    <img src={Mapa} alt="MVDP" id="regPhoto" />
-
-                </div>
                 <div className="col-7 px-4">
                     <p className="text-secondary text-end fs-6 my-0">Miercoles 12 de abril del 2023</p>
                     <h2 className="text-end my-3">Ciclorecreovías y «Calles Abiertas» en la Región Metropolitana</h2>

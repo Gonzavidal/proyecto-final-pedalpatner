@@ -1,5 +1,4 @@
-import Maps from '../assets/maps.jpg';
-
+import React from "react"
 
 export const Tienda = () => {
   return (
@@ -8,8 +7,6 @@ export const Tienda = () => {
       <hr className="hr" />
       <div className="row">
         <div className="col-6">
-
-          <img src={Maps} alt="mapa" id="regPhoto"/>
           </div>
         
         <div className="col-6 px-4">
@@ -72,8 +69,5 @@ export const Tienda = () => {
         </div>
       </div>
     </div>
-
-
-
   );
 }
