@@ -12,11 +12,11 @@ bpComunicacion = Blueprint('bpComunicacion', __name__)
 def post_comunicacion():
     try:
             #id = get_jwt_identity()
-            titulo = request.json.get('titulo')
+            tipos_id = request.json.get('tipos_id')
+            destino =request.json.get('destino')
             email = request.json.get('email')
+            titulo = request.json.get('titulo')
             descripcion= request.json.get('descripcion')
-            destino = request.json.get('destino')
-            tipos_id=request.json.get('tipos_id')
             users_id= request.json.get('users_id')
 
             if not titulo: return jsonify({"status": "failed", "code": 400, "msg": "Titulo is required"}), 400
