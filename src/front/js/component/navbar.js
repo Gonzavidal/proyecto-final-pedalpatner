@@ -1,7 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
-import Contacto from "../pages/contacto.jsx"
 
 
 export const Navbar = () => {

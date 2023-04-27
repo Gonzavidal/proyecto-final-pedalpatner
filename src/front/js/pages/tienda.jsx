@@ -34,19 +34,19 @@ export const Tienda = () => {
             <div className="col-4 mx-auto fs-5">
               <div className="form-check mx-auto">
                 <input className="form-check-input" type="checkbox" value="" id="pagoCheck" />
-                <label className="form-check-label" for="pagoCheck">
+                <label className="form-check-label" htmlFor="pagoCheck">
                   Tarjetas
                 </label>
               </div>
               <div className="form-check mx-auto">
                 <input className="form-check-input me-3" type="checkbox" value="" id="pagoCheck" />
-                <label className="form-check-label" for="pagoCheck">
+                <label className="form-check-label" htmlFor="pagoCheck">
                   Efectivo
                 </label>
               </div>
               <div className="form-check mx-auto">
                 <input className="form-check-input" type="checkbox" value="" id="pagoCheck" />
-                <label className="form-check-label" for="pagoCheck">
+                <label className="form-check-label" htmlFor="pagoCheck">
                   Transferencias
                 </label>
               </div>

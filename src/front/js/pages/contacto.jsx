@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Context } from "../store/AppContext";
 
-export default function Contacto() {
+export const Contacto = () => {
   const { store, actions } = useContext(Context);
 
   return (
@@ -60,7 +60,7 @@ export default function Contacto() {
                   onChange={actions.handleChange}
                 />
                 <label
-                  className="htmlForm-check-label fs-5"
+                  className="form-check-label fs-5"
                   htmlFor="flexRadioDefault3"
                 >
                   Mensaje
@@ -162,7 +162,7 @@ export default function Contacto() {
             <div className="col-5 d-flex mx-auto offset-md-3">
               <label
                 className="col-sm-5 my-auto form-label px-0"
-                for="customFile"
+                htmlFor="customFile"
               >
                 Adjuntar archivo
               </label>
