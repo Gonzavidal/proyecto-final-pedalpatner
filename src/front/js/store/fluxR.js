@@ -1,5 +1,6 @@
 const getState = ({ getStore, getActions, setStore }) => {
   return {
+    // almacen de todas la variables a utilizar en la app
     store: {
       RUTA_FLASK_API:
         "https://3001-evivanco-proyectofinalp-0j2ufapbd8a.ws-eu95.gitpod.io",
@@ -13,6 +14,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       titulo: null,
       descripcion: null,
       data: null,
+      contacto: null,
       error: null,
     },
     actions: {
@@ -41,7 +43,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           });
         }
       },
-
+      // esta funcion registra la data desde el formulario y la agrega a la BD
       register_comunicacion: (dataUser, navigate) => {
         const { RUTA_FLASK_API } = getStore();
         const options = {
@@ -80,6 +82,24 @@ const getState = ({ getStore, getActions, setStore }) => {
             }
           })
           .catch((error) => console.log(error));
+      },
+      // Con esta funcion logramos mostrar al user la info de Contacto
+      getComunicacion: () => {
+        const { currentContacto, REACT_APP_URI } = getStore();
+
+        fetch(`${REACT_APP_URI}/api/getcomunicacion`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${currentContacto?.access_token}`,
+          },
+        })
+          .then((response) => response.json())
+          .then((dataCont) => {
+            setStore({
+              contacto: dataCont,
+            });
+          });
       },
     },
   };
