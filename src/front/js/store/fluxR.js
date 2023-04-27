@@ -3,6 +3,7 @@ const getState = ({ getStore, getActions, setStore }) => {
     store: {
       RUTA_FLASK_API:
         "https://3001-evivanco-proyectofinalp-0j2ufapbd8a.ws-eu95.gitpod.io",
+      currentContacto: null,
       currenUser: null,
       username: null,
       email: null,
@@ -38,6 +39,46 @@ const getState = ({ getStore, getActions, setStore }) => {
             data,
           });
         }
+      },
+
+      register_comunicacion: (dataUser, navigate) => {
+        const { RUTA_FLASK_API } = getStore();
+        const options = {
+          method: "POST",
+          body: JSON.stringify(dataUser),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+
+        fetch(`${RUTA_FLASK_API}/api/register_comunicacion`, options)
+          .then((response) => response.json())
+          .then((data1) => {
+            console.log(data1);
+
+            if (data1.access_token) {
+              setStore({
+                currentContacto: data1,
+                tipos_id: "",
+                destino: "",
+                titulo: "",
+                email: "",
+                descripcion: "",
+                data: "",
+                error: null,
+              });
+              sessionStorage.setItem("currentContacto", JSON.stringify(data1));
+              navigate("/");
+            } else {
+              setStore({
+                currentContacto: null,
+                error: data1,
+              });
+              if (sessionStorage.getItem("currentContacto"))
+                sessionStorage.removeItem("currentContacto");
+            }
+          })
+          .catch((error) => console.log(error));
       },
     },
   };
