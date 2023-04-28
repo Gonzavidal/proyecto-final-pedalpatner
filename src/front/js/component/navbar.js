@@ -1,9 +1,11 @@
-import React from "react";
-import { FaBars } from "react-icons/fa";
+import React, { useState, useContext } from "react";
+import { Context } from "../store/AppContext";
+import { FaAcquisitionsIncorporated, FaBars } from "react-icons/fa";
 import Logo from "/workspaces/finalPedalPartner.com/src/front/img/logo.png";
 
 
 export const Navbar = () => {
+  const { store, actions } = useContext(Context);
   return (
     <nav className="row navbar navbar-expand-lg position-relative bg-danger fs-5 mx-0 py-0">
       <div className="col-12 container-fluid">
@@ -45,14 +47,14 @@ export const Navbar = () => {
               </a>
               <ul className="dropdown-menu dropdown-menu-lg-end text-white">
                 <li>
-                  <a className="dropdown-item">Usuario</a>
+                  {store.token != "" ? <a className="dropdown-item">Usuario</a> : <a href="/login" className="dropdown-item">Login</a>}
                 </li>
                 <li>
                   <a className="dropdown-item">Mi Perfil</a>
                 </li>
                 <hr className="dropdown-divider" />
                 <li>
-                  <a className="dropdown-item">Salir</a>
+                  <a className="dropdown-item" onClick={actions.logout}>Salir</a>
                 </li>
               </ul>
             </li>

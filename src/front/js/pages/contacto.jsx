@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Context } from "../store/AppContext";
 
 export const Contacto = () => {
   const { store, actions } = useContext(Context);
-
+  const [isChecked, setIsChecked] = useState(false)
   return (
     <div className="row container-fluid position-relative text-center p-3" id="mainView">
       <h1 className="col-12">Contacto</h1>
@@ -12,7 +12,7 @@ export const Contacto = () => {
       {/* form container 4 whole body */}
       <form
         className="col-12 mt-1 px-5 position-relative"
-        onSubmit={actions.handleSubmiContacto}
+        onSubmit={actions.handleSubmitContacto}
       >
         {/* row 4 first filter: service type + event public (optional) */}
         <div className="row mx-5 px-5">
@@ -39,7 +39,7 @@ export const Contacto = () => {
                   type="radio"
                   name="tipos_id"
                   id="flexRadioDefault2"
-                  checked
+                  checked={isChecked}
                   value={store.tipos_id}
                   onChange={actions.handleChange}
                 />
@@ -69,22 +69,19 @@ export const Contacto = () => {
             </div>
           </div>
           {/* half row : conditional formcheck for event type */}
-          <div className="col-6 text-start">
-            <h3>Destinatario Evento</h3>
-            <div className="container-fluid">
-              <div className="form-check ms-2 my-1 fs-5">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  name="destino"
-                  id="recipientCiclista"
-                  value={store.destino}
-                  onChange={actions.handleChange}
-                />
-                <label
-                  className="form-check-label"
-                  htmlFor="#recipientCiclista"
-                >
+            <div className="col-6 text-start">
+              <h3>Destinatario Evento</h3>
+              <div className="container-fluid">
+                <div className="form-check ms-2 my-1 fs-5">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="destino"
+                    id="recipientCiclista"
+                    value={store.destino}
+                    onChange={actions.handleChange}
+                  />
+                  <label className="form-check-label" htmlFor="#recipientCiclista">
                   Ciclista
                 </label>
               </div>
@@ -105,7 +102,7 @@ export const Contacto = () => {
                 </label>
               </div>
             </div>
-          </div>
+        </div>
         </div>
 
         {/*row 4 rest of form : title, mail, textarea, files*/}
