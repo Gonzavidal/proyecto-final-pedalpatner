@@ -1,5 +1,4 @@
 import React from "react";
-import Mapa from '/workspaces/finalPedalPartner.com/src/front/img/mapa.jpg';
 import Estructura1 from "./evento1.jsx";
 import Estructura2 from "./evento2.jsx";
 
@@ -10,7 +9,8 @@ export const Eventos = () => {
             <hr className="hr" />
             <div className="row row-cols-1 container-fluid m-0 p-2">
                 <Estructura1 />
-                <Estructura2 />
+                {/* <br/>
+                <Estructura2 /> */}
             </div>
         </div>)}
                 

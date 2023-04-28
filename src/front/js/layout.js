@@ -6,7 +6,6 @@ import { BackendURL } from "./component/backendURL";
 import { Home } from "./pages/home.jsx";
 import { Demo } from "./pages/demo";
 //import { Contacto } from "./component/Pagescontacto";
-import { Single } from "./pages/single";
 import { Login } from "./pages/login.jsx"
 import { Contacto } from "./pages/contacto.jsx";
 import { Tienda } from "./pages/tienda.jsx";
@@ -16,7 +15,7 @@ import { NotFound } from "./pages/notfound.jsx";
 import { Ayuda } from "./pages/ayuda.jsx";
 import injectContext from "./store/AppContext";
 import { Navbar } from "./component/navbar";
-import { Footer } from "./component/footer";
+import { Footer } from "./component/footer.js";
 
 //create your first component
 const Layout = () => {

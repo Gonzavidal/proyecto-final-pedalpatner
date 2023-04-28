@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/AppContext";
 import { FaAcquisitionsIncorporated, FaBars } from "react-icons/fa";
-import Logo from "/workspaces/finalPedalPartner.com/src/front/img/logo.png";
+import Logo from "../../img/logo.jpeg";
 
 
 export const Navbar = () => {

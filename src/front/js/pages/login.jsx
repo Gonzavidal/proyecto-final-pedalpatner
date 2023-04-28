@@ -14,7 +14,7 @@ export const Login = () => {
                 <div className="container-fluid mx-5 px-5">
                     <div className="row row-cols-1 justify-content-center mt-3 px-5">
                         <div className="col-8 form-group my-3 d-flex">
-                            <label className="pt-2 mx-3" htmlFor="#inputEmail">Email</label>
+                            <label className="pt-2 mx-3" for="#inputEmail">Email</label>
                             <input
                 type="email"
                 className="form-control"
