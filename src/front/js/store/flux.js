@@ -20,9 +20,9 @@ const getState = ({ getStore, getActions, setStore }) => {
     actions: {
       //funcion generica que captura la info desde inputs
       handleChange: (e) => {
-        const { name, value } = e.target;
+        const { value } = e.target;
         setStore({
-          [name]: value,
+          value,
         });
         console.log("all", getStore());
       },
@@ -47,11 +47,11 @@ const getState = ({ getStore, getActions, setStore }) => {
       //function 4 login
       handleSubmitLogin: (e) => {
         e.preventDefault();
-        const {email, password} =
-          getStore();
-        if(email != "" && password != "") {
+        const { email, password } = getStore();
+        if (email != "" && password != "") {
           getActions().register_login({
-            email, password
+            email,
+            password,
           });
         }
       },
@@ -62,19 +62,18 @@ const getState = ({ getStore, getActions, setStore }) => {
           body: JSON.stringify(dataUser),
           headers: {
             "Content-Type": "application/json",
-          }
+          },
         };
         fetch(`${RUTA_FLASK_API}/api/login`, options)
           .then((response) => response.json())
-          .then((data1)=>{
+          .then((data1) => {
             console.log(data1);
             if (data1) {
-              setStore({data1});
+              setStore({ data1 });
               sessionStorage.setItem("token", "access-token");
-              navigate("/")
+              navigate("/");
             }
-          })
-
+          });
       },
       // esta funcion registra la data desde el formulario y la agrega a la BD
       register_comunicacion: (dataUser, navigate) => {
@@ -84,7 +83,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           body: JSON.stringify(dataUser),
           headers: {
             "Content-Type": "application/json",
-          }
+          },
         };
         fetch(`${RUTA_FLASK_API}/api/register_comunicacion`, options)
           .then((response) => response.json())
@@ -134,9 +133,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           });
       },
 
-      logout : () => { 
+      logout: () => {
         sessionStorage.removeItem("token");
-        setStore({"token" : ""})}
+        setStore({ token: "" });
+      },
     },
   };
 };
