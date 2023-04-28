@@ -1,8 +1,24 @@
-.NavLink {
-    font-size: 50px;
+a {
+    text-decoration: none;
 }
 
+#structure {
+    height: 300px;
+}
 
-/* 
-    General Styles used on every website (Don't Repeat Yourself)
-*/
+#samPhoto {
+    height: 250px !important;
+    overflow: hidden;
+    object-fit:cover;
+}
+
+#homeCard {
+    height: 450px;
+}
+
+#logo {
+    height:60px;
+    width:120px;
+    border-radius: 5px;
+    margin:1px;
+}

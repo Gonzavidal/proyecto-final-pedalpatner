@@ -5,7 +5,7 @@ export const Contacto = () => {
   const { store, actions } = useContext(Context);
 
   return (
-    <div className="row container-fluid position-relative text-center mx-0">
+    <div className="row container-fluid position-relative text-center p-3" id="mainView">
       <h1 className="col-12">Contacto</h1>
       <hr className="col-12 hr my-2" />
 
