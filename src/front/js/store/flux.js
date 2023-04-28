@@ -4,18 +4,18 @@ const getState = ({ getStore, getActions, setStore }) => {
     store: {
       RUTA_FLASK_API:
         "https://3001-evivanco-proyectofinalp-0j2ufapbd8a.ws-eu96.gitpod.io",
-      currentContacto: null,
-      currenUser: null,
-      username: null,
-      email: null,
-      password: null,
-      tipos_id: null,
-      destino: null,
-      titulo: null,
-      descripcion: null,
-      data: null,
-      contacto: null,
-      error: null,
+      currentContacto: "",
+      currenUser: "",
+      username: "",
+      email: "",
+      password: "",
+      tipos_id: "",
+      destino: "",
+      titulo: "",
+      descripcion: "",
+      data: "",
+      contacto: "",
+      error: "",
     },
     actions: {
       //funcion generica que captura la info desde inputs
@@ -44,6 +44,38 @@ const getState = ({ getStore, getActions, setStore }) => {
           });
         }
       },
+      //function 4 login
+      handleSubmitLogin: (e) => {
+        e.preventDefault();
+        const {email, password} =
+          getStore();
+        if(email != "" && password != "") {
+          getActions().register_login({
+            email, password
+          });
+        }
+      },
+      register_login: (dataUser, navigate) => {
+        const { RUTA_FLASK_API } = getStore();
+        const options = {
+          method: "POST",
+          body: JSON.stringify(dataUser),
+          headers: {
+            "Content-Type": "application/json",
+          }
+        };
+        fetch(`${RUTA_FLASK_API}/api/login`, options)
+          .then((response) => response.json())
+          .then((data1)=>{
+            console.log(data1);
+            if (data1) {
+              setStore({data1});
+              sessionStorage.setItem("token", "access-token");
+              navigate("/")
+            }
+          })
+
+      },
       // esta funcion registra la data desde el formulario y la agrega a la BD
       register_comunicacion: (dataUser, navigate) => {
         const { RUTA_FLASK_API } = getStore();
@@ -52,9 +84,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           body: JSON.stringify(dataUser),
           headers: {
             "Content-Type": "application/json",
-          },
+          }
         };
-
         fetch(`${RUTA_FLASK_API}/api/register_comunicacion`, options)
           .then((response) => response.json())
           .then((data1) => {
@@ -71,7 +102,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 data: "",
                 error: null,
               });
-              sessionStorage.setItem("currentContacto", JSON.stringify(data1));
+              sessionStorage.setItem("token", "access-token");
               navigate("/");
             } else {
               setStore({
@@ -102,6 +133,10 @@ const getState = ({ getStore, getActions, setStore }) => {
             });
           });
       },
+
+      logout : () => { 
+        sessionStorage.removeItem("token");
+        setStore({"token" : ""})}
     },
   };
 };
