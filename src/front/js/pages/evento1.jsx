@@ -4,9 +4,9 @@ import Mapa from '/workspaces/finalPedalPartner.com/src/front/img/mapa.jpg';
 const Estructura1 = () => {
     return (
         <div className="col-12 align-center">
-                <div className="card container-fluid p-0 m-0" id="structure">
+                <div className="card container-fluid p-0 m-0 my-2" id="structure">
                     <div className="row justify-content-center mx-0">
-                        <div className="col-4 object-fit-contain">
+                        <div className="col-4 overflow-hidden">
                             <img src={Mapa} alt="Mapa" id="regPhoto" className="img-fluid" />
                         </div>
                         <div className="col-8 card-body">
