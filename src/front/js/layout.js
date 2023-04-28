@@ -8,6 +8,7 @@ import { Demo } from "./pages/demo";
 //import { Contacto } from "./component/Pagescontacto";
 import { Single } from "./pages/single";
 import { Login } from "./pages/login.jsx"
+import  { Registro } from "./pages/registro.jsx";
 import { Contacto } from "./pages/contacto.jsx";
 import { Tienda } from "./pages/tienda.jsx";
 import { Noticias } from "./pages/noticias.jsx";
@@ -41,6 +42,7 @@ const Layout = () => {
                         <Route element={<Contacto />} path="/contacto" />
                         <Route element={<Ayuda />} path="/ayuda" />
                         <Route element={<Login />} path="/login" />
+                        <Route element={<Registro />} path="/registro" /> 
                         <Route element={<NotFound />} />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
