@@ -27,12 +27,12 @@ export const Contacto = () => {
                 <input
                   className="form-check-input"
                   type="radio"
-                  name="tipos_id"
+                  name="servicios"
                   id="flexRadioDefault1"
                   value={4}
                   onChange={actions.handleChange}
                 />
-                <label className="form-check-label" htmlFor="flexRadioDefault1">
+                <label className="form-check-label" for="flexRadioDefault1">
                   Noticia
                 </label>
               </div>
@@ -40,7 +40,7 @@ export const Contacto = () => {
                 <input
                   className="form-check-input"
                   type="radio"
-                  name="tipos_id"
+                  name="servicios"
                   id="flexRadioDefault2"
                   //checked={isChecked}
                   value={1}
@@ -48,7 +48,7 @@ export const Contacto = () => {
                 />
                 <label
                   className="form-check-label fs-5"
-                  htmlFor="flexRadioDefault2"
+                  for="flexRadioDefault2"
                 >
                   Evento
                 </label>
@@ -57,14 +57,14 @@ export const Contacto = () => {
                 <input
                   className="form-check-input"
                   type="radio"
-                  name="tipos_id"
+                  name="servicios"
                   id="flexRadioDefault3"
                   value={3}
                   onChange={actions.handleChange}
                 />
                 <label
                   className="form-check-label fs-5"
-                  htmlFor="flexRadioDefault3"
+                  for="flexRadioDefault3"
                 >
                   Mensaje
                 </label>
@@ -86,7 +86,7 @@ export const Contacto = () => {
                 />
                 <label
                   className="form-check-label"
-                  htmlFor="#recipientCiclista"
+                  for="#recipientCiclista"
                 >
                   Ciclista
                 </label>
@@ -102,7 +102,7 @@ export const Contacto = () => {
                 />
                 <label
                   className="form-check-label"
-                  htmlFor="#recipientMecanico"
+                  for="#recipientMecanico"
                 >
                   Mecánico
                 </label>
@@ -125,7 +125,7 @@ export const Contacto = () => {
                 value={store.titulo}
                 onChange={actions.handleChange}
               />
-              <label className="pt-2 mx-2" htmlFor="#inputTitle">
+              <label className="pt-2 mx-2" for="#inputTitle">
                 Titulo
               </label>
             </div>
@@ -140,7 +140,7 @@ export const Contacto = () => {
                 value={store.email}
                 onChange={actions.handleChange}
               />
-              <label className="pt-2 mx-2" htmlFor="#inputEmail">
+              <label className="pt-2 mx-2" for="#inputEmail">
                 Email
               </label>
             </div>

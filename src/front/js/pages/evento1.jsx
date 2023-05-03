@@ -1,5 +1,5 @@
 import React from "react";
-import Mapa from '/workspaces/finalPedalPartner.com/src/front/img/mapa.jpg';
+import Mapa from '../../img/mapa.jpg';
 
 const Estructura1 = () => {
     return (
