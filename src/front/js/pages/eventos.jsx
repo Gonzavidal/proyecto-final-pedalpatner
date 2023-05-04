@@ -4,8 +4,8 @@ import Estructura2 from "./evento2.jsx";
 
 export const Eventos = () => {
     return (
-        <div className="container-fluid position-relative d-inline-block my-2 px-0" id="mainView">
-            <h1 className="text-center">Eventos</h1>
+        <div className="container-fluid position-relative d-inline-block p-2" id="mainView">
+            <h1 className="text-center my-1">Eventos</h1>
             <hr className="hr" />
             <div className="row row-cols-1 container-fluid m-0 p-2">
                 <Estructura1 />
