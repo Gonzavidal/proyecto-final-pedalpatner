@@ -1,15 +1,38 @@
-a {
-    text-decoration: none;
+@import url('https://fonts.googleapis.com/css2?family=Arvo&family=Asul&family=Miniver&family=Oldenburg&family=Single+Day&family=Stylish&family=Trade+Winds&display=swap');
+
+h1 {
+    font-family: "Trade Winds";
+    font-size: 50px;
 }
 
-#structure {
-    height: 300px;
+h2 {
+    font-family: "Single Day";
 }
+
+h3 {
+    font-family:"Arvo";
+}
+
+h4 {
+    font-family:"Benne";
+}
+
+p {
+    font-family:"Stylish";
+}
+
+a {
+    text-decoration: none;
+    font-family: "Miniver";
+    font-size: 25px;
+}
+
+
 
 #samPhoto {
     height: 250px !important;
     overflow: hidden;
-    object-fit:cover;
+    object-fit: cover;
 }
 
 #homeCard {
