@@ -12,10 +12,10 @@ export const Registro = () => {
       id="mainView"
     >
       <h1 className="text-center my-1">Registro</h1>
-      <hr className="hr" />
+      <hr className="hr m-2" />
 
       {/* form container 4 whole body */}
-      <div className="row m-0">
+      <div className="row m-0 p-2">
       <form
         className="col-12 my-1 px-5 position-relative"
         onSubmit={(e) =>
@@ -64,52 +64,52 @@ export const Registro = () => {
 
         {store.roles_id != "" ? (
           <div className="row container-fluid d-inline justify-content-center p-0 fs-5">
-          <div className="col-7 my-2 form-floating d-flex mx-auto">
-            <input
-              type="text"
-              className="form-control"
-              name="username"
-              id="inputUsername"
-              aria-label="searchInput"
-              aria-describedby="inputGroup"
-              value={store.username}
-              onChange={actions.handleChange}
-            />
-            <label className="pt-2 mx-2" htmlFor="#inputUsername">
-              Username
-            </label>
-          </div>
-          <div className="col-7 my-2 form-floating d-flex mx-auto">
-            <input
-              type="text"
-              className="form-control"
-              name="email"
-              id="inputEmail"
-              aria-label="searchInput"
-              aria-describedby="inputGroup"
-              value={store.email}
-              onChange={actions.handleChange}
-            />
-            <label className="pt-2 mx-2" htmlFor="#inputEmail">
-              Email
-            </label>
-          </div>
-          <div className="col-7 my-2 form-floating d-flex mx-auto">
-            <input
-              type="password"
-              className="form-control"
-              name="password"
-              id="inputPassword"
-              aria-label="passwordInput"
-              aria-describedby="inputGroup"
-              value={store.password}
-              onChange={actions.handleChange}
-            />
-            <label className="pt-2 mx-2" htmlFor="#inputPassword">
-              Password
-            </label>
-          </div>
-        </div>) : null }
+            <div className="col-7 my-2 form-floating d-flex mx-auto">
+              <input
+                type="text"
+                className="form-control"
+                name="username"
+                id="inputUsername"
+                aria-label="searchInput"
+                aria-describedby="inputGroup"
+                value={store.username}
+                onChange={actions.handleChange}
+              />
+              <label className="pt-2 mx-2" htmlFor="#inputUsername">
+                Username
+              </label>
+            </div>
+            <div className="col-7 my-2 form-floating d-flex mx-auto">
+              <input
+                type="text"
+                className="form-control"
+                name="email"
+                id="inputEmail"
+                aria-label="searchInput"
+                aria-describedby="inputGroup"
+                value={store.email}
+                onChange={actions.handleChange}
+              />
+              <label className="pt-2 mx-2" htmlFor="#inputEmail">
+                Email
+              </label>
+            </div>
+            <div className="col-7 my-2 form-floating d-flex mx-auto">
+              <input
+                type="password"
+                className="form-control"
+                name="password"
+                id="inputPassword"
+                aria-label="passwordInput"
+                aria-describedby="inputGroup"
+                value={store.password}
+                onChange={actions.handleChange}
+              />
+              <label className="pt-2 mx-2" htmlFor="#inputPassword">
+                Password
+              </label>
+            </div>
+          </div>) : null }
         {(store.roles_id== 3) ? (
           <div className="row d-inline justify-content-center p-0 fs-5">
             <div className="col-7 my-2 form-floating d-flex mx-auto">
