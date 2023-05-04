@@ -1,4 +1,6 @@
 import datetime
+import os
+import requests
 from flask import Blueprint, request, jsonify
 from api.models import db, User, Rol, Taller,UserTaller
 from flask_jwt_extended import (
@@ -11,6 +13,16 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 bpRegis = Blueprint("bpRegis", __name__)
 
+
+def send_simple_message(to, subject, body):
+    domain = os.getenv("MAILGUN_DOMAIN")
+    return requests.post(
+		f"https://api.mailgun.net/v3/{domain}/messages",
+		auth=("api", os.getenv("MAILGUN_API_KEY")),
+		data={"from": "PedalPartner <mailgun@{domain}>",
+			"to": [to],
+			"subject": subject,
+			"text": body})
 
 # CRUD DE USER
 # gestion de registro de usuario-admin SE PUEDE INICIAR INTEGRACION CON FROND (1)
@@ -53,7 +65,13 @@ def post_registrouser():
 
         data = {"access_token": access_token, "user": user.serialize_user()}
 
-        return jsonify({"msg": "Exito con ingreso de user!!", "user": data}), 200
+        send_simple_message(
+            to=user.email,
+            subject="Te has inscrito satisfactoriamente",
+            body=f"Hola {user.username}! Te has registrado satisfactoriamente a PedalPartner!"
+        )
+
+        return jsonify({"msg": "Exito con ingreso de user!!", "user": data}), 201
     except Exception as e:
         print("falla en reg usuario", e)
     return jsonify({"msg": "Fallo ingreso!!"}), 400

@@ -32,7 +32,7 @@ class Comunicacion(db.Model):
     destino = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime(), default=db.func.now())
     updated_at = db.Column(db.DateTime(), default=db.func.now(), onupdate=db.func.now())
-    tipos_id = db.Column(db.ForeignKey("tipos.id"), nullable=False)
+    tipos_id = db.Column(db.ForeignKey("tipos.id"), nullable=True)
     data = db.Column(db.LargeBinary, nullable=True)
     tipo = db.relationship("Tipo", back_populates="comunicacion")
     users_id = db.Column(db.ForeignKey("users.id"), nullable=True)
@@ -166,7 +166,7 @@ class User(Base):
     password = db.Column(db.String(400), nullable=False)
     direccion = db.Column(db.String(220), nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False, default=True)
-    roles_id = db.Column(db.Integer, db.ForeignKey("roles.id"), nullable=False)
+    roles_id = db.Column(db.Integer, db.ForeignKey("roles.id"), nullable=True)
     rol = db.relationship("Rol", back_populates="user")
     #taller = db.relationship("Taller", back_populates="user")
     comunicacion = db.relationship(
