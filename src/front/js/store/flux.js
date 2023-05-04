@@ -3,19 +3,27 @@ const getState = ({ getStore, getActions, setStore }) => {
     // almacen de todas la variables a utilizar en la app
     store: {
       RUTA_FLASK_API:
-        "https://3001-evivanco-proyectofinalp-0j2ufapbd8a.ws-eu96.gitpod.io",
-      currentContacto: null,
-      currenUser: null,
-      username: null,
-      email: null,
-      password: null,
-      tipos_id: null,
-      destino: null,
-      titulo: null,
-      descripcion: null,
-      data: null,
-      contacto: null,
-      error: null,
+        "https://3001-evivanco-proyectofinalp-0j2ufapbd8a.ws-eu96b.gitpod.io",
+      currentContacto: "",
+      currentRegister: "",
+      currentRegisterM: "",
+      currenUser: "",
+      username: "",
+      email: "",
+      password: "",
+      tipos_id: "",
+      roles_id: "",
+      destino: "",
+      direccion: "",
+      titulo: "",
+      descripcion: "",
+      tallernom: "",
+      regiontall: "",
+      direcciontall: "",
+      users_id: "",
+      data: "",
+      contacto: "",
+      error: "",
     },
     actions: {
       //funcion generica que captura la info desde inputs
@@ -27,63 +35,183 @@ const getState = ({ getStore, getActions, setStore }) => {
         console.log("all", getStore());
       },
       //funcion unica para el form de contacto
-      handleSubmitContacto: (e) => {
+      //    handleSubmitContacto: (e) => {
+      //      e.preventDefault();
+      //         const { tipos_id, destino, titulo, descripcion, email, data } =
+      //        getStore();
+      //      if (email !== "") {
+      //        getActions().register_comunicacion({
+      //          tipos_id,
+      //          destino,
+      //          titulo,
+      //          email,
+      //          descripcion,
+      //          data,
+      //        });
+      //      }
+      //    },
+      //funcion formulario registro Ciclista
+      handleSubmitRegister: (e, navigate) => {
         e.preventDefault();
-        //tengo dudas para capturar los radios pero deben ser si o si "tipos" -> radio1 (evento,noticia,menss)
-        // radio2 es rol o "destino" (mecanico,ciclista) tipos_id + destino, son las variables referenciadas en flask
-        const { tipos_id, destino, titulo, descripcion, email, data } =
-          getStore();
+        const { roles_id, username, email, password, direccion } = getStore();
         if (email !== "") {
-          getActions().register_comunicacion({
-            tipos_id,
-            destino,
-            titulo,
-            email,
-            descripcion,
-            data,
-          });
+          getActions().postregisteruser(
+            {
+              roles_id,
+              username,
+              email,
+              password,
+              direccion,
+            },
+            navigate
+          );
         }
       },
-      // esta funcion registra la data desde el formulario y la agrega a la BD
-      register_comunicacion: (dataUser, navigate) => {
+      postregisteruser: (dataUser2, navigate) => {
         const { RUTA_FLASK_API } = getStore();
         const options = {
           method: "POST",
-          body: JSON.stringify(dataUser),
+          body: JSON.stringify(dataUser2),
           headers: {
             "Content-Type": "application/json",
           },
         };
-
-        fetch(`${RUTA_FLASK_API}/api/register_comunicacion`, options)
+        fetch(`${RUTA_FLASK_API}/api/registeruser`, options)
           .then((response) => response.json())
           .then((data1) => {
-            console.log(data1);
-
             if (data1) {
               setStore({
-                currentContacto: data1,
-                tipos_id: "",
-                destino: "",
-                titulo: "",
+                currentRegister: data1,
+                roles_id: "",
+                username: "",
                 email: "",
-                descripcion: "",
-                data: "",
+                password: "",
+                direccion: "",
                 error: null,
               });
-              sessionStorage.setItem("currentContacto", JSON.stringify(data1));
+              console.log("registro ciclista", getStore().currentRegister);
+              sessionStorage.setItem("currentRegister", JSON.stringify(data1));
               navigate("/");
             } else {
               setStore({
-                currentContacto: null,
+                currentRegister: null,
                 error: data1,
               });
-              if (sessionStorage.getItem("currentContacto"))
-                sessionStorage.removeItem("currentContacto");
             }
+            if (sessionStorage.getItem("currentRegister"))
+              sessionStorage.removeItem("currentRegister");
           })
           .catch((error) => console.log(error));
       },
+      //funcion formulario registro Mecanico
+      handleSubmitRegisterM: (e, navigate) => {
+        e.preventDefault();
+        const {
+          roles_id,
+          username,
+          email,
+          password,
+          direccion,
+          tallernom,
+          regiontall,
+          direcciontall,
+        } = getStore();
+        if (email !== "") {
+          getActions().postregistermecanico(
+            {
+              roles_id,
+              username,
+              email,
+              password,
+              direccion,
+              tallernom,
+              regiontall,
+              direcciontall,
+              // users_id
+            },
+            navigate
+          );
+        }
+      },
+      postregistermecanico: (dataUser3, navigate) => {
+        const { RUTA_FLASK_API, currentRegisterM } = getStore();
+        const options = {
+          method: "POST",
+          body: JSON.stringify(dataUser3),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+        fetch(`${RUTA_FLASK_API}/api/registermecanico`, options)
+          .then((response) => response.json())
+          .then((data1) => {
+            console.log("reg de mecanico:", data1);
+
+            if (data1) {
+              setStore({
+                currentRegisterM: data1,
+                roles_id: "",
+                username: "",
+                email: "",
+                password: "",
+                direccion: "",
+                tallernom: "",
+                regiontall: "",
+                direcciontall: "",
+                //users_id,
+                error: null,
+              });
+              sessionStorage.setItem("currentRegisterM", JSON.stringify(data1));
+              navigate("/");
+            } else {
+              setStore({
+                currentRegisterM: null,
+                error: data1,
+              });
+            }
+            if (sessionStorage.getItem("currentRegisterM"))
+              sessionStorage.removeItem("currentRegisterM");
+          })
+          .catch((error) => console.log(error));
+      },
+      //Acceso y validacion de ususrio
+      login: async (e, navigate) => {
+        e.preventDefault();
+        try {
+          const { email, password, RUTA_FLASK_API } = getStore();
+
+          const options = {
+            method: "POST",
+            body: JSON.stringify({ email, password }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          };
+
+          const response = await fetch(`${RUTA_FLASK_API}/api/login`, options);
+
+          const data = await response.json();
+
+          console.log(data);
+
+          if (data.status === 200) {
+            setStore({
+              currentUser: data,
+              email: "",
+              password: "",
+              error: null,
+            });
+            sessionStorage.setItem("currentUser", JSON.stringify(data));
+            navigate("/tienda");
+          } else {
+            setStore({ error: data, currentUser: null });
+            navigate("/login");
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
       // Con esta funcion logramos mostrar al user la info de Contacto
       getComunicacion: () => {
         const { currentContacto, REACT_APP_URI } = getStore();
@@ -101,6 +229,11 @@ const getState = ({ getStore, getActions, setStore }) => {
               contacto: dataCont,
             });
           });
+      },
+
+      logout: () => {
+        sessionStorage.removeItem("token");
+        setStore({ token: "" });
       },
     },
   };

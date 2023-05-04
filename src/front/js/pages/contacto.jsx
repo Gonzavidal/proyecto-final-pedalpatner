@@ -1,18 +1,21 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Context } from "../store/AppContext";
 
 export const Contacto = () => {
   const { store, actions } = useContext(Context);
-
+  const [isChecked, setIsChecked] = useState(false);
   return (
-    <div className="row container-fluid position-relative text-center mx-0">
+    <div
+      className="row container-fluid position-relative text-center p-3"
+      id="mainView"
+    >
       <h1 className="col-12">Contacto</h1>
       <hr className="col-12 hr my-2" />
 
       {/* form container 4 whole body */}
       <form
         className="col-12 mt-1 px-5 position-relative"
-        onSubmit={actions.handleSubmiContacto}
+        onSubmit={actions.handleSubmitContacto}
       >
         {/* row 4 first filter: service type + event public (optional) */}
         <div className="row mx-5 px-5">
@@ -24,12 +27,12 @@ export const Contacto = () => {
                 <input
                   className="form-check-input"
                   type="radio"
-                  name="tipos_id"
+                  name="servicios"
                   id="flexRadioDefault1"
-                  value={store.tipos_id}
+                  value={4}
                   onChange={actions.handleChange}
                 />
-                <label className="form-check-label" htmlFor="flexRadioDefault1">
+                <label className="form-check-label" for="flexRadioDefault1">
                   Noticia
                 </label>
               </div>
@@ -37,15 +40,15 @@ export const Contacto = () => {
                 <input
                   className="form-check-input"
                   type="radio"
-                  name="tipos_id"
+                  name="servicios"
                   id="flexRadioDefault2"
-                  checked
-                  value={store.tipos_id}
+                  //checked={isChecked}
+                  value={1}
                   onChange={actions.handleChange}
                 />
                 <label
                   className="form-check-label fs-5"
-                  htmlFor="flexRadioDefault2"
+                  for="flexRadioDefault2"
                 >
                   Evento
                 </label>
@@ -54,14 +57,14 @@ export const Contacto = () => {
                 <input
                   className="form-check-input"
                   type="radio"
-                  name="tipos_id"
+                  name="servicios"
                   id="flexRadioDefault3"
-                  value={store.tipos_id}
+                  value={3}
                   onChange={actions.handleChange}
                 />
                 <label
                   className="form-check-label fs-5"
-                  htmlFor="flexRadioDefault3"
+                  for="flexRadioDefault3"
                 >
                   Mensaje
                 </label>
@@ -78,12 +81,12 @@ export const Contacto = () => {
                   type="checkbox"
                   name="destino"
                   id="recipientCiclista"
-                  value={store.destino}
+                  value={3}
                   onChange={actions.handleChange}
                 />
                 <label
                   className="form-check-label"
-                  htmlFor="#recipientCiclista"
+                  for="#recipientCiclista"
                 >
                   Ciclista
                 </label>
@@ -94,12 +97,12 @@ export const Contacto = () => {
                   type="checkbox"
                   name="destino"
                   id="recipientMecanico"
-                  value={store.destino}
+                  value={2}
                   onChange={actions.handleChange}
                 />
                 <label
                   className="form-check-label"
-                  htmlFor="#recipientMecanico"
+                  for="#recipientMecanico"
                 >
                   Mecánico
                 </label>
@@ -122,7 +125,7 @@ export const Contacto = () => {
                 value={store.titulo}
                 onChange={actions.handleChange}
               />
-              <label className="pt-2 mx-2" htmlFor="#inputTitle">
+              <label className="pt-2 mx-2" for="#inputTitle">
                 Titulo
               </label>
             </div>
@@ -137,7 +140,7 @@ export const Contacto = () => {
                 value={store.email}
                 onChange={actions.handleChange}
               />
-              <label className="pt-2 mx-2" htmlFor="#inputEmail">
+              <label className="pt-2 mx-2" for="#inputEmail">
                 Email
               </label>
             </div>
@@ -189,4 +192,4 @@ export const Contacto = () => {
       </form>
     </div>
   );
-}
+};

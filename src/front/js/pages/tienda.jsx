@@ -3,22 +3,21 @@ import Maps from './Maps.jsx';
 
 export const Tienda = () => {
   return (
-    <div className="container-fluid text-center position-relative d-inline-block">
+    <div className="container-fluid text-center position-relative d-inline-block p-3" id="mainView">
       <h1>Encuentra tu tienda</h1>
       <hr className="hr" />
       <div className="row">
-        <div className="col-6 px-5">
+        <div className="col-5">
           <Maps/>
         </div>
-        
-        <div className="col-6 px-4">
+        <div className="col-7">
           {/*exclusive div 4 text inputs*/}
-          <div className="row">
+          <div className="row mx-3">
             <div className="col-12 input-group">
               <span className="input-group-text" id="inputGroup">Nombre Tienda</span>
               <input type="text" className="form-control" aria-label="searchInput" aria-describedby="inputGroup" />
             </div>
-            <div className="col-12 input-group my-3">
+            <div className="col-12 input-group my-2">
               <span className="input-group-text" id="inputGroup">Jefe Tienda</span>
               <input type="text" className="form-control" aria-label="searchInput" aria-describedby="inputGroup" />
             </div>
@@ -29,7 +28,7 @@ export const Tienda = () => {
           </div>
 
           {/*div 4 checks + inputs*/}
-          <div className="row my-3">
+          <div className="row my-3 mx-3">
             <h4 className="col-12">Medios de Pago Disponibles</h4>
             <div className="col-4 mx-auto fs-5">
               <div className="form-check mx-auto">
@@ -54,12 +53,12 @@ export const Tienda = () => {
           </div>
 
           {/*rest of info*/}
-          <div className='row'>
+          <div className='row mx-3'>
             <div className="col-12 input-group">
               <span className="input-group-text" id="inputGroup">Mantención desde</span>
               <input type="text" className="form-control" placeholder="$" aria-label="searchInput" aria-describedby="inputGroup" />
             </div>
-            <div className="col-12 input-group my-3">
+            <div className="col-12 input-group my-2">
               <span className="input-group-text" id="inputGroup">Indumentaria desde</span>
               <input type="text" className="form-control" placeholder="$" aria-label="searchInput" aria-describedby="inputGroup" />
             </div>

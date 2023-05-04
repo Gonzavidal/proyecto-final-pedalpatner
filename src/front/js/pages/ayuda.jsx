@@ -6,26 +6,24 @@ import Comunidad from '../../img/comunidad.jpg'
 
 export const Ayuda = () => {
     return (
-        <div className="text-center mb-4 text-black">
-            <h1 className="">Ayuda</h1>
+        <div className="container-fluid position-relative d-inline-block p-3" id="mainView">
+            <h1 className="text-center">Ayuda</h1>
             <hr className="hr" />
-
             <div className="container text-center">
-                <div className="row">
+                <div className="row row-cols-2">
                     <div className="col">
                         <h2 className="text-end my-3">Encuentra tu tienda</h2>
-
-                        <img src={Vista} alt="MVDP" id="regPhoto" />
+                        <img src={Vista} alt="MVDP" id="regPhoto" className="img-fluid" />
                     </div>
                     <div className="col">
                         <h2 className="text-end my-3">Contáctanos</h2>
-                        <img src={Formulario} alt="MVDP" id="regPhoto" />
+                        <img src={Formulario} alt="MVDP" id="regPhoto" className="img-fluid"/>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col">
                         <h2 className="text-end my-3">Comunidad</h2>
-                        <img src={Comunidad} alt="MVDP" id="regPhoto" />
+                        <img src={Comunidad} alt="MVDP" id="regPhoto" className="img-fluid" />
 
                     </div>
                     <div className="col">
