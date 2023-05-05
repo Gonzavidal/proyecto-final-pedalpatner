@@ -36,61 +36,61 @@ const getState = ({ getStore, getActions, setStore }) => {
         console.log("all", getStore());
       },
       //funcion unica para el form de contacto
-      //    handleSubmitContacto: (e, navigate) => {
-      //      e.preventDefault();
-      //      const { tipos_id, titulo, descripcion, email, data } = getStore();
-      //      if (email !== "") {
-      //        getActions().registercomunicacion(
-      //          {
-      //            tipos_id,
-      //            titulo,
-      //            email,
-      //            descripcion,
-      //            data,
-      //          },
-      //          navigate
-      //        );
-      //      }
-      //    },
-      //    registercomunicacion: (dataUser1, navigate) => {
-      //      const { RUTA_FLASK_API } = getStore();
-      //      const options = {
-      //        method: "POST",
-      //        body: JSON.stringify(dataUser1),
-      //        headers: {
-      //          "Content-Type": "application/json",
-      //        },
-      //      };
-      //      console.log("soy body desde flux", dataUser1);
-      //      fetch(`${RUTA_FLASK_API}/api/register_comunicacion`, options)
-      //        .then((response) => response.json())
-      //        .then((data1) => {
-      //          console.log("reg de comunicacion desde flux", data1);
-      //          if (data1) {
-      //            setStore({
-      //              currentContacto: data1,
-      //              tipos_id: "",
-      //              titulo: "",
-      //              email: "",
-      //              descripcion: "",
-      //              file: "",
-      //              error: null,
-      //            });
-      //            console.log("info de contacto", getStore().currentContacto);
-      //            navigate("/");
-      //            sessionStorage.setItem("currentContacto", JSON.stringify(data1));
-      //            //(data1.status == 200)
-      //          } else {
-      //            setStore({
-      //              currentContacto: null,
-      //              error: data1,
-      //            });
-      //            if (sessionStorage.getItem("currentContacto"))
-      //              sessionStorage.removeItem("currentContacto");
-      //          }
-      //        })
-      //        .catch((error) => console.log(error));
-      //    },
+      handleSubmitContacto: (e, navigate) => {
+        e.preventDefault();
+        const { tipos_id, titulo, descripcion, email, data } = getStore();
+        if (email !== "") {
+          getActions().registercomunicacion(
+            {
+              tipos_id,
+              titulo,
+              email,
+              descripcion,
+              data,
+            },
+            navigate
+          );
+        }
+      },
+      registercomunicacion: (dataUser1, navigate) => {
+        const { RUTA_FLASK_API } = getStore();
+        const options = {
+          method: "POST",
+          body: JSON.stringify(dataUser1),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+        console.log("soy body desde flux", dataUser1);
+        fetch(`${RUTA_FLASK_API}/api/register_comunicacion`, options)
+          .then((response) => response.json())
+          .then((data1) => {
+            console.log("reg de comunicacion desde flux", data1);
+            if (data1) {
+              setStore({
+                currentContacto: data1,
+                tipos_id: "",
+                titulo: "",
+                email: "",
+                descripcion: "",
+                file: "",
+                error: null,
+              });
+              console.log("info de contacto", getStore().currentContacto);
+              navigate("/");
+              sessionStorage.setItem("currentContacto", JSON.stringify(data1));
+              //(data1.status == 200)
+            } else {
+              setStore({
+                currentContacto: null,
+                error: data1,
+              });
+              if (sessionStorage.getItem("currentContacto"))
+                sessionStorage.removeItem("currentContacto");
+            }
+          })
+          .catch((error) => console.log(error));
+      },
       //funcion formulario registro Ciclista
       handleSubmitRegister: (e, navigate) => {
         e.preventDefault();
