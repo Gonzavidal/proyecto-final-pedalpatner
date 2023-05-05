@@ -143,7 +143,6 @@ def post_registromecanico():
         username = request.json.get("username")
         email = request.json.get("email")
         password = request.json.get("password")
-        direccion = request.json.get("direccion")
         roles_id = request.json.get("roles_id")
         tallernom = request.json.get("tallernom")
         regiontall = request.json.get("regiontall")
@@ -172,14 +171,13 @@ def post_registromecanico():
         user.username = username
         user.email = email
         user.password = generate_password_hash(password)
-        user.direccion = direccion
         user.roles_id = roles_id
 
         taller = Taller()
         taller.tallernom = tallernom
         taller.regiontall = regiontall
         taller.direcciontall = direcciontall
-        #taller.users_id = users_id
+        
         
         a= UserTaller()
         a.taller= taller

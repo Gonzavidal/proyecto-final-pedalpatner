@@ -1,9 +1,11 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/AppContext";
+import { useNavigate } from "react-router-dom";
 
 export const Contacto = () => {
   const { store, actions } = useContext(Context);
-  const [isChecked, setIsChecked] = useState(false);
+  //const [isChecked, setIsChecked] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div
@@ -16,7 +18,7 @@ export const Contacto = () => {
       {/* form container 4 whole body */}
       <form
         className="col-12 mt-1 px-5 position-relative"
-        onSubmit={actions.handleSubmitContacto}
+        onSubmit={(e) => actions.handleSubmitContacto(e, navigate)}
       >
         {/* row 4 first filter: service type + event public (optional) */}
         <div className="row mx-5 px-5">
@@ -28,7 +30,7 @@ export const Contacto = () => {
                 <input
                   className="form-check-input"
                   type="radio"
-                  name="servicios"
+                  name="tipos_id"
                   id="flexRadioDefault1"
                   value={1}
                   onChange={actions.handleChange}
@@ -41,7 +43,7 @@ export const Contacto = () => {
                 <input
                   className="form-check-input"
                   type="radio"
-                  name="servicios"
+                  name="tipos_id"
                   id="flexRadioDefault2"
                   value={2}
                   onChange={actions.handleChange}
@@ -57,7 +59,7 @@ export const Contacto = () => {
                 <input
                   className="form-check-input"
                   type="radio"
-                  name="servicios"
+                  name="tipos_id"
                   id="flexRadioDefault3"
                   value={3}
                   onChange={actions.handleChange}
@@ -72,7 +74,7 @@ export const Contacto = () => {
             </div>
           </div>
           {/* half row : conditional formcheck for event type */}
-          {store.servicios == 2 ? (
+          {store.roles_id == 2 ? (
             <div className="col-6 text-start">
               <h3>Destinatario Evento</h3>
               <div className="container-fluid">
@@ -111,8 +113,7 @@ export const Contacto = () => {
               </div>
             </div>
           ) : null}
-          </div>
-          
+        </div>
 
         {/*row 4 rest of form : title, mail, textarea, files*/}
         <div className="row mt-3 px-5">

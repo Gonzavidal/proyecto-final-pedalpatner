@@ -22,6 +22,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       direcciontall: "",
       users_id: "",
       data: "",
+      file: "",
       contacto: "",
       error: "",
     },
@@ -35,25 +36,65 @@ const getState = ({ getStore, getActions, setStore }) => {
         console.log("all", getStore());
       },
       //funcion unica para el form de contacto
-      //    handleSubmitContacto: (e) => {
+      //    handleSubmitContacto: (e, navigate) => {
       //      e.preventDefault();
-      //         const { tipos_id, destino, titulo, descripcion, email, data } =
-      //        getStore();
+      //      const { tipos_id, titulo, descripcion, email, data } = getStore();
       //      if (email !== "") {
-      //        getActions().register_comunicacion({
-      //          tipos_id,
-      //          destino,
-      //          titulo,
-      //          email,
-      //          descripcion,
-      //          data,
-      //        });
+      //        getActions().registercomunicacion(
+      //          {
+      //            tipos_id,
+      //            titulo,
+      //            email,
+      //            descripcion,
+      //            data,
+      //          },
+      //          navigate
+      //        );
       //      }
+      //    },
+      //    registercomunicacion: (dataUser1, navigate) => {
+      //      const { RUTA_FLASK_API } = getStore();
+      //      const options = {
+      //        method: "POST",
+      //        body: JSON.stringify(dataUser1),
+      //        headers: {
+      //          "Content-Type": "application/json",
+      //        },
+      //      };
+      //      console.log("soy body desde flux", dataUser1);
+      //      fetch(`${RUTA_FLASK_API}/api/register_comunicacion`, options)
+      //        .then((response) => response.json())
+      //        .then((data1) => {
+      //          console.log("reg de comunicacion desde flux", data1);
+      //          if (data1) {
+      //            setStore({
+      //              currentContacto: data1,
+      //              tipos_id: "",
+      //              titulo: "",
+      //              email: "",
+      //              descripcion: "",
+      //              file: "",
+      //              error: null,
+      //            });
+      //            console.log("info de contacto", getStore().currentContacto);
+      //            navigate("/");
+      //            sessionStorage.setItem("currentContacto", JSON.stringify(data1));
+      //            //(data1.status == 200)
+      //          } else {
+      //            setStore({
+      //              currentContacto: null,
+      //              error: data1,
+      //            });
+      //            if (sessionStorage.getItem("currentContacto"))
+      //              sessionStorage.removeItem("currentContacto");
+      //          }
+      //        })
+      //        .catch((error) => console.log(error));
       //    },
       //funcion formulario registro Ciclista
       handleSubmitRegister: (e, navigate) => {
         e.preventDefault();
-        const { roles_id, username, email, password, direccion } = getStore();
+        const { roles_id, username, email, password } = getStore();
         if (email !== "") {
           getActions().postregisteruser(
             {
@@ -61,7 +102,6 @@ const getState = ({ getStore, getActions, setStore }) => {
               username,
               email,
               password,
-              direccion,
             },
             navigate
           );
@@ -86,7 +126,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                 username: "",
                 email: "",
                 password: "",
-                direccion: "",
                 error: null,
               });
               console.log("registro ciclista", getStore().currentRegister);
@@ -111,11 +150,11 @@ const getState = ({ getStore, getActions, setStore }) => {
           username,
           email,
           password,
-          direccion,
           tallernom,
           regiontall,
           direcciontall,
         } = getStore();
+
         if (email !== "") {
           getActions().postregistermecanico(
             {
@@ -123,7 +162,6 @@ const getState = ({ getStore, getActions, setStore }) => {
               username,
               email,
               password,
-              direccion,
               tallernom,
               regiontall,
               direcciontall,
@@ -134,7 +172,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
       postregistermecanico: (dataUser3, navigate) => {
-        const { RUTA_FLASK_API, currentRegisterM } = getStore();
+        const { RUTA_FLASK_API } = getStore();
         const options = {
           method: "POST",
           body: JSON.stringify(dataUser3),
@@ -154,7 +192,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                 username: "",
                 email: "",
                 password: "",
-                direccion: "",
                 tallernom: "",
                 regiontall: "",
                 direcciontall: "",

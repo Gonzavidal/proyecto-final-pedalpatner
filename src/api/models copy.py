@@ -29,9 +29,10 @@ class Comunicacion(db.Model):
     titulo = db.Column(db.String(140), nullable=False)
     email = db.Column(db.String(110), nullable=False)
     descripcion = db.Column(db.Text, nullable=False)
+    destino = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime(), default=db.func.now())
     updated_at = db.Column(db.DateTime(), default=db.func.now(), onupdate=db.func.now())
-    tipos_id = db.Column(db.ForeignKey("tipos.id"), nullable=True)
+    tipos_id = db.Column(db.ForeignKey("tipos.id"), nullable=False)
     data = db.Column(db.LargeBinary, nullable=True)
     tipo = db.relationship("Tipo", back_populates="comunicacion")
     users_id = db.Column(db.ForeignKey("users.id"), nullable=True)
@@ -43,9 +44,10 @@ class Comunicacion(db.Model):
             "titulo": self.titulo,
             "email": self.email,
             "descripcion": self.descripcion,
+            "destino": self.destino,
             "tipos_id": self.tipos_id,
             "users_id": self.users_id,
-            "files": self.files,
+            "data": self.data,
             "created_at": self.created_at,
             "update_at": self.updated_at,
         }
@@ -162,9 +164,11 @@ class User(Base):
     username = db.Column(db.String(120), nullable=False, unique=True)
     email = db.Column(db.String(120), nullable=False, unique=True)
     password = db.Column(db.String(400), nullable=False)
+    direccion = db.Column(db.String(220), nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False, default=True)
-    roles_id = db.Column(db.Integer, db.ForeignKey("roles.id"), nullable=True)
+    roles_id = db.Column(db.Integer, db.ForeignKey("roles.id"), nullable=False)
     rol = db.relationship("Rol", back_populates="user")
+    #taller = db.relationship("Taller", back_populates="user")
     comunicacion = db.relationship(
         "Comunicacion", cascade="all,delete", back_populates="user", uselist=False
     )
@@ -178,6 +182,7 @@ class User(Base):
             "username": self.username,
             "email": self.email,
             "password": self.password,
+            "direccion": self.direccion,
             "is_active": self.is_active,
             "roles_id": self.roles_id,
             "created_at": self.created_at,
@@ -190,6 +195,7 @@ class User(Base):
             "username": self.username,
             "email": self.email,
             "password": self.password,
+            "direccion": self.direccion,
             "is_active": self.is_active,
             "roles_id": self.roles_id,
             "created_at": self.created_at,
@@ -218,6 +224,8 @@ class Taller(Base):
     tallernom = db.Column(db.String(110), unique=False)
     regiontall = db.Column(db.String(110), unique=False)
     direcciontall = db.Column(db.String(250), unique=False)
+    #users_id = db.Column(db.Integer, db.ForeignKey("users.id"),nullable=True)
+    #user = db.relationship("User", back_populates="taller")
     articulos = db.relationship(
         "TallerArticulo", back_populates="taller", uselist=False
     )
@@ -232,6 +240,7 @@ class Taller(Base):
             "tallernom": self.tallernom,
             "regiontall": self.regiontall,
             "direcciontall": self.direcciontall,
+            # "users_id": self.users_id,
             "created_at": self.created_at,
             "update_at": self.updated_at,
         }
@@ -279,7 +288,7 @@ class Pago(Base):
     __tablename__ = "pagos"
     tipopago = db.Column(db.String(100), unique=True, nullable=False)
     talleres = db.relationship("PagoTaller", back_populates="pago", uselist=False)
-    
+    # talleres = db.relationship("Taller")
 
     def serialize_pago(self):
         return {
