@@ -24,18 +24,6 @@ def send_simple_message(to, subject, body):
 			"subject": subject,
 			"text": body})
 
-bpRegis = Blueprint('bpRegis', __name__)
-
-def send_simple_message(to, subject, body):
-    domain = os.getenv("MAILGUN_DOMAIN")
-    return requests.post(
-		f"https://api.mailgun.net/v3/{domain}/messages",
-		auth=("api", os.getenv("MAILGUN_API_KEY")),
-		data={"from": "PedalPartner <mailgun@{domain}>",
-			"to": [to],
-			"subject": subject,
-			"text": body})
-
 
 #CRUD DE USER
 # gestion de registro de usuario-admin SE PUEDE INICIAR INTEGRACION CON FROND (1)
