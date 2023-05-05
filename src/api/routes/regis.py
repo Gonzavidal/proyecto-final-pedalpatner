@@ -24,7 +24,20 @@ def send_simple_message(to, subject, body):
 			"subject": subject,
 			"text": body})
 
-# CRUD DE USER
+bpRegis = Blueprint('bpRegis', __name__)
+
+def send_simple_message(to, subject, body):
+    domain = os.getenv("MAILGUN_DOMAIN")
+    return requests.post(
+		f"https://api.mailgun.net/v3/{domain}/messages",
+		auth=("api", os.getenv("MAILGUN_API_KEY")),
+		data={"from": "PedalPartner <mailgun@{domain}>",
+			"to": [to],
+			"subject": subject,
+			"text": body})
+
+
+#CRUD DE USER
 # gestion de registro de usuario-admin SE PUEDE INICIAR INTEGRACION CON FROND (1)
 @bpRegis.route("/registeruser", methods=["POST"])
 def post_registrouser():
@@ -32,7 +45,7 @@ def post_registrouser():
         username = request.json.get("username")
         email = request.json.get("email")
         password = request.json.get("password")
-        direccion = request.json.get("direccion")
+       # direccion = request.json.get("direccion")
         roles_id = request.json.get("roles_id")
 
         if not email:
@@ -57,7 +70,7 @@ def post_registrouser():
         user.username = username
         user.email = email
         user.password = generate_password_hash(password)
-        user.direccion = direccion
+      #  user.direccion = direccion
         user.roles_id = roles_id
         user.save()
 
@@ -84,14 +97,14 @@ def puttuser(id):
         username = request.json.get("username")
         email = request.json.get("email")
         password = request.json.get("password")
-        direccion = request.json.get("direccion")
+        #direccion = request.json.get("direccion")
         roles_id = request.json.get("roles_id")
 
         user = User.query.get(id)
         user.username = username
         user.email = email
         user.password = generate_password_hash(password)
-        user.direccion = direccion
+        #user.direccion = direccion
         user.roles_id = roles_id
         user.update()
 
@@ -195,6 +208,12 @@ def post_registromecanico():
            # "taller": taller.serialize_taller()
         }
 
+        send_simple_message(
+            to=user.email,
+            subject="Te has inscrito satisfactoriamente",
+            body=f"Hola {user.username}! Te has registrado satisfactoriamente a PedalPartner!"
+        )
+
         return (
             jsonify({"msg": "Exito con ingreso datos de Mecanico!!", "info": data}),
             200,
@@ -226,7 +245,7 @@ def putmecanico(id):
         username = request.json.get("username")
         email = request.json.get("email")
         password = request.json.get("password")
-        direccion = request.json.get("direccion")
+       # direccion = request.json.get("direccion")
         roles_id = request.json.get("roles_id")
 
         tallernom = request.json.get("tallernom")
