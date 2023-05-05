@@ -257,7 +257,7 @@ def putmecanico(id):
         user.username = username
         user.email = email
         user.password = generate_password_hash(password)
-        user.direccion = direccion
+       # user.direccion = direccion
         user.roles_id = roles_id
 
         taller = Taller.query.get(users_id)
