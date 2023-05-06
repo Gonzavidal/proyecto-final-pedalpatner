@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from '@react-google-maps/api';
 
-
-
 const containerStyle = {
   width: '600px',
   height: '450px'
@@ -10,33 +8,28 @@ const containerStyle = {
 
 const center = { lat: -33.742145, lng: -70.735680 };
 
-
-
 const position = { lat: -33.74200819688481, lng: -70.73546492713628 }
-const position2 = { lat: -33.74255488809652, lng: -70.73545760135589 } //-33.74255488809652, -70.73545760135589
-const position3 = { lat: -33.48017198625467, lng: -70.55813925950957 } //-33.48017198625467, -70.55813925950957
+const position2 = { lat: -33.74255488809652, lng: -70.73545760135589 }
+const position3 = { lat: -33.48017198625467, lng: -70.55813925950957 }
 
 const divStyle = {
   background: `white`,
-  border: `1px solid #ccc`,
-  padding: 5
 }
 
-
-function Maps() {
+function Maps({ setName, setJefe, setContacto, setMant, setIndum, setBici }) {
 
   const [currentPosition, setCurrentPosition] = useState(
-    {
-      latitud: null,
-      longitud: null
-    }
+    { latitud: null, longitud: null }
+
   )
 
-    const [infoWindowOpen, setInfowindowOpen] = useState(false);
-    
-
   
-  // const [count, setCount] = useState(0);
+  
+  const [infoWindowOpen, setInfowindowOpen] = useState(false);
+
+  const [content, setContent] = useState(
+    <h1>Hola</h1>
+  )
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -44,11 +37,22 @@ function Maps() {
     });
   }, [])
 
-  function infoWindowOpenShow(){
+  
+
+  function infoWindowOpenShow(position, info, name, jefe, contacto, mant, indum, bici) {
     setInfowindowOpen(true)
+    setCurrentPosition({ lat: position.lat, lng: position.lng });
+    setContent(<p>{info}</p>);
+    setName(name);
+    setJefe(jefe);
+    setContacto(contacto);
+    setMant(mant);
+    setIndum(indum);
+    setBici(bici);
+
     console.log("hola")
   }
-  
+
   console.log(currentPosition)
 
   const { isLoaded } = useJsApiLoader({
@@ -59,15 +63,7 @@ function Maps() {
   const [map, setMap] = React.useState(null)
 
   const onLoad = React.useCallback(function callback(map) {
-    // This is just an example of getting and using the map instance!!! don't just blindly copy!
     const bounds = new window.google.maps.LatLngBounds(center);
-
-    
-    /*const onLoad = infoWindow => {
-  console.log('infoWindow: ', infoWindow)
-}
-    }*/
-
     setMap(map)
   }, [])
 
@@ -82,48 +78,37 @@ function Maps() {
         center={currentPosition}
         zoom={18} // 
         onUnmount={onUnmount}
-        
+
       >
         <Marker
-          label={"BiciBuin"}
+          
           onLoad={onLoad}
           position={position}
-          onClick={infoWindowOpenShow}
+          onClick={() => infoWindowOpenShow(position, "BiciBuin", "BiciBuin", "Gonzalo Vidal", "+56955555555", "10.000", "15.000", "150.000",)}
         />
         <Marker
-          label={"Francisco Bike"}
+          
           onLoad={onLoad}
           position={position2}
-          onClick={infoWindowOpenShow}
-
+          onClick={() => infoWindowOpenShow(position2, "Francisco's Bike", "Francisco's Bike", "Francisco Krugger", "+56966666666", "8.000", "13.000", "180.000",)}
         />
         <Marker
-          label={"Richard's Bike"}
           onLoad={onLoad}
           position={position3}
-          onClick={infoWindowOpenShow}
-
+          onClick={() => infoWindowOpenShow(position3, "Richard's Bike", "Richard's Bike", "Richard Tapia", "+56977777777", "12.000", "12.000", "170.000",)}
         />
 
-        {infoWindowOpen && 
-        (<InfoWindow
-          onCloseClick={() => setInfowindowOpen(false)}
-          onLoad={onLoad}
-          position={position}
-        >
-          <div style={divStyle}>
-            <h5>BiciBuin</h5>
-            <p>Gonzalo Vidal</p>
-            <p>+56 9 5555 5555</p>
-            <p>Efectivo</p>
-            <p>Mant: 10.000</p>
-            <p>Indum: 20.000</p>
-            <p>Bici: 200.000</p>
-          </div>
-        </InfoWindow>)
+        {infoWindowOpen &&
+          (<InfoWindow
+            onCloseClick={() => setInfowindowOpen(false)}
+            onLoad={onLoad}
+            position={currentPosition}
+          >
+            <div style={divStyle}>
+              {content}
+            </div>
+          </InfoWindow>)
         }
-        
-
       </GoogleMap>
     </>
   ) : <></>
