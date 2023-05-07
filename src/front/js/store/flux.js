@@ -38,11 +38,13 @@ const getState = ({ getStore, getActions, setStore }) => {
       //funcion unica para el form de contacto
       handleSubmitContacto: (e, navigate) => {
         e.preventDefault();
-        const { tipos_id, titulo, descripcion, email, data } = getStore();
+        const { tipos_id, roles_id, titulo, descripcion, email, data } =
+          getStore();
         if (email !== "") {
           getActions().registercomunicacion(
             {
               tipos_id,
+              roles_id,
               titulo,
               email,
               descripcion,
@@ -70,10 +72,11 @@ const getState = ({ getStore, getActions, setStore }) => {
               setStore({
                 currentContacto: data1,
                 tipos_id: "",
+                roles_id: "",
                 titulo: "",
                 email: "",
                 descripcion: "",
-                file: "",
+                data: "",
                 error: null,
               });
               console.log("info de contacto", getStore().currentContacto);

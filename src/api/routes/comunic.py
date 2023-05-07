@@ -15,11 +15,12 @@ def post_comunicacion():
     try:
         # id = get_jwt_identity()
         tipos_id = request.json.get('tipos_id')
+        roles_id = request.json.get('roles_id')
         email = request.json.get('email')
         titulo = request.json.get('titulo')
         descripcion = request.json.get('descripcion')
         users_id = request.json.get('users_id')
-        files = request.files.get("files")
+        data = request.files.get("data")
 
         if not titulo:
             return jsonify({"status": "failed", "code": 400, "msg": "Titulo is required"}), 400
@@ -29,8 +30,8 @@ def post_comunicacion():
             return jsonify({"status": "failed", "code": 400, "msg": "descripcion is required"}), 400
         if not tipos_id:
             return jsonify({"status": "failed", "code": 400, "msg": "tipo is required"}), 400
-        if not users_id:
-            return jsonify({"status": "failed", "code": 400, "msg": "user is required"}), 400
+        if not roles_id:
+            return jsonify({"status": "failed", "code": 400, "msg": "rol is required"}), 400
 
 
         comunic = Comunicacion()
@@ -38,8 +39,9 @@ def post_comunicacion():
         comunic.email = email
         comunic.descripcion = descripcion
         comunic.tipos_id = tipos_id
+        comunic.roles_id = roles_id
         comunic.users_id = users_id
-        comunic.files = files
+        comunic.data = data
         comunic.save()
 
         data = {
