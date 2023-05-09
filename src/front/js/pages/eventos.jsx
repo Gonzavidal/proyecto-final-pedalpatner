@@ -12,5 +12,10 @@ export const Eventos = () => {
                 {/* <br/>
                 <Estructura2 /> */}
             </div>
+            <div className="row row-cols-1 container-fluid m-0 p-2">
+                <Estructura2 />
+                {/* <br/>
+                <Estructura2 /> */}
+            </div>
         </div>)}
                 

@@ -8,15 +8,15 @@ const containerStyle = {
 
 const center = { lat: -33.742145, lng: -70.735680 };
 
-const position = { lat: -33.74200819688481, lng: -70.73546492713628 }
-const position2 = { lat: -33.74255488809652, lng: -70.73545760135589 }
-const position3 = { lat: -33.48017198625467, lng: -70.55813925950957 }
+const position = { lat: -33.41611624894014, lng: -70.53850224009655 } // -33.41611624894014, -70.53850224009655
+const position2 = { lat: -33.41692893716737, lng: -70.53828229896085 } // -33.41692893716737, -70.53828229896085
+const position3 = { lat: -33.41729833839787, lng: -70.53743203871521 } // -33.41729833839787, -70.53743203871521
 
 const divStyle = {
   background: `white`,
 }
 
-function Maps({ setName, setJefe, setContacto, setMant, setIndum, setBici }) {
+function Maps({ setName, setJefe, setContacto, setMant, setIndum, setBici, setEfect, setTransf, setTarjetas}) {
 
   const [currentPosition, setCurrentPosition] = useState(
     { latitud: null, longitud: null }
@@ -39,7 +39,7 @@ function Maps({ setName, setJefe, setContacto, setMant, setIndum, setBici }) {
 
   
 
-  function infoWindowOpenShow(position, info, name, jefe, contacto, mant, indum, bici) {
+  function infoWindowOpenShow(position, info, name, jefe, contacto, mant, indum, bici, efect, transf, tarjetas) {
     setInfowindowOpen(true)
     setCurrentPosition({ lat: position.lat, lng: position.lng });
     setContent(<p>{info}</p>);
@@ -49,6 +49,10 @@ function Maps({ setName, setJefe, setContacto, setMant, setIndum, setBici }) {
     setMant(mant);
     setIndum(indum);
     setBici(bici);
+    setEfect(efect);
+    setTransf(transf);
+    setTarjetas(tarjetas);
+
 
     console.log("hola")
   }
@@ -84,18 +88,18 @@ function Maps({ setName, setJefe, setContacto, setMant, setIndum, setBici }) {
           
           onLoad={onLoad}
           position={position}
-          onClick={() => infoWindowOpenShow(position, "BiciBuin", "BiciBuin", "Gonzalo Vidal", "+56955555555", "10.000", "15.000", "150.000",)}
+          onClick={() => infoWindowOpenShow(position, "Colon Bikes", "Colon Bikes", "Gonzalo Vidal", "+56 9 5555 5555", "10.000", "15.000", "150.000", "Si", "No", "No",)}
         />
         <Marker
           
           onLoad={onLoad}
           position={position2}
-          onClick={() => infoWindowOpenShow(position2, "Francisco's Bike", "Francisco's Bike", "Francisco Krugger", "+56966666666", "8.000", "13.000", "180.000",)}
+          onClick={() => infoWindowOpenShow(position2, "Francisco's Bike", "Francisco's Bike", "Francisco Krugger", "+56 9 6666 6666", "8.000", "13.000", "180.000", "Si", "No", "No",)}
         />
         <Marker
           onLoad={onLoad}
           position={position3}
-          onClick={() => infoWindowOpenShow(position3, "Richard's Bike", "Richard's Bike", "Richard Tapia", "+56977777777", "12.000", "12.000", "170.000",)}
+          onClick={() => infoWindowOpenShow(position3, "Richard's Bike", "Richard's Bike", "Richard Tapia", "+56 9 7777 7777", "12.000", "12.000", "170.000", "Si", "Si", "Si",)}
         />
 
         {infoWindowOpen &&
