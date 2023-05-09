@@ -31,7 +31,7 @@ export const Navbar = () => {
             <Link to="/tienda" className="nav-item mx-2 text-white py-3">
               Encuentra tu tienda
             </Link>
-            <li className="nav-item dropdown mx-2">
+            <li className="nav-item dropdown d-flex align-items-center fs-4">
               <Link
                 className="nav-link text-white py-3"
                 to="#"

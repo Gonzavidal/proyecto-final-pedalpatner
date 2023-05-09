@@ -17,7 +17,7 @@ export const Tienda = () => {
       <h1>Encuentra tu tienda</h1>
       <hr className="hr" />
       <div className="row">
-        <div className="col-5">
+        <div className="col-6">
 
           <Maps
             setName={setName}
@@ -31,7 +31,7 @@ export const Tienda = () => {
             setTarjetas={setTarjetas} />
 
         </div>
-        <div className="col-7">
+        <div className="col-5">
           {/*exclusive div 4 text inputs*/}
           <div className="row mx-3">
             <div className="col-12 input-group">
