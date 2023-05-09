@@ -35,6 +35,7 @@ class Comunicacion(db.Model):
     roles_id = db.Column(db.ForeignKey("roles.id"), nullable=True)
     rol = db.relationship("Rol", back_populates="comunicacion")
     data = db.Column(db.LargeBinary, nullable=True)
+    imagen = db.Column(db.String(250), nullable=True)
     tipo = db.relationship("Tipo", back_populates="comunicacion")
     users_id = db.Column(db.ForeignKey("users.id"), nullable=True)
     user = db.relationship("User", back_populates="comunicacion")
@@ -51,6 +52,7 @@ class Comunicacion(db.Model):
             "data": self.data,
             "created_at": self.created_at,
             "update_at": self.updated_at,
+            "imagen": self.imagen,
         }
 
     def save(self):

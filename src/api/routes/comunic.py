@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, render_template
 from api.models import db, User, Tipo, Comunicacion
+from cloudinary.uploader import upload
 from flask_jwt_extended import JWTManager, get_jwt_identity, create_access_token, jwt_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -9,64 +10,90 @@ bpComunicacion = Blueprint('bpComunicacion', __name__)
 # registrar Comunicacion
 
 
-@bpComunicacion.route('/register_comunicacion', methods=['POST'])
+@bpComunicacion.route("/register_comunicacion", methods=["POST"])
 # @jwt_required
 def post_comunicacion():
+    # id = get_jwt_identity()
     try:
-        # id = get_jwt_identity()
-        tipos_id = request.json.get('tipos_id')
-        roles_id = request.json.get('roles_id')
-        email = request.json.get('email')
-        titulo = request.json.get('titulo')
-        descripcion = request.json.get('descripcion')
-        users_id = request.json.get('users_id')
-        data = request.files.get("data")
-
+        print(request.form)
+        tipos_id = request.form["tipos_id"]
+        roles_id = request.form["roles_id"]
+        email = request.form["email"]
+        titulo = request.form["titulo"]
+        descripcion = request.form["descripcion"]
+        users_id = request.form["users_id"]
+        data = request.files["avatar"]
+        name_file = data.filename
+        resp = upload(data, resource_type="image", folder="avatars", pubic_id=name_file)
+        
+        print("soy resp_",resp)
         if not titulo:
-            return jsonify({"status": "failed", "code": 400, "msg": "Titulo is required"}), 400
+            return (
+                jsonify({"status": "failed", "code": 400, "msg": "Titulo is required"}),
+                400,
+            )
         if not email:
-            return jsonify({"status": "failed", "code": 400, "msg": "email is required"}), 400
+            return (
+                jsonify({"status": "failed", "code": 400, "msg": "email is required"}),
+                400,
+            )
         if not descripcion:
-            return jsonify({"status": "failed", "code": 400, "msg": "descripcion is required"}), 400
+            return (
+                jsonify(
+                    {"status": "failed", "code": 400, "msg": "descripcion is required"}
+                ),
+                400,
+            )
         if not tipos_id:
-            return jsonify({"status": "failed", "code": 400, "msg": "tipo is required"}), 400
-        if not roles_id:
-            return jsonify({"status": "failed", "code": 400, "msg": "rol is required"}), 400
+            return (
+                jsonify({"status": "failed", "code": 400, "msg": "tipo is required"}),
+                400,
+            )
+        if not users_id:
+            users_id = None
+        
 
+        #print("que trae?",resp)
 
-        comunic = Comunicacion()
-        comunic.titulo = titulo
-        comunic.email = email
-        comunic.descripcion = descripcion
-        comunic.tipos_id = tipos_id
-        comunic.roles_id = roles_id
-        comunic.users_id = users_id
-        comunic.data = data
-        comunic.save()
+        if resp:
+            comunic = Comunicacion()
+            comunic.titulo = titulo
+            comunic.email = email
+            comunic.descripcion = descripcion
+            comunic.roles_id = roles_id
+            comunic.tipos_id = tipos_id
+            comunic.users_id = users_id
+            comunic.imagen = resp['url']
+            comunic.save()
 
-        data = {
-            "comunicacion": comunic.serialize_comunicacion()
-        }
+            datax = {"comunicacion": comunic.serialize_comunicacion()}
 
-        return jsonify({"msg": "Exito en registro de Comunicacion", "comunicacion": data}), 200
+            return (
+                jsonify(
+                    {"msg": "Exito en registro de Comunicacion", "comunicacion": datax}
+                ),
+                200,
+            )
     except Exception as e:
         print("falla al registrar comunicacion", e)
 
     return jsonify({"msg": "Intentarlo mas tarde"}), 400
 
+
 # gestion leer comunicacion
 
 
-@bpComunicacion.route('/getcomunicacion', methods=['GET'])
+@bpComunicacion.route("/getcomunicacion", methods=["GET"])
 # @jwt_required
 def get_comunicacion():
     try:
         comunicacion = Comunicacion.query.all()
 
         comunicacion = list(
-            map(lambda comunic: comunic.serialize_comunicacion(), comunicacion))
+            map(lambda comunic: comunic.serialize_comunicacion(), comunicacion)
+        )
 
-        return jsonify({"Datos de Comunicacion": comunicacion}), 200
+        return jsonify({"Datos_de_Comunicacion": comunicacion}), 200
     except Exception as e:
         print("falla en leer comunicacion", e)
         return jsonify({"msg": "No existe aun ninguna comunicacion registrada"})

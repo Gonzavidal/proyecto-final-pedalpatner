@@ -194,7 +194,7 @@ export const Contacto = () => {
                 name="data"
                 id="customFile"
                 value={store.data}
-                onChange={actions.handleChange} //aqui se debe cambiar la forma de capturar el file
+                onChange={actions.handleChange}
                 //habria que probar si 1° esto resulta
               />
             </div>

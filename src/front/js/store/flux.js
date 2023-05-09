@@ -25,79 +25,105 @@ const getState = ({ getStore, getActions, setStore }) => {
       file: "",
       contacto: "",
       error: "",
+      archivo: null,
     },
     actions: {
       //funcion generica que captura la info desde inputs
       handleChange: (e) => {
-        const { name, value } = e.target;
-        setStore({
-          [name]: value,
-        });
-        console.log("all", getStore());
+        const { name, value, type } = e.target;
+        if (type == "file") {
+          let archivo = e.target.files[0];
+          setStore({
+            data: value,
+            archivo: archivo,
+          });
+        } else {
+          setStore({
+            [name]: value,
+          });
+        }
+        console.log(getStore()[name]);
       },
-      //funcion unica para el form de contacto
+      //funcion form de contacto
       handleSubmitContacto: (e, navigate) => {
         e.preventDefault();
-        const { tipos_id, roles_id, titulo, descripcion, email, data } =
-          getStore();
+        const {
+          tipos_id,
+          roles_id,
+          titulo,
+          descripcion,
+          email,
+          users_id,
+          data,
+        } = getStore();
+        /**
+         * Si el email es igual a vacio, no se envia la comuncación, el campo email
+         * es neceario para la ejecución de la fucion
+         **/
         if (email !== "") {
-          getActions().registercomunicacion(
-            {
-              tipos_id,
-              roles_id,
-              titulo,
-              email,
-              descripcion,
-              data,
-            },
-            navigate
-          );
+          getActions().registercomunicacion(navigate);
         }
       },
-      registercomunicacion: (dataUser1, navigate) => {
-        const { RUTA_FLASK_API } = getStore();
-        const options = {
-          method: "POST",
-          body: JSON.stringify(dataUser1),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        };
-        console.log("soy body desde flux", dataUser1);
-        fetch(`${RUTA_FLASK_API}/api/register_comunicacion`, options)
-          .then((response) => response.json())
-          .then((data1) => {
-            console.log("reg de comunicacion desde flux", data1);
-            if (data1) {
-              setStore({
-                currentContacto: data1,
-                tipos_id: "",
-                roles_id: "",
-                titulo: "",
-                email: "",
-                descripcion: "",
-                data: "",
-                error: null,
-              });
-              console.log("info de contacto", getStore().currentContacto);
-              navigate("/");
-              sessionStorage.setItem("currentContacto", JSON.stringify(data1));
-              //(data1.status == 200)
-            } else {
-              setStore({
-                currentContacto: null,
-                error: data1,
-              });
-              if (sessionStorage.getItem("currentContacto"))
-                sessionStorage.removeItem("currentContacto");
-            }
-          })
-          .catch((error) => console.log(error));
+      registercomunicacion: async (navigate) => {
+        try {
+          const {
+            tipos_id,
+            roles_id,
+            titulo,
+            email,
+            descripcion,
+            archivo,
+            users_id,
+            currentContacto,
+            RUTA_FLASK_API,
+          } = getStore();
+
+          const formData = new FormData();
+          formData.append("avatar", archivo);
+          formData.append("tipos_id", tipos_id);
+          formData.append("roles_id", roles_id);
+          formData.append("titulo", titulo);
+          formData.append("email", email);
+          formData.append("descripcion", descripcion);
+          formData.append("users_id", users_id); //
+
+          const options = {
+            method: "POST",
+            body: formData,
+            headers: {
+              //"Content-Type": "application/json",
+              Authorization: `Bearer ${currentContacto?.data?.access_token}`,
+            },
+          };
+
+          const response = await fetch(
+            `${RUTA_FLASK_API}/api/register_comunicacion`,
+            options
+          );
+
+          const data = await response.json();
+
+          const { result } = data;
+
+          console.log("soy result", result);
+          console.log("soy currentcotacto", currentContacto);
+
+          //currentUser.data.user = result // actualizamos currentUser con la nueva informacion del usuario
+          setStore({ currentContacto }); // guardamos la informacion en el store
+          sessionStorage.setItem(
+            "currentContacto",
+            JSON.stringify(currentContacto)
+          ); // actualizamos la informacion en el sessionStorage
+          navigate("/ayuda");
+        } catch (error) {
+          console.log(error);
+        }
       },
+
       //funcion formulario registro Ciclista
       handleSubmitRegister: (e, navigate) => {
         e.preventDefault();
-        const { roles_id, username, email, password } = getStore();
+        const { roles_id, username, email, password, direccion } = getStore();
         if (email !== "") {
           getActions().postregisteruser(
             {
@@ -105,6 +131,7 @@ const getState = ({ getStore, getActions, setStore }) => {
               username,
               email,
               password,
+              direccion,
             },
             navigate
           );
@@ -129,6 +156,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 username: "",
                 email: "",
                 password: "",
+                direccion: "",
                 error: null,
               });
               console.log("registro ciclista", getStore().currentRegister);
@@ -153,11 +181,11 @@ const getState = ({ getStore, getActions, setStore }) => {
           username,
           email,
           password,
+          direccion,
           tallernom,
           regiontall,
           direcciontall,
         } = getStore();
-
         if (email !== "") {
           getActions().postregistermecanico(
             {
@@ -165,6 +193,7 @@ const getState = ({ getStore, getActions, setStore }) => {
               username,
               email,
               password,
+              direccion,
               tallernom,
               regiontall,
               direcciontall,
@@ -175,7 +204,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
       postregistermecanico: (dataUser3, navigate) => {
-        const { RUTA_FLASK_API } = getStore();
+        const { RUTA_FLASK_API, currentRegisterM } = getStore();
         const options = {
           method: "POST",
           body: JSON.stringify(dataUser3),
@@ -195,6 +224,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 username: "",
                 email: "",
                 password: "",
+                direccion: "",
                 tallernom: "",
                 regiontall: "",
                 direcciontall: "",
@@ -252,11 +282,11 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      // Con esta funcion logramos mostrar al user la info de Contacto
+      //Admin con esta funcion logramos mostrar al user la info de contacto
       getComunicacion: () => {
-        const { currentContacto, REACT_APP_URI } = getStore();
-
-        fetch(`${REACT_APP_URI}/api/getcomunicacion`, {
+        const { currentContacto, RUTA_FLASK_API } = getStore();
+        console.log(getStore().contacto);
+        fetch(`${RUTA_FLASK_API}/api/getcomunicacion`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -265,9 +295,13 @@ const getState = ({ getStore, getActions, setStore }) => {
         })
           .then((response) => response.json())
           .then((dataCont) => {
+            console.log("getcomunicacion_", dataCont);
             setStore({
               contacto: dataCont,
             });
+          })
+          .catch((e) => {
+            console.log(e);
           });
       },
 
