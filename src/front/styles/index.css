@@ -6,24 +6,24 @@ h1 {
 }
 
 h2 {
-    font-family: "Single Day";
+    font-family: "Stylish";
 }
 
 h3 {
-    font-family:"Arvo";
+    font-family: "Arvo";
 }
 
 h4 {
-    font-family:"Benne";
+    font-family: "Stylish";
 }
 
 p {
-    font-family:"Stylish";
+    font-family: "Stylish";
 }
 
 a {
     text-decoration: none;
-    font-family: "Miniver";
+    font-family: "Stylish";
     font-size: 25px;
 }
 
@@ -40,8 +40,8 @@ a {
 }
 
 #logo {
-    height:60px;
-    width:120px;
+    height: 60px;
+    width: 120px;
     border-radius: 5px;
-    margin:1px;
+    margin: 1px;
 }

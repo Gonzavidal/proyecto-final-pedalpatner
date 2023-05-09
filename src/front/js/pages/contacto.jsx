@@ -174,7 +174,7 @@ export const Contacto = () => {
                   aria-label="With textarea"
                   value={store.descripcion}
                   onChange={actions.handleChange}
-                  style={{ height: 200 }}
+                  style={{ height: 150 }}
                 />
                 <label htmlFor="#inputTextArea" className="fs-5 pt-2 mx-1">
                   Descripción
